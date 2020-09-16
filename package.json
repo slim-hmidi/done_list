@@ -7,7 +7,7 @@
     "build": "tsc",
     "migrate": "knex migrate:latest --knexfile ./build/knexfile.js",
     "rollback": "knex migrate:rollback --knexfile ./build/knexfile.js",
-    "seed": "knex seed:run",
+    "seed": "knex seed:run --knexfile ./build/knexfile.js",
     "start": "nodemon build/server",
     "test": "jest"
   },
