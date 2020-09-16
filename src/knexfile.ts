@@ -10,13 +10,6 @@ module.exports = {
       password: process.env.DB_PASSWRORD || "postgres",
       database: process.env.DB_DEV_NAME || "done_list",
     },
-    migrations: {
-      directory: "./migrations",
-      extension: "ts",
-    },
-    seeds: {
-      directory: "./seeds",
-    },
   },
   test: {
     client: "pg",
