@@ -3,7 +3,11 @@ import { ErrorHandler } from "../middlewares";
 import { User } from "../models/User";
 import { httpStatuscodes, errorMessages } from "../constants/httpUtils";
 
-const signIn = async (req: Request, res: Response, next: NextFunction) => {
+export const signUp = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { username, firstName, lastName, email, birthday, password } =
       req.body;
