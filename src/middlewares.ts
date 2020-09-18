@@ -28,6 +28,21 @@ const errorHandlerMiddleware = (
   });
 };
 
+export const schemaValidator = (schema: any) =>
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      await schema.validate(req.body);
+      next();
+    } catch (error) {
+      const err = new ErrorHandler(400, error.message);
+      next(err);
+    }
+  };
+
 export {
   notFound,
   errorHandlerMiddleware,

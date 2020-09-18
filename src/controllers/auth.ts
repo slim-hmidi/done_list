@@ -3,7 +3,7 @@ import { genSaltSync, hashSync } from "bcrypt";
 import { errorMessages, httpStatuscodes } from "../constants/httpUtils";
 import { ErrorHandler } from "../middlewares";
 import { sign } from "../utils/tokenUtils";
-import { TokenPayload } from "../interfaces/users";
+import { NewUser, TokenPayload } from "../interfaces/users";
 import { User } from "../models/User";
 
 export const signUp = async (
@@ -13,9 +13,17 @@ export const signUp = async (
 ) => {
   try {
     const saltRound = 10;
-
     const { username, firstName, lastName, email, birthday, password } =
       req.body;
+
+    const createUser: NewUser = {
+      username,
+      firstName,
+      lastName,
+      email,
+      birthday,
+      password,
+    };
 
     const existantUser = await User.query()
       .where((builder) =>
