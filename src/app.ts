@@ -3,7 +3,7 @@ import express, { Express } from "express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import { Model } from "objection";
-import { connection } from "./db";
+import connection from "./db";
 import { routes } from "./routes/index";
 import { notFound, errorHandlerMiddleware } from "./middlewares";
 

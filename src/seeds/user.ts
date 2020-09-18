@@ -12,7 +12,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "wbuie0",
     email: "wbuie0@newyorker.com",
     password: "uzGI6H5tN",
-    birthday: "05/07/1990",
+    birthday: "1990-07-05",
   }, {
     id: 2,
     first_name: "Toma",
@@ -20,7 +20,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "ttullis1",
     email: "ttullis1@about.com",
     password: "5aG40rBYlJ",
-    birthday: "01/05/1981",
+    birthday: "1981-05-01",
   }, {
     id: 3,
     first_name: "Maxy",
@@ -28,7 +28,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "mfolk2",
     email: "mfolk2@umich.edu",
     password: "culJJXpv",
-    birthday: "08/06/1994",
+    birthday: "1994-06-08",
   }, {
     id: 4,
     first_name: "Alic",
@@ -36,7 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "aflag3",
     email: "aflag3@guardian.co.uk",
     password: "Zp1EjB",
-    birthday: "05/12/1976",
+    birthday: "1976-12-05",
   }, {
     id: 5,
     first_name: "Mickie",
@@ -44,7 +44,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "mhadfield4",
     email: "mhadfield4@constantcontact.com",
     password: "uKsmRu4OC0B",
-    birthday: "25/02/1993",
+    birthday: "1993-02-25",
   }, {
     id: 6,
     first_name: "Jourdain",
@@ -52,7 +52,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "jjagoe5",
     email: "jjagoe5@webnode.com",
     password: "V8a90bKd",
-    birthday: "11/06/1984",
+    birthday: "1984-06-11",
   }, {
     id: 7,
     first_name: "Kerk",
@@ -60,7 +60,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "ksouthouse6",
     email: "ksouthouse6@hc360.com",
     password: "42NxbOqULP",
-    birthday: "21/04/1978",
+    birthday: "1978-04-21",
   }, {
     id: 8,
     first_name: "Hale",
@@ -68,7 +68,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "hlearie7",
     email: "hlearie7@lycos.com",
     password: "GhcvRnKs7U5u",
-    birthday: "05/08/1990",
+    birthday: "1990-07-05",
   }, {
     id: 9,
     first_name: "Xaviera",
@@ -76,7 +76,7 @@ export async function seed(knex: Knex): Promise<void> {
     username: "xlumb8",
     email: "xlumb8@linkedin.com",
     password: "ZVPSBzRwc7W",
-    birthday: "10/09/1989",
+    birthday: "1989-09-10",
   }, {
     id: 10,
     first_name: "Brent",
@@ -84,6 +84,6 @@ export async function seed(knex: Knex): Promise<void> {
     username: "blitster9",
     email: "blitster9@csmonitor.com",
     password: "rZEXlWlfBep",
-    birthday: "15/03/1985",
+    birthday: "1985-03-15",
   }]);
 }

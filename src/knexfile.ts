@@ -16,5 +16,9 @@ export = {
       password: process.env.DB_PASSWRORD || "postgres",
       database: process.env.DB_DEV_NAME || "done_list_test",
     },
+    migrations: {
+      directory: "./src/migrations",
+      extension: "ts",
+    },
   },
 };

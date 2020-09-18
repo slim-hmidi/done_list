@@ -1,4 +1,6 @@
 module.exports = {
+  clearMocks: true,
+  coverageDirectory: "coverage",
   roots: [
     "./src",
   ],
