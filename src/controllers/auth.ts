@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { genSaltSync, hashSync } from "bcrypt";
-import { errorMessages, httpStatuscodes } from "../constants/httpUtils";
+import { compareSync, genSaltSync, hashSync } from "bcrypt";
+import {
+  errorMessages,
+  httpStatuscodes,
+  successMessages,
+} from "../constants/httpUtils";
 import { ErrorHandler } from "../middlewares";
 import { sign } from "../utils/tokenUtils";
 import { TokenPayload } from "../interfaces/users";
@@ -51,7 +55,40 @@ export const signUp = async (
 
     const token = await sign(payload);
     return res.status(200).json({
-      message: "User created successfully",
+      message: successMessages.userCreationSuccess,
+      data: token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const signIn = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { username, password } = req.body;
+
+    const fetchedUser = await User.query().findOne({ username });
+    if (!fetchedUser) {
+      throw new ErrorHandler(403, errorMessages.invalidUsername);
+    }
+
+    const validPasswod = compareSync(password, fetchedUser.password);
+    if (!validPasswod) {
+      throw new ErrorHandler(403, errorMessages.wrongPassword);
+    }
+    const payload: TokenPayload = {
+      id: fetchedUser.id,
+      username,
+      email: fetchedUser.email,
+    };
+
+    const token = await sign(payload);
+    return res.status(200).json({
+      message: successMessages.signInSuccess,
       data: token,
     });
   } catch (error) {

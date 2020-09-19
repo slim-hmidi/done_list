@@ -3,7 +3,8 @@ const httpStatuscodes = {
 };
 
 const successMessages = {
-  userCreated: "User created successfully",
+  userCreationSuccess: "User created successfully",
+  signInSuccess: "Successful signIn",
 };
 const errorMessages = {
   userExists: "User already exists",
@@ -17,9 +18,12 @@ const errorMessages = {
   birthdayRequired: "Birthday required",
   birthdayFormatRequired: "Birthday should match the format yyyy-mm-dd",
   specialCharacterRequired: "Password must contain a special character",
-  upperCaseCharacterRequired: "password must contain an uppercase letter",
-  lowerCaseCharacterRequired: "password must contain a lowercase letter",
-  numberRequired: "password must contain a number",
+  upperCaseCharacterRequired: "Password must contain an uppercase letter",
+  lowerCaseCharacterRequired: "Password must contain a lowercase letter",
+  numberRequired: "Password must contain a number",
+  wrongPassword: "Wrong password",
+  invalidUsername: "Wrong username",
+  minLengthRequired: "Should contain at least 2 characters",
 };
 
 export {

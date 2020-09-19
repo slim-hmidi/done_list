@@ -10,12 +10,15 @@ export const validateEmail = (email: string) => {
   return re.test(email);
 };
 
-export const userSchema = yup.object().shape({
-  firstName: yup.string().trim().min(2).required(
-    errorMessages.firstNameRequired,
-  ),
-  lastName: yup.string().trim().min(2).required(errorMessages.lastNameRequired),
-  username: yup.string().trim().min(2).required(errorMessages.usernameRequired),
+export const singUpSchema = yup.object().shape({
+  firstName: yup.string().trim().min(2, errorMessages.minLengthRequired)
+    .required(
+      errorMessages.firstNameRequired,
+    ),
+  lastName: yup.string().trim().min(2, errorMessages.minLengthRequired)
+    .required(errorMessages.lastNameRequired),
+  username: yup.string().trim().min(2, errorMessages.minLengthRequired)
+    .required(errorMessages.usernameRequired),
   email: yup.string().trim().email(errorMessages.emailNotValid).required(
     errorMessages.emailRequired,
   ),
@@ -31,5 +34,13 @@ export const userSchema = yup.object().shape({
     .matches(/[A-Z]/, errorMessages.upperCaseCharacterRequired)
     .matches(/[a-z]/, errorMessages.lowerCaseCharacterRequired)
     .matches(/[0-9]/, errorMessages.numberRequired)
+    .required(errorMessages.passwordRequired),
+});
+
+export const signInSchema = yup.object().shape({
+  username: yup.string().trim().required(errorMessages.usernameRequired),
+  password: yup
+    .string()
+    .trim()
     .required(errorMessages.passwordRequired),
 });
