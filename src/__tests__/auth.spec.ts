@@ -10,8 +10,8 @@ describe("Authentication", () => {
       .then(() => connection.migrate.latest())
   );
 
-  // afterEach(() => connection.migrate.rollback());
-  it("Should returns an error if any field is missed", async () => {
+  afterEach(() => connection.migrate.rollback());
+  it("Should returns an error if username is missed", async () => {
     const response = await request(app)
       .post("/auth/signup")
       .send({
@@ -24,6 +24,81 @@ describe("Authentication", () => {
 
     expect(response.status).toBe(400);
     expect(response.body.message).toEqual(errorMessages.usernameRequired);
+  });
+
+  it("Should returns an error if firstName is missed", async () => {
+    const response = await request(app)
+      .post("/auth/signup")
+      .send({
+        username: "John",
+        lastName: "Smith",
+        email: "john.smith@gmail.com",
+        birthday: "1990-12-01",
+        password: "jSmith@2020",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual(errorMessages.firstNameRequired);
+  });
+
+  it("Should returns an error if lastName is missed", async () => {
+    const response = await request(app)
+      .post("/auth/signup")
+      .send({
+        firstName: "John",
+        username: "Smith",
+        email: "john.smith@gmail.com",
+        birthday: "1990-12-01",
+        password: "jSmith@2020",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual(errorMessages.lastNameRequired);
+  });
+
+  it("Should returns an error if email is missed", async () => {
+    const response = await request(app)
+      .post("/auth/signup")
+      .send({
+        firstName: "John",
+        lastName: "Smith",
+        username: "john.smith",
+        birthday: "1990-12-01",
+        password: "jSmith@2020",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual(errorMessages.emailRequired);
+  });
+
+  it("Should returns an error if birthday is missed", async () => {
+    const response = await request(app)
+      .post("/auth/signup")
+      .send({
+        firstName: "John",
+        lastName: "Smith",
+        username: "john.smith",
+        email: "john.smith@gmail.com",
+        password: "jSmith@2020",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual(errorMessages.birthdayRequired);
+  });
+
+  it("Should returns an error if password is missed", async () => {
+    const response = await request(app)
+      .post("/auth/signup")
+      .send({
+        firstName: "John",
+        lastName: "Smith",
+        email: "john.smith@gmail.com",
+        birthday: "1990-12-01",
+        username: "john.smith",
+      });
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual(errorMessages.passwordRequired);
   });
 
   it("Should returns an error if email not valid", async () => {
@@ -125,23 +200,23 @@ describe("Authentication", () => {
     );
   });
 
-  // it("Should returns an error if brithday does not match the format", async () => {
-  //   const response = await request(app)
-  //     .post("/auth/signup")
-  //     .send({
-  //       firstName: "John",
-  //       lastName: "Smith",
-  //       username: "john_smith",
-  //       email: "john.smith@gmail.com",
-  //       birthday: "12/01/1990",
-  //       password: "jSmith@2020",
-  //     });
+  it("Should returns an error if brithday does not match the format", async () => {
+    const response = await request(app)
+      .post("/auth/signup")
+      .send({
+        firstName: "John",
+        lastName: "Smith",
+        username: "john_smith",
+        email: "john.smith@gmail.com",
+        birthday: "12/01/1990",
+        password: "jSmith@2020",
+      });
 
-  //   expect(response.status).toBe(400);
-  //   expect(response.body.message).toEqual(
-  //     errorMessages.birthdayFormatRequired,
-  //   );
-  // });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toEqual(
+      errorMessages.birthdayFormatRequired,
+    );
+  });
 
   it("Should returns an error if the user already exists", async () => {
     const user = {

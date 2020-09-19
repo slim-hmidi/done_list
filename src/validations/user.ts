@@ -19,7 +19,10 @@ export const userSchema = yup.object().shape({
   email: yup.string().trim().email(errorMessages.emailNotValid).required(
     errorMessages.emailRequired,
   ),
-  birthday: yup.date().required(errorMessages.birthdayRequired),
+  birthday: yup.string().matches(
+    /\d{4}-\d{2}-\d{2}/,
+    errorMessages.birthdayFormatRequired,
+  ).required(errorMessages.birthdayRequired),
   password: yup
     .string()
     .min(8, errorMessages.passwordLengthRequired)
