@@ -8,7 +8,7 @@ import {
 import { ErrorHandler } from "../middlewares";
 import { sign } from "../utils/tokenUtils";
 import { TokenPayload } from "../interfaces/users";
-import { User } from "../models/User";
+import User from "../models/User";
 
 export const signUp = async (
   req: Request,

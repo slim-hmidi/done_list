@@ -1,7 +1,7 @@
 import { Model } from "objection";
 import { tableNames } from "../constants/tableNames";
 
-class User extends Model {
+export default class User extends Model {
   id!: number;
   first_name!: string;
   last_name!: string;
@@ -26,7 +26,3 @@ class User extends Model {
     },
   };
 }
-
-export {
-  User,
-};
