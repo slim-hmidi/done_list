@@ -1,11 +1,12 @@
 import * as Knex from "knex";
+import { tableNames } from "../constants/tableNames";
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
-  await knex("user").del();
+  await knex(tableNames.user).del();
 
   // Inserts seed entries
-  await knex("user").insert([{
+  await knex(tableNames.user).insert([{
     id: 1,
     first_name: "Wallie",
     last_name: "Buie",

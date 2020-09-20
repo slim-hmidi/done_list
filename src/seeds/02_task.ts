@@ -1,9 +1,10 @@
 import * as Knex from "knex";
+import { tableNames } from "../constants/tableNames";
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
-  await knex("task").del();
+  await knex(tableNames.task).del();
   // Inserts seed entries
-  await knex("task").insert([{
+  await knex(tableNames.task).insert([{
     id: 1,
     title: "Phasellus sit amet erat.",
     description:
