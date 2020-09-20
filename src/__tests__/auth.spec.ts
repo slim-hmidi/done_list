@@ -5,7 +5,7 @@ import connection from "../db";
 import { errorMessages, successMessages } from "../constants/httpUtils";
 
 describe("Authentication", () => {
-  afterAll(() => connection.destroy());
+  afterAll(() => connection.migrate.rollback());
   describe("Signup", () => {
     beforeEach(() =>
       connection.migrate.rollback()

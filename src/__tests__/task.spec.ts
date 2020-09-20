@@ -6,13 +6,13 @@ import { errorMessages, successMessages } from "../constants/httpUtils";
 
 describe("Tasks", () => {
   beforeAll(() => {
-    connection.migrate.rollback()
+    return connection.migrate.rollback()
       .then(() => connection.migrate.latest())
       .then(() =>
         connection.seed.run({ directory: "./src/seeds", extension: ".ts" })
       );
   });
-  afterAll(() => connection.destroy());
+  afterAll(() => connection.migrate.rollback());
   describe("POST /task", () => {
     // beforeEach(() =>
     //   connection.migrate.rollback()

@@ -5,6 +5,7 @@ const httpStatuscodes = {
 const successMessages = {
   taskCreationSuccess: "Task created successfully",
   taskDeletionSuccess: "Task deleted successfully",
+  taskFetchSuccess: "Task fetched successfully",
   taskUpdateSuccess: "Task updated successfully",
   userCreationSuccess: "User created successfully",
   signInSuccess: "Successful signIn",

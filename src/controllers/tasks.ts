@@ -48,3 +48,30 @@ export const addTask = async (
     next(error);
   }
 };
+
+export const getAllTasks = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId } = req.query;
+
+    const existentUser = await User.query().findById(
+      parseInt(userId as string, 10),
+    );
+
+    if (!existentUser) {
+      throw new ErrorHandler(400, errorMessages.invalidUserId);
+    }
+
+    const fetchedTasks = await Task.query().where("user_id", userId as string);
+
+    return res.status(200).json({
+      message: successMessages.taskFetchSuccess,
+      data: fetchedTasks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

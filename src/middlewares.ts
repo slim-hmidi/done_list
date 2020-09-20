@@ -28,14 +28,14 @@ const errorHandlerMiddleware = (
   });
 };
 
-export const schemaValidator = (schema: any) =>
+export const schemaValidator = (schema: any, path: keyof Request) =>
   async (
     req: Request,
     res: Response,
     next: NextFunction,
   ) => {
     try {
-      await schema.validate(req.body);
+      await schema.validate(req[path]);
       next();
     } catch (error) {
       const err = new ErrorHandler(400, error.message);
