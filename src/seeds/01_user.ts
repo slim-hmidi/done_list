@@ -86,6 +86,14 @@ export async function seed(knex: Knex): Promise<void> {
     email: "blitster9@csmonitor.com",
     password: "rZEXlWlfBep",
     birthday: "1985-03-15",
+  }, {
+    id: 11,
+    first_name: "Alex",
+    last_name: "Park",
+    username: "alex20",
+    email: "alex20@csmonitor.com",
+    password: "rZEXlWlfBep",
+    birthday: "1986-03-23",
   }]);
 
   await knex.schema.raw(
