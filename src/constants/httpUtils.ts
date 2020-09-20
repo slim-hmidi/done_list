@@ -5,7 +5,7 @@ const httpStatuscodes = {
 const successMessages = {
   taskCreationSuccess: "Task created successfully",
   taskDeletionSuccess: "Task deleted successfully",
-  taskFetchSuccess: "Task fetched successfully",
+  taskFetchSuccess: "Task(s) fetched successfully",
   taskUpdateSuccess: "Task updated successfully",
   userCreationSuccess: "User created successfully",
   signInSuccess: "Successful signIn",
@@ -36,7 +36,7 @@ const errorMessages = {
   invalidTagId: "No tag found for the given id",
   invalidTaskId: "No task found for the given id",
   invalidUserId: "No user found for the given id",
-  taskNotBelongsToUser: "Provided task does not belong to the mentioned user",
+  taskNotBelongsToUser: "Given task does not belongs to the given user",
   updateUserTaskNotAllowed: "Not allowed to update the task's owner",
 };
 

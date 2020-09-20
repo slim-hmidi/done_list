@@ -12,6 +12,6 @@ export const addTaskSchema = yup.object().shape({
   tagId: yup.number().positive().required(errorMessages.tagIdRequired),
 });
 
-export const fetchAllTasksSchema = yup.object().shape({
+export const queryTaskSchema = yup.object().shape({
   userId: yup.number().positive().required(errorMessages.userIdRequired),
 });

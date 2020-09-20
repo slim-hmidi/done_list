@@ -102,7 +102,7 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.message).toEqual(
         errorMessages.invalidUserId,
       );
@@ -164,7 +164,7 @@ describe("Tasks", () => {
     it("Should return an error if the user does not exist", async () => {
       const response = await request(app).get(`/tasks?userId=100`);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.message).toEqual(errorMessages.invalidUserId);
     });
   });
@@ -186,7 +186,7 @@ describe("Tasks", () => {
     it("Should return an error if the task does not belong to the given user", async () => {
       const response = await request(app).delete(`/tasks/1?userId=5`);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.message).toEqual(errorMessages.taskNotBelongsToUser);
     });
 
@@ -196,6 +196,44 @@ describe("Tasks", () => {
       expect(response.status).toBe(200);
       expect(response.body.message).toEqual(
         successMessages.taskDeletionSuccess,
+      );
+    });
+  });
+
+  describe.only("Get /tasks/:id", () => {
+    it("Should return an error if the userId is missing", async () => {
+      const response = await request(app).get(`/tasks/${100}`);
+
+      expect(response.status).toBe(400);
+      expect(response.body.message).toEqual(errorMessages.userIdRequired);
+    });
+    it("Should return an error if the task id not valid", async () => {
+      const response = await request(app).get(`/tasks/100?userId=11`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.message).toEqual(errorMessages.invalidTaskId);
+    });
+
+    it("Should return an error if the task does not belong to the given user", async () => {
+      const response = await request(app).get(`/tasks/1?userId=5`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.message).toEqual(errorMessages.taskNotBelongsToUser);
+    });
+
+    it("Should return an error if the user does not exist", async () => {
+      const response = await request(app).get(`/tasks?userId=100`);
+
+      expect(response.status).toBe(404);
+      expect(response.body.message).toEqual(errorMessages.invalidUserId);
+    });
+
+    it("Should returns successfully the task", async () => {
+      const response = await request(app).get(`/tasks/1?userId=1`);
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toEqual(
+        successMessages.taskFetchSuccess,
       );
     });
   });

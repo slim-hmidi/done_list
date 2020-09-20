@@ -62,7 +62,7 @@ export const getAllTasks = async (
     );
 
     if (!existentUser) {
-      throw new ErrorHandler(400, errorMessages.invalidUserId);
+      throw new ErrorHandler(404, errorMessages.invalidUserId);
     }
 
     const fetchedTasks = await Task.query().where("user_id", userId as string);
@@ -70,6 +70,40 @@ export const getAllTasks = async (
     return res.status(200).json({
       message: successMessages.taskFetchSuccess,
       data: fetchedTasks,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getOneTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId } = req.query;
+    const { id } = req.params;
+
+    const existentUser = await User.query().findById(
+      parseInt(userId as string, 10),
+    );
+
+    if (!existentUser) {
+      throw new ErrorHandler(404, errorMessages.invalidUserId);
+    }
+
+    const fetchedTask = await Task.query().findById(id);
+
+    if (!fetchedTask) {
+      throw new ErrorHandler(404, errorMessages.invalidTaskId);
+    }
+    if (fetchedTask.user_id !== parseInt(userId as string, 10)) {
+      throw new ErrorHandler(404, errorMessages.taskNotBelongsToUser);
+    }
+    return res.status(200).json({
+      message: successMessages.taskFetchSuccess,
+      data: fetchedTask,
     });
   } catch (error) {
     next(error);
