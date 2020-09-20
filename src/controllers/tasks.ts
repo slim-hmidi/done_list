@@ -109,3 +109,43 @@ export const getOneTask = async (
     next(error);
   }
 };
+
+export const deleteOneTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { userId } = req.query;
+    const { id } = req.params;
+
+    const existentUser = await User.query().findById(
+      parseInt(userId as string, 10),
+    );
+    if (!existentUser) {
+      throw new ErrorHandler(404, errorMessages.invalidUserId);
+    }
+
+    const existentTask = await Task.query().findById(id);
+    if (!existentTask) {
+      throw new ErrorHandler(404, errorMessages.invalidTaskId);
+    }
+
+    const numDeleted = await Task.query().delete()
+      .where("id", id)
+      .andWhere(
+        "user_id",
+        parseInt(userId as string, 10),
+      );
+
+    if (!numDeleted) {
+      throw new ErrorHandler(404, errorMessages.taskNotBelongsToUser);
+    }
+
+    return res.status(200).json({
+      message: successMessages.taskDeletionSuccess,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

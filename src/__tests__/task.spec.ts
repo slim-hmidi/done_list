@@ -179,7 +179,7 @@ describe("Tasks", () => {
     it("Should return an error if the task id not valid", async () => {
       const response = await request(app).delete(`/tasks/100?userId=11`);
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.message).toEqual(errorMessages.invalidTaskId);
     });
 
@@ -200,7 +200,7 @@ describe("Tasks", () => {
     });
   });
 
-  describe.only("Get /tasks/:id", () => {
+  describe("Get /tasks/:id", () => {
     it("Should return an error if the userId is missing", async () => {
       const response = await request(app).get(`/tasks/${100}`);
 

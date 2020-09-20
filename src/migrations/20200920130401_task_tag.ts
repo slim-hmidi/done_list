@@ -10,11 +10,15 @@ export async function up(knex: Knex): Promise<void> {
           .unsigned()
           .references("id")
           .inTable("task")
+          .onDelete("CASCADE")
+          .onUpdate("CASCADE")
           .index();
         table.integer("tag_id")
           .unsigned()
           .references("id")
           .inTable("tag")
+          .onDelete("CASCADE")
+          .onUpdate("CASCADE")
           .index();
       });
     }

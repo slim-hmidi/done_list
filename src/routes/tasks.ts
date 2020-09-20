@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { addTask, getAllTasks, getOneTask } from "../controllers/tasks";
+import {
+  addTask,
+  deleteOneTask,
+  getAllTasks,
+  getOneTask,
+} from "../controllers/tasks";
 import { schemaValidator } from "../middlewares";
 import { addTaskSchema, queryTaskSchema } from "../validations/task";
 
@@ -12,6 +17,7 @@ taskRoutes.route("/")
   .get(schemaValidator(queryTaskSchema, "query"), getAllTasks);
 
 taskRoutes.route("/:id")
-  .get(schemaValidator(queryTaskSchema, "query"), getOneTask);
+  .get(schemaValidator(queryTaskSchema, "query"), getOneTask)
+  .delete(schemaValidator(queryTaskSchema, "query"), deleteOneTask);
 
 export default taskRoutes;

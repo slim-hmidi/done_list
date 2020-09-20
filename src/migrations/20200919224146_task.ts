@@ -14,6 +14,7 @@ export async function up(knex: Knex): Promise<void> {
           .references("id")
           .inTable("user")
           .onDelete("CASCADE")
+          .onUpdate("CASCADE")
           .index();
       });
     }
