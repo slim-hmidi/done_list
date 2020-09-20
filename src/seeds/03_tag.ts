@@ -15,4 +15,7 @@ export async function seed(knex: Knex): Promise<void> {
     { id: 7, name: "Site Seeing" },
     { id: 8, name: "Workout" },
   ]);
+  await knex.schema.raw(
+    "SELECT setval(pg_get_serial_sequence('tag', 'id'), max(id)) FROM tag;",
+  );
 }

@@ -3,6 +3,7 @@ const httpStatuscodes = {
 };
 
 const successMessages = {
+  taskCreationSuccess: "Task created successfully",
   userCreationSuccess: "User created successfully",
   signInSuccess: "Successful signIn",
 };
@@ -16,7 +17,7 @@ const errorMessages = {
   passwordRequired: "Password required",
   passwordLengthRequired: "Password must contains 8 characters",
   birthdayRequired: "Birthday required",
-  birthdayFormatRequired: "Birthday should match the format yyyy-mm-dd",
+  dateFormatRequired: "Date should match the format yyyy-mm-dd",
   specialCharacterRequired: "Password must contain a special character",
   upperCaseCharacterRequired: "Password must contain an uppercase letter",
   lowerCaseCharacterRequired: "Password must contain a lowercase letter",

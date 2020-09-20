@@ -11,7 +11,7 @@ describe("Authentication", () => {
       connection.migrate.rollback()
         .then(() => connection.migrate.latest())
     );
-    it("Should returns an error if username is missed", async () => {
+    it("Should returns an error if username is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
         .send({
@@ -42,7 +42,7 @@ describe("Authentication", () => {
       expect(response.body.message).toEqual(errorMessages.minLengthRequired);
     });
 
-    it("Should returns an error if firstName is missed", async () => {
+    it("Should returns an error if firstName is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
         .send({
@@ -73,7 +73,7 @@ describe("Authentication", () => {
       expect(response.body.message).toEqual(errorMessages.minLengthRequired);
     });
 
-    it("Should returns an error if lastName is missed", async () => {
+    it("Should returns an error if lastName is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
         .send({
@@ -104,7 +104,7 @@ describe("Authentication", () => {
       expect(response.body.message).toEqual(errorMessages.minLengthRequired);
     });
 
-    it("Should returns an error if email is missed", async () => {
+    it("Should returns an error if email is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
         .send({
@@ -119,7 +119,7 @@ describe("Authentication", () => {
       expect(response.body.message).toEqual(errorMessages.emailRequired);
     });
 
-    it("Should returns an error if birthday is missed", async () => {
+    it("Should returns an error if birthday is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
         .send({
@@ -134,7 +134,7 @@ describe("Authentication", () => {
       expect(response.body.message).toEqual(errorMessages.birthdayRequired);
     });
 
-    it("Should returns an error if password is missed", async () => {
+    it("Should returns an error if password is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
         .send({
@@ -264,7 +264,7 @@ describe("Authentication", () => {
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual(
-        errorMessages.birthdayFormatRequired,
+        errorMessages.dateFormatRequired,
       );
     });
 
@@ -314,7 +314,7 @@ describe("Authentication", () => {
       connection.migrate.rollback()
         .then(() => connection.migrate.latest())
     );
-    it("Should returns an error if username is missed", async () => {
+    it("Should returns an error if username is missing", async () => {
       const response = await request(app).post("/auth/signin")
         .send({
           password: "123456",
@@ -324,7 +324,7 @@ describe("Authentication", () => {
       expect(response.body.message).toEqual(errorMessages.usernameRequired);
     });
 
-    it("Should returns an error if password is missed", async () => {
+    it("Should returns an error if password is missing", async () => {
       const response = await request(app).post("/auth/signin")
         .send({
           username: "john",

@@ -76,4 +76,8 @@ export async function seed(knex: Knex): Promise<void> {
     realisation_date: "2020-08-27",
     user_id: 10,
   }]);
+
+  await knex.schema.raw(
+    "SELECT setval(pg_get_serial_sequence('task', 'id'), max(id)) FROM task;",
+  );
 }

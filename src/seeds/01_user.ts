@@ -87,4 +87,8 @@ export async function seed(knex: Knex): Promise<void> {
     password: "rZEXlWlfBep",
     birthday: "1985-03-15",
   }]);
+
+  await knex.schema.raw(
+    "SELECT setval(pg_get_serial_sequence('user', 'id'), max(id)) FROM \"user\";",
+  );
 }

@@ -24,7 +24,7 @@ export const singUpSchema = yup.object().shape({
   ),
   birthday: yup.string().matches(
     /\d{4}-\d{2}-\d{2}/,
-    errorMessages.birthdayFormatRequired,
+    errorMessages.dateFormatRequired,
   ).required(errorMessages.birthdayRequired),
   password: yup
     .string()
