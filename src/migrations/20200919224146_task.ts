@@ -1,18 +1,19 @@
 import * as Knex from "knex";
+import { tableNames } from "../constants/tableNames";
 
 export async function up(knex: Knex): Promise<void> {
-  return knex.schema.hasTable("task").then((exists) => {
+  return knex.schema.hasTable(tableNames.task).then((exists) => {
     if (!exists) {
-      return knex.schema.createTable("task", (table) => {
-        table.increments("id");
+      return knex.schema.createTable(tableNames.task, (table) => {
+        table.increments("id").primary();
         table.string("title").notNullable();
         table.text("description");
         table.date("realisation_date").notNullable();
-        table.integer("user_id").notNullable()
+        table.integer("user_id")
+          .unsigned()
           .references("id")
           .inTable("user")
           .onDelete("CASCADE")
-          .onUpdate("CASCADE")
           .index();
       });
     }
@@ -20,5 +21,5 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  return knex.schema.dropTableIfExists("task");
+  return knex.schema.raw(`DROP TABLE IF EXISTS ${tableNames.task} CASCADE`);
 }

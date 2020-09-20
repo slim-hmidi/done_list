@@ -24,6 +24,13 @@ const errorMessages = {
   wrongPassword: "Wrong password",
   invalidUsername: "Wrong username",
   minLengthRequired: "Should contain at least 2 characters",
+  titleRequired: "Title required",
+  descriptionRequired: "Description Required",
+  realisationDateRequired: "Realisation Date required",
+  userIdRequired: "User id required",
+  tagIdRequired: "Tag id required",
+  invalidTagId: "No tag found for the given id",
+  invalidUserId: "No user found for the given id",
 };
 
 export {
