@@ -18,11 +18,11 @@ export const addTask = async (
     const existentTag = await Tag.query().findById(tagId);
 
     if (!existentUser) {
-      throw new ErrorHandler(400, errorMessages.invalidUserId);
+      throw new ErrorHandler(404, errorMessages.invalidUserId);
     }
 
     if (!existentTag) {
-      throw new ErrorHandler(400, errorMessages.invalidTagId);
+      throw new ErrorHandler(404, errorMessages.invalidTagId);
     }
 
     const createdTask = await Task.transaction(async (trx) => {
@@ -144,6 +144,39 @@ export const deleteOneTask = async (
 
     return res.status(200).json({
       message: successMessages.taskDeletionSuccess,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateOneTask = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { id } = req.params;
+
+    const existentTask = await Task.query().findById(id);
+
+    if (!existentTask) {
+      throw new ErrorHandler(404, errorMessages.invalidTaskId);
+    }
+    if (req.body.userId && req.body.userId !== existentTask.user_id) {
+      throw new ErrorHandler(400, errorMessages.updateUserNotAllowed);
+    }
+
+    if (req.body.hasOwnProperty("realisationDate")) {
+      req.body.realisation_date = req.body.realisationDate;
+      delete req.body.realisationDate;
+    }
+
+    const updatedTask = await Task.query().patchAndFetchById(id, req.body);
+
+    return res.status(200).json({
+      message: successMessages.taskUpdateSuccess,
+      data: updatedTask,
     });
   } catch (error) {
     next(error);

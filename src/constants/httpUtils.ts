@@ -38,6 +38,7 @@ const errorMessages = {
   invalidUserId: "No user found for the given id",
   taskNotBelongsToUser: "Given task does not belongs to the given user",
   updateUserTaskNotAllowed: "Not allowed to update the task's owner",
+  updateUserNotAllowed: "Not allowed to update the user while updating a task",
 };
 
 export {

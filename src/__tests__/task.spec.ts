@@ -5,7 +5,7 @@ import connection from "../db";
 import { errorMessages, successMessages } from "../constants/httpUtils";
 
 describe("Tasks", () => {
-  beforeAll(() => {
+  beforeEach(() => {
     return connection.migrate.rollback()
       .then(() => connection.migrate.latest())
       .then(() =>
@@ -14,13 +14,6 @@ describe("Tasks", () => {
   });
   afterAll(() => connection.migrate.rollback());
   describe("POST /task", () => {
-    // beforeEach(() =>
-    //   connection.migrate.rollback()
-    //     .then(() => connection.migrate.latest())
-    //     .then(() =>
-    //       connection.seed.run({ directory: "./src/seeds", extension: ".ts" })
-    //     )
-    // );
     it("Should returns an error if the title is missing", async () => {
       const response = await request(app).post("/tasks/add")
         .send({
@@ -118,7 +111,7 @@ describe("Tasks", () => {
           tagId: 1234,
         });
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.message).toEqual(
         errorMessages.invalidTagId,
       );
@@ -240,27 +233,27 @@ describe("Tasks", () => {
 
   describe("Update /tasks/:id", () => {
     it("Should return an error if the task id not valid", async () => {
-      const response = await request(app).put("/tasks/100").send(
+      const response = await request(app).patch("/tasks/100").send(
         { title: "updated title" },
       );
 
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(404);
       expect(response.body.message).toEqual(errorMessages.invalidTaskId);
     });
 
-    it("Should return an error if the task does not belong to the given user", async () => {
-      const response = await request(app).put(`/tasks/1`).send(
+    it("Should return an error while updating the userId", async () => {
+      const response = await request(app).patch(`/tasks/1`).send(
         { title: "updated title", userId: 2 },
       );
 
       expect(response.status).toBe(400);
       expect(response.body.message).toEqual(
-        errorMessages.updateUserTaskNotAllowed,
+        errorMessages.updateUserNotAllowed,
       );
     });
 
     it("Should update successfully the task", async () => {
-      const response = await request(app).put("/tasks/1").send({
+      const response = await request(app).patch("/tasks/1").send({
         title: "updated Title",
       });
 

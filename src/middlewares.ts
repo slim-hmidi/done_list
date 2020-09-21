@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import * as yup from "yup";
 
 class ErrorHandler extends Error {
   constructor(public statusCode: number, public message: string) {
@@ -36,6 +37,32 @@ export const schemaValidator = (schema: any, path: keyof Request) =>
   ) => {
     try {
       await schema.validate(req[path]);
+      next();
+    } catch (error) {
+      const err = new ErrorHandler(400, error.message);
+      next(err);
+    }
+  };
+
+export const schemaUpdateValidator = (shape: any, props: string[]) =>
+  async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
+    try {
+      const existantProps = props.filter((prop) =>
+        req.body.hasOwnProperty(prop)
+      );
+      if (!existantProps.length) {
+        throw new ErrorHandler(400, "Update body should not be null");
+      }
+      let filtredSchema = {} as any;
+      for (let key of existantProps) {
+        filtredSchema[key] = shape[key];
+      }
+      const schema = yup.object().shape(filtredSchema);
+      await schema.validate(req.body);
       next();
     } catch (error) {
       const err = new ErrorHandler(400, error.message);

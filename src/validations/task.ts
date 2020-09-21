@@ -1,7 +1,13 @@
 import * as yup from "yup";
 import { errorMessages } from "../constants/httpUtils";
 
-export const addTaskSchema = yup.object().shape({
+export const taskProps = [
+  "title",
+  "description",
+  "realisationDate",
+  "userId",
+];
+export const taskSchema = {
   title: yup.string().trim().required(errorMessages.titleRequired),
   description: yup.string().trim().required(errorMessages.descriptionRequired),
   realisationDate: yup.string().matches(
@@ -10,8 +16,10 @@ export const addTaskSchema = yup.object().shape({
   ).required(errorMessages.realisationDateRequired),
   userId: yup.number().positive().required(errorMessages.userIdRequired),
   tagId: yup.number().positive().required(errorMessages.tagIdRequired),
-});
+};
+
+export const addTaskSchema = yup.object().shape(taskSchema);
 
 export const queryTaskSchema = yup.object().shape({
-  userId: yup.number().positive().required(errorMessages.userIdRequired),
+  userId: taskSchema.userId,
 });

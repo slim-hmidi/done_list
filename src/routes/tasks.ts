@@ -4,9 +4,15 @@ import {
   deleteOneTask,
   getAllTasks,
   getOneTask,
+  updateOneTask,
 } from "../controllers/tasks";
-import { schemaValidator } from "../middlewares";
-import { addTaskSchema, queryTaskSchema } from "../validations/task";
+import { schemaUpdateValidator, schemaValidator } from "../middlewares";
+import {
+  addTaskSchema,
+  queryTaskSchema,
+  taskProps,
+  taskSchema,
+} from "../validations/task";
 
 const taskRoutes = Router();
 
@@ -18,6 +24,7 @@ taskRoutes.route("/")
 
 taskRoutes.route("/:id")
   .get(schemaValidator(queryTaskSchema, "query"), getOneTask)
-  .delete(schemaValidator(queryTaskSchema, "query"), deleteOneTask);
+  .delete(schemaValidator(queryTaskSchema, "query"), deleteOneTask)
+  .patch(schemaUpdateValidator(taskSchema, taskProps), updateOneTask);
 
 export default taskRoutes;
