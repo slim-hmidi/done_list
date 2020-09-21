@@ -5,12 +5,15 @@ import connection from "../db";
 import { errorMessages, successMessages } from "../constants/httpUtils";
 
 describe("Authentication", () => {
+  beforeEach(() =>
+    connection.migrate.rollback()
+      .then(() => connection.migrate.latest())
+      .then(() =>
+        connection.seed.run({ directory: "./src/seeds", extension: ".ts" })
+      )
+  );
   afterAll(() => connection.migrate.rollback());
   describe("Signup", () => {
-    beforeEach(() =>
-      connection.migrate.rollback()
-        .then(() => connection.migrate.latest())
-    );
     it("Should returns an error if username is missing", async () => {
       const response = await request(app)
         .post("/auth/signup")
@@ -270,16 +273,13 @@ describe("Authentication", () => {
 
     it("Should returns an error if the user already exists", async () => {
       const user = {
-        firstName: "John",
-        lastName: "Smith",
-        username: "john_smith",
-        email: "john.smith@gmail.com",
-        birthday: "1990-12-01",
-        password: "jSmith@2020",
+        firstName: "Xaviera",
+        lastName: "Lumb",
+        username: "xlumb8",
+        email: "xlumb8@linkedin.com",
+        password: "zX@2020l",
+        birthday: "1989-09-10",
       };
-      await request(app)
-        .post("/auth/signup")
-        .send(user);
 
       const response = await request(app)
         .post("/auth/signup")
@@ -310,10 +310,6 @@ describe("Authentication", () => {
     });
   });
   describe("signIn", () => {
-    beforeEach(() =>
-      connection.migrate.rollback()
-        .then(() => connection.migrate.latest())
-    );
     it("Should returns an error if username is missing", async () => {
       const response = await request(app).post("/auth/signin")
         .send({
@@ -335,19 +331,9 @@ describe("Authentication", () => {
     });
 
     it("Should returns an error if password is wrong", async () => {
-      await request(app)
-        .post("/auth/signup")
-        .send({
-          firstName: "John",
-          lastName: "Smith",
-          username: "john_smith",
-          email: "john.smith@gmail.com",
-          birthday: "1990-12-01",
-          password: "jSmith@2020",
-        });
       const response = await request(app).post("/auth/signin")
         .send({
-          username: "john_smith",
+          username: "xlumb8",
           password: "123456",
         });
 
