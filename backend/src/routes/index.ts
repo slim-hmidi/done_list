@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authRoutes from "./auth";
 import taskRoutes from "./tasks";
-import { checkToken } from "../utils/tokenUtils";
+import { checkToken } from "../middlewares";
 
 const routes: Router = Router();
 
