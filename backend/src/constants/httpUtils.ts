@@ -39,6 +39,8 @@ const errorMessages = {
   taskNotBelongsToUser: "Given task does not belongs to the given user",
   updateUserTaskNotAllowed: "Not allowed to update the task's owner",
   updateUserNotAllowed: "Not allowed to update the user while updating a task",
+  tokenRequired: "Token required",
+  tokenNotValid: "Token not valid",
 };
 
 export {
