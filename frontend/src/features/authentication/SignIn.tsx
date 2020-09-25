@@ -26,33 +26,38 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface TouchedState {
   username: boolean;
-  email: boolean;
+  password: boolean;
   [key: string]: boolean;
 }
 
-interface ErrorState {
+interface StateForm {
   username: string;
-  email: string;
+  password: string;
   [x: string]: string;
 }
 
 const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
-  const [username, setUsername] = useState("");
+  const classes = useStyles();
+  const [state, setStateForm] = useState<StateForm>({
+    username: "",
+    password: "",
+  });
   const [touched, setTouched] = useState<TouchedState>({
     username: false,
-    email: false,
+    password: false,
   });
-  const [error, setError] = useState<ErrorState>({
+  const [error, setError] = useState<StateForm>({
     username: "",
-    email: "",
+    password: "",
   });
-  const [password, setPassword] = useState("");
-  const classes = useStyles();
 
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
-    setUsername(value);
-  };
+  const handleChange = (name: string) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value.trim();
+      setStateForm((state) => {
+        return { ...state, [name]: value };
+      });
+    };
   const handleBlur = (name: string) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
@@ -70,9 +75,9 @@ const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
       }
     };
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.trim();
-    setPassword(value);
+  handleSubmit = () => {
+    const data = state;
+    console.log(data);
   };
   return (
     <div className={classes.container}>
@@ -88,8 +93,8 @@ const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
                 required
                 fullWidth
                 type="text"
-                value={username}
-                onChange={handleUsernameChange}
+                value={state.username}
+                onChange={handleChange("username")}
                 touched={touched.username}
                 error={error.username}
                 onBlur={handleBlur("username")}
@@ -99,8 +104,8 @@ const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
               <PasswordField
                 required
                 fullWidth
-                value={password}
-                onChange={handlePasswordChange}
+                value={state.password}
+                onChange={handleChange("password")}
                 touched={touched.email}
                 error={error.email}
                 onBlur={handleBlur("email")}

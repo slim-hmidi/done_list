@@ -1,15 +1,15 @@
 import React from "react";
 import { Route, Router } from "react-router-dom";
 import App from "./App";
-import SignIn from "./features/authentication/SignIn";
-import SignUp from "./features/authentication/SignUp";
-import history from "./history/index";
+import SignIn from "../features/authentication/SignIn";
+import SignUp from "../features/authentication/SignUp";
+import history from "../history/index";
 
 const Root = () => (
   <Router history={history}>
     <Route exact path="/" component={App} />
     <Route exact path="/signin" component={SignIn} />
-    <Route exact path="/signup" component={SignUp} />
+    <Route path="/signup" component={SignUp} />
   </Router>
 );
 
