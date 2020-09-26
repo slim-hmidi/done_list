@@ -27,7 +27,8 @@ const errorMessages = {
   numberRequired: "Password must contain a number",
   wrongPassword: "Wrong password",
   invalidUsername: "Wrong username",
-  minLengthRequired: "Should contain at least 2 characters",
+  minLengthRequired: (arg: string) =>
+    `${arg} Should contain at least 2 characters`,
   titleRequired: "Title required",
   descriptionRequired: "Description Required",
   realisationDateRequired: "Realisation Date required",

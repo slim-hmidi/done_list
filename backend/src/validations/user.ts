@@ -11,13 +11,22 @@ export const validateEmail = (email: string) => {
 };
 
 export const singUpSchema = yup.object().shape({
-  firstName: yup.string().trim().min(2, errorMessages.minLengthRequired)
+  firstName: yup.string().trim().min(
+    2,
+    errorMessages.minLengthRequired("First name"),
+  )
     .required(
       errorMessages.firstNameRequired,
     ),
-  lastName: yup.string().trim().min(2, errorMessages.minLengthRequired)
+  lastName: yup.string().trim().min(
+    2,
+    errorMessages.minLengthRequired("Last name"),
+  )
     .required(errorMessages.lastNameRequired),
-  username: yup.string().trim().min(2, errorMessages.minLengthRequired)
+  username: yup.string().trim().min(
+    2,
+    errorMessages.minLengthRequired("Username"),
+  )
     .required(errorMessages.usernameRequired),
   email: yup.string().trim().email(errorMessages.emailNotValid).required(
     errorMessages.emailRequired,

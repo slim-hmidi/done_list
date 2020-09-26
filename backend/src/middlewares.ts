@@ -104,5 +104,6 @@ const checkToken = (req: Request, res: Response, next: NextFunction) => {
 export {
   notFound,
   errorHandlerMiddleware,
+  checkToken,
   ErrorHandler,
 };

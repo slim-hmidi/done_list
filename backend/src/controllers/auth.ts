@@ -56,7 +56,10 @@ export const signUp = async (
     const token = await sign(payload);
     return res.status(200).json({
       message: successMessages.userCreationSuccess,
-      data: token,
+      data: {
+        username,
+        token,
+      },
     });
   } catch (error) {
     next(error);
@@ -89,7 +92,10 @@ export const signIn = async (
     const token = await sign(payload);
     return res.status(200).json({
       message: successMessages.signInSuccess,
-      data: token,
+      data: {
+        username,
+        token,
+      },
     });
   } catch (error) {
     next(error);

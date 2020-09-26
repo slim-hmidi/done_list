@@ -12,7 +12,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Buie",
     username: "wbuie0",
     email: "wbuie0@newyorker.com",
-    password: "uzGI6H5tN",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.4y5YH6bGBlQKFaf3nxw66pZANwSBsG6",
     birthday: "1990-07-05",
   }, {
     id: 2,
@@ -20,7 +20,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Tullis",
     username: "ttullis1",
     email: "ttullis1@about.com",
-    password: "5aG40rBYlJ",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.iNrYEOjpSVWw9qMighd2ZWwM4w/xg42",
     birthday: "1981-05-01",
   }, {
     id: 3,
@@ -28,7 +28,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Folk",
     username: "mfolk2",
     email: "mfolk2@umich.edu",
-    password: "culJJXpv",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.iX.cUG.A885PyiTErBtMb5bBdT5H9Ha",
     birthday: "1994-06-08",
   }, {
     id: 4,
@@ -36,7 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Flag",
     username: "aflag3",
     email: "aflag3@guardian.co.uk",
-    password: "Zp1EjB",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.p.NNPwgrsIq2KxgotpFdcFfOmcqtpPq",
     birthday: "1976-12-05",
   }, {
     id: 5,
@@ -44,7 +44,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Hadfield",
     username: "mhadfield4",
     email: "mhadfield4@constantcontact.com",
-    password: "uKsmRu4OC0B",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.g26ubNf5TVH.D3WvLy2SBBapx7pn2fi",
     birthday: "1993-02-25",
   }, {
     id: 6,
@@ -52,7 +52,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Jagoe",
     username: "jjagoe5",
     email: "jjagoe5@webnode.com",
-    password: "V8a90bKd",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.Ia9P8Ek1tX0EK0/HHRPQXg6wm1cu1PG",
     birthday: "1984-06-11",
   }, {
     id: 7,
@@ -60,7 +60,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Southouse",
     username: "ksouthouse6",
     email: "ksouthouse6@hc360.com",
-    password: "42NxbOqULP",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.PhmS4qfjSS86qskQPUsDNpxIUzMg636",
     birthday: "1978-04-21",
   }, {
     id: 8,
@@ -68,7 +68,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Learie",
     username: "hlearie7",
     email: "hlearie7@lycos.com",
-    password: "GhcvRnKs7U5u",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.19ZdSUFxs.jTQGMlG3vF4cP251Os21.",
     birthday: "1990-07-05",
   }, {
     id: 9,
@@ -76,7 +76,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Lumb",
     username: "xlumb8",
     email: "xlumb8@linkedin.com",
-    password: "ZVPSBzRwc7W",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.CpvIijgBUOlylC5FaG0YuGOP5d2bmqq",
     birthday: "1989-09-10",
   }, {
     id: 10,
@@ -84,7 +84,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Litster",
     username: "blitster9",
     email: "blitster9@csmonitor.com",
-    password: "rZEXlWlfBep",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.oXvfZZmmTYCt1q04ymek0b9C0D2Nthm",
     birthday: "1985-03-15",
   }, {
     id: 11,
@@ -92,7 +92,7 @@ export async function seed(knex: Knex): Promise<void> {
     last_name: "Park",
     username: "alex20",
     email: "alex20@csmonitor.com",
-    password: "rZEXlWlfBep",
+    password: "$2b$10$VzTCHvTEIWYM42l/Us.02.oXvfZZmmTYCt1q04ymek0b9C0D2Nthm",
     birthday: "1986-03-23",
   }]);
 

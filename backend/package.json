@@ -8,7 +8,10 @@
     "migrate": "knex migrate:latest --knexfile ./build/knexfile.js",
     "rollback": "knex migrate:rollback --knexfile ./build/knexfile.js",
     "seed": "knex seed:run --knexfile ./build/knexfile.js",
-    "start": "nodemon build/server",
+    "migrate:latest": "npm run rollback && npm run migrate && npm run seed",
+    "start:build": "tsc -w",
+    "start:run": "nodemon -q -w dist build/server",
+    "start": "concurrently npm:start:*",
     "test": "jest --runInBand --detectOpenHandles"
   },
   "author": "",
@@ -29,13 +32,13 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.5",
     "moment": "^2.28.0",
-    "nodemon": "^2.0.4",
     "objection": "^2.2.3",
     "pg": "^8.3.3",
     "ts-node": "^9.0.0",
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "concurrently": "^5.3.0",
     "jest": "^26.4.2",
     "supertest": "^4.0.2",
     "ts-jest": "^26.3.0",
