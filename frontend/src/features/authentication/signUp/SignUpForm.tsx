@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { format } from "date-fns";
+import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import CardWrapper from "../../components/CardWrapper";
-import DatePicker from "../../components/DatePicker";
-import TextField from "../../components/TextField";
-import PasswordField from "../../components/PasswordField";
+import CardWrapper from "../../../components/CardWrapper";
+import DatePicker from "../../../components/DatePicker";
+import TextField from "../../../components/TextField";
+import PasswordField from "../../../components/PasswordField";
+import { signUp } from "../authenticationSlice";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,9 +45,11 @@ interface FormState {
   lastName: string;
   email: string;
   password: string;
+  birthday: Date;
 }
 
 const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [state, setFormState] = useState<FormState>({
     username: "",
@@ -52,10 +57,8 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
     lastName: "",
     email: "",
     password: "",
+    birthday: new Date("2000-01-18"),
   });
-  const [birthday, setBirthday] = React.useState<Date>(
-    new Date("2000-01-18"),
-  );
   const [touched, setTouched] = useState<TouchedState>({
     username: false,
     email: false,
@@ -90,7 +93,19 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
     };
 
   const handleDateChange = (date: Date) => {
-    setBirthday(date);
+    setFormState((state) => {
+      return { ...state, birthday: date };
+    });
+  };
+
+  handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const data = Object.assign(
+      {},
+      state,
+      { birthday: format(state.birthday, "yyyy-MM-dd") },
+    );
+    dispatch(signUp(data));
   };
 
   return (
@@ -116,7 +131,7 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
             </Grid>
             <Grid item md={12}>
               <TextField
-                label="Last Name"
+                label="Last name"
                 required
                 fullWidth
                 type="text"
@@ -143,7 +158,7 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
             <Grid item md={12}>
               <DatePicker
                 label="Birthday"
-                value={birthday}
+                value={state.birthday}
                 onChange={handleDateChange}
                 format="yyyy-MM-dd"
               />

@@ -1,4 +1,4 @@
-import axios from "redaxios";
+import axios from "axios";
 import urls from "../constants";
 
 export interface AuthenticatedUser {
@@ -6,7 +6,14 @@ export interface AuthenticatedUser {
   password: string;
 }
 
-interface RegistredUser {
+export interface AuthenticationResponse {
+  message: string;
+  data: {
+    username: string;
+    token: string;
+  };
+}
+export interface NewUser {
   username: string;
   password: string;
   email: string;
@@ -15,20 +22,18 @@ interface RegistredUser {
   lastName: string;
 }
 
-const signInApi = async (user: AuthenticatedUser) => {
-  const { data } = await axios.post(urls.signIn, {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
+const signInApi = async (
+  user: AuthenticatedUser,
+): Promise<AuthenticationResponse> => {
+  const { data } = await axios.post(urls.signIn, user);
 
   return data;
 };
 
-const signUpApi = async (user: RegistredUser) => {
-  const { data } = await axios.post(urls.signUp, {
-    method: "POST",
-    body: JSON.stringify(user),
-  });
+const signUpApi = async (
+  user: NewUser,
+): Promise<AuthenticationResponse> => {
+  const { data } = await axios.post(urls.signUp, user);
 
   return data;
 };

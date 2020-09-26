@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import CardWrapper from "../../components/CardWrapper";
-import TextField from "../../components/TextField";
-import PasswordField from "../../components/PasswordField";
+import CardWrapper from "../../../components/CardWrapper";
+import TextField from "../../../components/TextField";
+import PasswordField from "../../../components/PasswordField";
+import { signIn } from "../authenticationSlice";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,6 +39,7 @@ interface StateForm {
 }
 
 const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [state, setStateForm] = useState<StateForm>({
     username: "",
@@ -75,9 +78,9 @@ const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
       }
     };
 
-  handleSubmit = () => {
-    const data = state;
-    console.log(data);
+  handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    dispatch(signIn(state));
   };
   return (
     <div className={classes.container}>
@@ -106,9 +109,9 @@ const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
                 fullWidth
                 value={state.password}
                 onChange={handleChange("password")}
-                touched={touched.email}
-                error={error.email}
-                onBlur={handleBlur("email")}
+                touched={touched.password}
+                error={error.password}
+                onBlur={handleBlur("password")}
               />
             </Grid>
             <Grid item className={classes.item}>
