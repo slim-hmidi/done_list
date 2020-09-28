@@ -16,7 +16,7 @@ const SignIn = () => {
 
   useEffect(() => {
     dispatch(resetAlert());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

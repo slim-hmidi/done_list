@@ -12,10 +12,8 @@ import { signIn } from "../authenticationSlice";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      flexGrow: 1,
-      margin: "auto",
-      maxWidth: "100%",
-      padding: 16,
+      margin: "0 auto",
+      width: "30%",
     },
     item: {
       marginTop: 16,
@@ -89,7 +87,12 @@ const SignIn = ({ pristine, submitting, handleSubmit }: any) => {
           title="SignIn"
           headerColor={true}
         >
-          <Grid container justify="center" spacing={3}>
+          <Grid
+            container
+            alignContent="center"
+            justify="center"
+            spacing={3}
+          >
             <Grid item md={12}>
               <TextField
                 label="Username"

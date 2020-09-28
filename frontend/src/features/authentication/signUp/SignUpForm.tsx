@@ -13,10 +13,8 @@ import { signUp } from "../authenticationSlice";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      flexGrow: 1,
-      margin: "auto",
-      maxWidth: "100%",
-      padding: 16,
+      margin: "0 auto",
+      width: "30%",
     },
     item: {
       marginTop: 16,

@@ -12,7 +12,7 @@ const SignUp = () => {
   );
   useEffect(() => {
     dispatch(resetAlert());
-  }, []);
+  }, [dispatch]);
   const handleClose = () => {
     dispatch(closeAlert());
   };

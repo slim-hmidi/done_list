@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     dispatch(resetAlert());
-  }, []);
+  }, [dispatch]);
 
   return (
     // <div>{isAuthenticated() ? <h1>Hello World</h1> : <SignIn />}</div>
