@@ -57,6 +57,7 @@ export const signUp = async (
     return res.status(200).json({
       message: successMessages.userCreationSuccess,
       data: {
+        userId: createdUser.id,
         username,
         token,
       },
@@ -93,6 +94,7 @@ export const signIn = async (
     return res.status(200).json({
       message: successMessages.signInSuccess,
       data: {
+        userId: fetchedUser.id,
         username,
         token,
       },

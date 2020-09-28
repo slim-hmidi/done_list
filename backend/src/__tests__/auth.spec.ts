@@ -42,7 +42,9 @@ describe("Authentication", () => {
         });
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.minLengthRequired);
+      expect(response.body.message).toEqual(
+        errorMessages.minLengthRequired("Username"),
+      );
     });
 
     it("Should returns an error if firstName is missing", async () => {
@@ -73,7 +75,9 @@ describe("Authentication", () => {
         });
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.minLengthRequired);
+      expect(response.body.message).toEqual(
+        errorMessages.minLengthRequired("First name"),
+      );
     });
 
     it("Should returns an error if lastName is missing", async () => {
@@ -104,7 +108,9 @@ describe("Authentication", () => {
         });
 
       expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.minLengthRequired);
+      expect(response.body.message).toEqual(
+        errorMessages.minLengthRequired("Last name"),
+      );
     });
 
     it("Should returns an error if email is missing", async () => {
