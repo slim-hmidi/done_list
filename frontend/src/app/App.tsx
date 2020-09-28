@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SignIn from "../features/authentication/signIn/SignInContainer";
+import HomePage from "./HomePage";
 import { AppState } from "./rootReducer";
 import { closeAlert, resetAlert } from "../features/alert/alertSlice";
 import SnackBar from "../components/SnackBar";
@@ -9,7 +10,7 @@ import SnackBar from "../components/SnackBar";
 
 function App() {
   const username = useSelector((state: AppState) =>
-    state.authentication.username
+    state.authentication.user.username
   );
   const dispatch = useDispatch();
   const { open, message, severity } = useSelector((state: AppState) =>
@@ -36,7 +37,7 @@ function App() {
           horizontal: "left",
         }}
       />
-      {username ? <h1>Hello World</h1> : <SignIn />}
+      {username ? <HomePage /> : <SignIn />}
     </div>
   );
 }

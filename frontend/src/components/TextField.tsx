@@ -21,6 +21,8 @@ interface Props {
   touched: boolean;
   error: string;
   required: boolean;
+  multiline?: boolean;
+  rows?: number;
 }
 
 function SimpleTextField(props: Props) {
@@ -36,6 +38,8 @@ function SimpleTextField(props: Props) {
     onChange,
     onBlur,
     fullWidth,
+    multiline,
+    rows,
   } = props;
   return (
     <TextField
@@ -50,6 +54,8 @@ function SimpleTextField(props: Props) {
       onBlur={onBlur}
       variant="outlined"
       fullWidth={fullWidth}
+      multiline={multiline}
+      rows={rows}
       helperText={touched && error ? error : ""}
     />
   );

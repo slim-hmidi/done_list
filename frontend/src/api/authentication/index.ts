@@ -10,6 +10,7 @@ export interface AuthenticationResponse {
   message: string;
   data: {
     username: string;
+    userId: number;
     token: string;
   };
 }

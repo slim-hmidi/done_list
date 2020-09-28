@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import CardWrapper from "../../../components/CardWrapper";
-import DatePicker from "../../../components/DatePicker";
-import TextField from "../../../components/TextField";
-import PasswordField from "../../../components/PasswordField";
-import { signUp } from "../authenticationSlice";
+import CardWrapper from "../../components/CardWrapper";
+import DatePicker from "../../components/DatePicker";
+import TextField from "../../components/TextField";
+import { addTask } from "./taskSlice";
+import { AppState } from "../../app/rootReducer";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,58 +26,49 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface TouchedState {
-  username: boolean;
-  email: boolean;
-  firstName: boolean;
-  lastName: boolean;
-  password: boolean;
-  birthday: boolean;
+  title: boolean;
+  description: boolean;
+  tagId: boolean;
+  realisationDate: boolean;
 }
 
 interface ErrorState {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  birthday: string;
+  title: string;
+  description: string;
+  tagId: string;
+  realisationDate: string;
 }
 
 interface FormState {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  birthday: Date;
+  title: string;
+  description: string;
+  tagId: number;
+  realisationDate: Date;
 }
 
 const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const userId = useSelector((state: AppState) =>
+    state.authentication.user.userId
+  );
   const [state, setFormState] = useState<FormState>({
-    username: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    birthday: new Date("2000-01-18"),
+    title: "",
+    description: "",
+    realisationDate: new Date(),
+    tagId: 0,
   });
   const [touched, setTouched] = useState<TouchedState>({
-    username: false,
-    email: false,
-    password: false,
-    firstName: false,
-    lastName: false,
-    birthday: false,
+    title: false,
+    description: false,
+    tagId: false,
+    realisationDate: false,
   });
   const [error, setError] = useState<ErrorState>({
-    username: "",
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    birthday: "",
+    title: "",
+    description: "",
+    tagId: "",
+    realisationDate: "",
   });
 
   const handleChange = (name: string) =>
@@ -115,9 +106,9 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
     const data = Object.assign(
       {},
       state,
-      { birthday: format(state.birthday, "yyyy-MM-dd") },
+      { realisationDate: format(state.realisationDate, "yyyy-MM-dd"), userId },
     );
-    dispatch(signUp(data));
+    dispatch(addTask(data));
   };
 
   return (
@@ -130,73 +121,36 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
           <Grid container justify="center" spacing={3}>
             <Grid item md={12}>
               <TextField
-                label="First name"
+                label="Title"
                 required
                 fullWidth
                 type="text"
-                value={state.firstName}
-                onChange={handleChange("firstName")}
-                touched={touched.firstName}
-                error={error.firstName}
-                onBlur={handleBlur("firstName")}
+                value={state.title}
+                onChange={handleChange("title")}
+                touched={touched.title}
+                error={error.title}
+                onBlur={handleBlur("title")}
               />
             </Grid>
             <Grid item md={12}>
               <TextField
-                label="Last name"
+                label="Description"
                 required
                 fullWidth
                 type="text"
-                value={state.lastName}
-                onChange={handleChange("lastName")}
-                touched={touched.lastName}
-                error={error.lastName}
-                onBlur={handleBlur("lastName")}
-              />
-            </Grid>
-            <Grid item md={12}>
-              <TextField
-                label="Username"
-                required
-                fullWidth
-                type="text"
-                value={state.username}
-                onChange={handleChange("username")}
-                touched={touched.username}
-                error={error.username}
-                onBlur={handleBlur("username")}
+                value={state.description}
+                onChange={handleChange("description")}
+                touched={touched.description}
+                error={error.description}
+                onBlur={handleBlur("description")}
               />
             </Grid>
             <Grid item md={12}>
               <DatePicker
-                label="Birthday"
-                value={state.birthday}
+                label="Realisation Date"
+                value={state.realisationDate}
                 onChange={handleDateChange}
                 format="yyyy-MM-dd"
-              />
-            </Grid>
-            <Grid item md={12}>
-              <TextField
-                label="Email"
-                required
-                fullWidth
-                type="email"
-                value={state.email}
-                onChange={handleChange("email")}
-                touched={touched.email}
-                error={error.email}
-                onBlur={handleBlur("email")}
-              />
-            </Grid>
-            <Grid item md={12}>
-              <PasswordField
-                required
-                fullWidth
-                value={state.password}
-                onChange={handleChange("password")}
-                touched={touched.password}
-                error={error.password}
-                onBlur={handleBlur("password")}
               />
             </Grid>
             <Grid item className={classes.item}>

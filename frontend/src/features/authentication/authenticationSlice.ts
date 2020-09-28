@@ -57,22 +57,28 @@ export const signUp = createAsyncThunk(
   },
 );
 
+interface User {
+  username: string;
+  userId: number;
+}
+
 interface InitialState {
   error: string;
   successMessage: string;
   loading: string;
-  username: string;
+  user: User;
 }
 
-interface UserResponse {
+interface UserPayload {
   username: string;
+  userId: number;
   message: string;
 }
 const initialState: InitialState = {
   error: "",
   successMessage: "",
   loading: "idle",
-  username: "",
+  user: {} as User,
 };
 
 const authenticationSlice = createSlice({
@@ -87,10 +93,13 @@ const authenticationSlice = createSlice({
     },
     [`${signIn.fulfilled}`]: (
       state,
-      action: PayloadAction<UserResponse>,
+      action: PayloadAction<UserPayload>,
     ) => {
-      const { message, username } = action.payload;
-      state.username = username;
+      const { message, username, userId } = action.payload;
+      state.user = {
+        username,
+        userId,
+      };
       state.successMessage = message;
       state.loading = "resolved";
     },
@@ -113,10 +122,13 @@ const authenticationSlice = createSlice({
     },
     [`${signUp.fulfilled}`]: (
       state,
-      action: PayloadAction<UserResponse>,
+      action: PayloadAction<UserPayload>,
     ) => {
-      const { message, username } = action.payload;
-      state.username = username;
+      const { message, username, userId } = action.payload;
+      state.user = {
+        username,
+        userId,
+      };
       state.successMessage = message;
       state.loading = "resolved";
     },
