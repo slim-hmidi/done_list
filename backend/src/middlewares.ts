@@ -85,7 +85,7 @@ const checkToken = (req: Request, res: Response, next: NextFunction) => {
   }
   const token = req.headers["x-access-token"];
   if (!token) {
-    return res.status(403).send(errorMessages.tokenRequired);
+    return next(new ErrorHandler(403, errorMessages.tokenRequired));
   }
 
   return jwt.verify(
