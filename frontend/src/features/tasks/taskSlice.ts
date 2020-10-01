@@ -13,13 +13,14 @@ export const addTask = createAsyncThunk(
   async (task: AddTask, { dispatch, rejectWithValue }) => {
     try {
       const response = await addTaskApi(task);
-      history.push("/");
+      history.push("/home");
       return response;
     } catch (error) {
       let errorMessage = "Internal Server Error";
       if (error.response) {
         errorMessage = error.response.data.message;
       }
+      console.log(error.response);
       dispatch(openAlert({ message: errorMessage, severity: "error" }));
       return rejectWithValue(errorMessage);
     }

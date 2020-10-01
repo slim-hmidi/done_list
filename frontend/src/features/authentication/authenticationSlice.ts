@@ -6,16 +6,22 @@ import {
   AuthenticationResponse,
   NewUser,
 } from "../../api/authentication/index";
+import { setToken } from "../../api/utils";
 import { openAlert } from "../alert/alertSlice";
 import history from "../../history/index";
 
-const handleUserResponse = ({ data, message }: AuthenticationResponse) => {
-  const { token, username } = data;
-  window.localStorage.setItem(
-    process.env.REACT_APP_TOKEN as string,
-    token,
-  );
-  return { message, username };
+interface HandleUserResponse {
+  message: string;
+  username: string;
+  userId: number;
+}
+
+const handleUserResponse = (
+  { data, message }: AuthenticationResponse,
+): HandleUserResponse => {
+  const { token, username, userId } = data;
+  setToken(token);
+  return { message, username, userId };
 };
 
 export const signIn = createAsyncThunk(

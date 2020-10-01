@@ -53,6 +53,7 @@ const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
     userId: state.authentication.user.userId,
     tags: state.tag.tags,
   }));
+  console.log(userId);
   const [state, setFormState] = useState<FormState>({
     title: "",
     description: "",
