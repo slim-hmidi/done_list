@@ -8,6 +8,12 @@ import {
 } from "../../api/tasks/index";
 import history from "../../history/index";
 
+interface InitialState {
+  error: string;
+  successMessage: string;
+  task: Task;
+}
+
 export const addTask = createAsyncThunk(
   "task/add",
   async (task: AddTask, { dispatch, rejectWithValue }) => {
@@ -26,12 +32,6 @@ export const addTask = createAsyncThunk(
     }
   },
 );
-
-interface InitialState {
-  error: string;
-  successMessage: string;
-  task: Task;
-}
 
 const initialState: InitialState = {
   error: "",

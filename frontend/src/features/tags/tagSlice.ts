@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllTagsApi, Tag } from "../../api/tags";
 
+interface InitialState {
+  tags: Tag[];
+  error: string;
+}
+
 export const getTags = createAsyncThunk(
   "tags/getAll",
   async (params, { rejectWithValue }) => {
@@ -16,11 +21,6 @@ export const getTags = createAsyncThunk(
     }
   },
 );
-
-interface InitialState {
-  tags: Tag[];
-  error: string;
-}
 
 const initialState = {
   tags: [] as Tag[],

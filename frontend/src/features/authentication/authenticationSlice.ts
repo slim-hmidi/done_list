@@ -10,10 +10,30 @@ import { setToken } from "../../api/utils";
 import { openAlert } from "../alert/alertSlice";
 import history from "../../history/index";
 
+// interfaces
+
 interface HandleUserResponse {
   message: string;
   username: string;
   userId: number;
+}
+
+interface User {
+  username: string;
+  userId: number;
+}
+
+interface InitialState {
+  error: string;
+  successMessage: string;
+  loading: string;
+  user: User;
+}
+
+interface UserPayload {
+  username: string;
+  userId: number;
+  message: string;
 }
 
 const handleUserResponse = (
@@ -63,23 +83,6 @@ export const signUp = createAsyncThunk(
   },
 );
 
-interface User {
-  username: string;
-  userId: number;
-}
-
-interface InitialState {
-  error: string;
-  successMessage: string;
-  loading: string;
-  user: User;
-}
-
-interface UserPayload {
-  username: string;
-  userId: number;
-  message: string;
-}
 const initialState: InitialState = {
   error: "",
   successMessage: "",
