@@ -3,6 +3,7 @@ import urls from "../constants";
 import { getToken } from "../utils";
 
 export interface Task {
+  id?: number;
   title: string;
   description: string;
   realisationDate: string;
@@ -13,13 +14,26 @@ export interface AddTask extends Task {
   userId: number;
 }
 
-export interface TaskResponse {
+export interface PostTaskResponse {
   message: string;
   data: Task;
 }
 
-export const addTaskApi = async (task: AddTask): Promise<TaskResponse> => {
+export interface GetTasksResponse {
+  message: string;
+  data: Task[];
+}
+
+export const addTaskApi = async (task: AddTask): Promise<PostTaskResponse> => {
   axios.defaults.headers.common["x-access-token"] = getToken();
   const { data } = await axios.post(urls.addTask, task);
+  return data;
+};
+
+export const getAllTasksApi = async (
+  userId: number,
+): Promise<GetTasksResponse> => {
+  axios.defaults.headers.common["x-access-token"] = getToken();
+  const { data } = await axios.get(`${urls.getTasks}?userId=${userId}`);
   return data;
 };

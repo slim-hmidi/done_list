@@ -4,14 +4,17 @@ import {
   AddTask,
   addTaskApi,
   Task,
-  TaskResponse,
+  PostTaskResponse,
+  GetTasksResponse,
+  getAllTasksApi,
 } from "../../api/tasks/index";
 import history from "../../history/index";
 
 interface InitialState {
   error: string;
   successMessage: string;
-  task: Task;
+  tasks: Task[];
+  loading: string;
 }
 
 export const addTask = createAsyncThunk(
@@ -26,7 +29,23 @@ export const addTask = createAsyncThunk(
       if (error.response) {
         errorMessage = error.response.data.message;
       }
-      console.log(error.response);
+      dispatch(openAlert({ message: errorMessage, severity: "error" }));
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+
+export const getAllTasks = createAsyncThunk(
+  "task/getAll",
+  async (userId: number, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await getAllTasksApi(userId);
+      return response;
+    } catch (error) {
+      let errorMessage = "Internal Server Error";
+      if (error.response) {
+        errorMessage = error.response.data.message;
+      }
       dispatch(openAlert({ message: errorMessage, severity: "error" }));
       return rejectWithValue(errorMessage);
     }
@@ -36,7 +55,8 @@ export const addTask = createAsyncThunk(
 const initialState: InitialState = {
   error: "",
   successMessage: "",
-  task: {} as Task,
+  tasks: [] as Task[],
+  loading: "idle",
 };
 
 const taskSlice = createSlice({
@@ -44,10 +64,13 @@ const taskSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [`${addTask.fulfilled}`]: (state, action: PayloadAction<TaskResponse>) => {
+    [`${addTask.fulfilled}`]: (
+      state,
+      action: PayloadAction<PostTaskResponse>,
+    ) => {
       const { message, data } = action.payload;
       state.successMessage = message;
-      state.task = data;
+      state.tasks.push(data);
     },
     [`${addTask.rejected}`]: (
       state,
@@ -58,6 +81,31 @@ const taskSlice = createSlice({
       } else {
         state.error = action.error;
       }
+    },
+    [`${getAllTasks.pending}`]: (
+      state,
+    ) => {
+      state.loading = "pending";
+    },
+    [`${getAllTasks.fulfilled}`]: (
+      state,
+      action: PayloadAction<GetTasksResponse>,
+    ) => {
+      const { message, data } = action.payload;
+      state.successMessage = message;
+      state.tasks = data;
+      state.loading = "resolved";
+    },
+    [`${getAllTasks.rejected}`]: (
+      state,
+      action: PayloadAction<string, any, any, string>,
+    ) => {
+      if (action.payload) {
+        state.error = action.payload;
+      } else {
+        state.error = action.error;
+      }
+      state.loading = "failed";
     },
   },
 });

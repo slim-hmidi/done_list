@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import CreateIcon from "@material-ui/icons/Create";
 import Dialog from "../components/Dialog";
 import AddTaskForm from "../features/tasks/AddTaskForm";
+import TaskList from "../features/tasks/TaskList";
 
 const HomePage = () => {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,7 @@ const HomePage = () => {
   };
   return (
     <div>
+      <TaskList />
       <Button
         variant="contained"
         color="secondary"
