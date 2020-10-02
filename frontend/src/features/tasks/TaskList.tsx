@@ -8,6 +8,7 @@ import { AppState } from "../../app/rootReducer";
 import { getAllTasks } from "./taskSlice";
 import { Typography } from "@material-ui/core";
 import { Task } from "../../api/tasks/index";
+import { formatDate } from "../../app/utils";
 
 const TaskList = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,10 @@ const TaskList = () => {
       {tasks.map((task: Task) => (<ListItem key={task.id}>
         <TaskItem
           title={task.title}
-          realisationDate={task.realisationDate}
+          realisationDate={formatDate(
+            new Date(task.realisationDate),
+            "yyyy-MM-dd",
+          )}
           description={task.description}
         />
       </ListItem>))}

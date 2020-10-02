@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +8,7 @@ import DatePicker from "../../../components/DatePicker";
 import TextField from "../../../components/TextField";
 import PasswordField from "../../../components/PasswordField";
 import { signUp } from "../authenticationSlice";
+import { formatDate } from "../../../app/utils";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -115,7 +115,7 @@ const SignUp = ({ pristine, submitting, handleSubmit }: any) => {
     const data = Object.assign(
       {},
       state,
-      { birthday: format(state.birthday, "yyyy-MM-dd") },
+      { birthday: formatDate(state.birthday, "yyyy-MM-dd") },
     );
     dispatch(signUp(data));
   };

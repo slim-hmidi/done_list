@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { format } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -10,6 +9,7 @@ import { addTask } from "./taskSlice";
 import { getTags } from "../tags/tagSlice";
 import { AppState } from "../../app/rootReducer";
 import SelectField from "../../components/SelectField";
+import { formatDate } from "../../app/utils";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -118,7 +118,10 @@ const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
     const data = Object.assign(
       {},
       state,
-      { realisationDate: format(state.realisationDate, "yyyy-MM-dd"), userId },
+      {
+        realisationDate: formatDate(state.realisationDate, "yyyy-MM-dd"),
+        userId,
+      },
     );
     dispatch(addTask(data));
   };
