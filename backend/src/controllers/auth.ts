@@ -6,7 +6,7 @@ import {
   successMessages,
 } from "../constants/httpUtils";
 import { ErrorHandler } from "../middlewares";
-import { sign } from "../utils/tokenUtils";
+import { sign } from "../utils/index";
 import { TokenPayload } from "../interfaces/users";
 import User from "../models/User";
 

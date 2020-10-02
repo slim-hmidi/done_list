@@ -1,5 +1,4 @@
 import request from "supertest";
-import * as Knex from "knex";
 import { app } from "../app";
 import connection from "../db";
 import { errorMessages, successMessages } from "../constants/httpUtils";

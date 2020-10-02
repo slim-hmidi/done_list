@@ -5,6 +5,7 @@ import TaskTag from "../models/TaskTag";
 import User from "../models/User";
 import { ErrorHandler } from "../middlewares";
 import { errorMessages, successMessages } from "../constants/httpUtils";
+import { snakeToCamelCase } from "../utils/index";
 
 export const addTask = async (
   req: Request,
@@ -42,7 +43,7 @@ export const addTask = async (
 
     return res.status(200).json({
       message: successMessages.taskCreationSuccess,
-      data: createdTask,
+      data: snakeToCamelCase(createdTask),
     });
   } catch (error) {
     next(error);
@@ -67,9 +68,13 @@ export const getAllTasks = async (
 
     const fetchedTasks = await Task.query().where("user_id", userId as string);
 
+    let formattedTasks = fetchedTasks.length
+      ? fetchedTasks.map((task: Task) => snakeToCamelCase(task))
+      : fetchedTasks;
+
     return res.status(200).json({
       message: successMessages.taskFetchSuccess,
-      data: fetchedTasks,
+      data: formattedTasks,
     });
   } catch (error) {
     next(error);
@@ -103,7 +108,7 @@ export const getOneTask = async (
     }
     return res.status(200).json({
       message: successMessages.taskFetchSuccess,
-      data: fetchedTask,
+      data: snakeToCamelCase(fetchedTask),
     });
   } catch (error) {
     next(error);
@@ -176,7 +181,7 @@ export const updateOneTask = async (
 
     return res.status(200).json({
       message: successMessages.taskUpdateSuccess,
-      data: updatedTask,
+      data: snakeToCamelCase(updatedTask),
     });
   } catch (error) {
     next(error);
