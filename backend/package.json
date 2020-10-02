@@ -10,7 +10,7 @@
     "seed": "knex seed:run --knexfile ./build/knexfile.js",
     "migrate:latest": "npm run rollback && npm run migrate && npm run seed",
     "start:build": "tsc -w",
-    "start:run": "nodemon -q -w dist build/server",
+    "start:run": "nodemon build/server",
     "start": "concurrently npm:start:*",
     "test": "jest --runInBand --detectOpenHandles"
   },

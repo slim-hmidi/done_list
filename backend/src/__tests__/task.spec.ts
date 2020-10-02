@@ -130,6 +130,10 @@ describe("Tasks", () => {
       expect(response.body.message).toEqual(
         successMessages.taskCreationSuccess,
       );
+      expect(response.body.data).toHaveProperty("title");
+      expect(response.body.data).toHaveProperty("realisationDate");
+      expect(response.body.data).toHaveProperty("description");
+      expect(response.body.data).toHaveProperty("id");
     });
   });
   describe("Get /tasks", () => {
@@ -151,6 +155,10 @@ describe("Tasks", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data).toHaveLength(1);
+      expect(response.body.data[0]).toHaveProperty("title");
+      expect(response.body.data[0]).toHaveProperty("realisationDate");
+      expect(response.body.data[0]).toHaveProperty("description");
+      expect(response.body.data[0]).toHaveProperty("id");
     });
 
     it("Should return an error if the user does not exist", async () => {
@@ -227,6 +235,10 @@ describe("Tasks", () => {
       expect(response.body.message).toEqual(
         successMessages.taskFetchSuccess,
       );
+      expect(response.body.data).toHaveProperty("title");
+      expect(response.body.data).toHaveProperty("realisationDate");
+      expect(response.body.data).toHaveProperty("description");
+      expect(response.body.data).toHaveProperty("id");
     });
   });
 
@@ -260,6 +272,10 @@ describe("Tasks", () => {
       expect(response.body.message).toEqual(
         successMessages.taskUpdateSuccess,
       );
+      expect(response.body.data).toHaveProperty("title");
+      expect(response.body.data).toHaveProperty("realisationDate");
+      expect(response.body.data).toHaveProperty("description");
+      expect(response.body.data).toHaveProperty("id");
     });
   });
 });

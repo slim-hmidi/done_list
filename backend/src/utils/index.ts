@@ -1,5 +1,6 @@
 import * as jwt from "jsonwebtoken";
 import { TokenPayload } from "../interfaces/users";
+import { Model } from "objection";
 
 export const snakeToCamelCase = (input: any) => {
   if (input.constructor === String) {
@@ -13,7 +14,7 @@ export const snakeToCamelCase = (input: any) => {
     );
   }
 
-  if (input.constructor === Object) {
+  if (input.constructor === Object || input instanceof Model) {
     let result = {};
     for (let key in input) {
       const camelCaseKey = snakeToCamelCase(key);
@@ -21,7 +22,6 @@ export const snakeToCamelCase = (input: any) => {
     }
     return result;
   }
-  return;
 };
 
 export const sign = (payload: TokenPayload) => {
