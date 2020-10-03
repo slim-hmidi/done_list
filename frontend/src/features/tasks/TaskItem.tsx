@@ -18,7 +18,7 @@ const getRandomColor = () => {
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
+    minWidth: "100%",
   },
   title: {
     fontSize: 14,

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,7 +11,19 @@ import { Typography } from "@material-ui/core";
 import { Task } from "../../api/tasks/index";
 import { formatDate } from "../../app/utils";
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      maxWidth: "50%",
+      margin: "0 auto",
+      backgroundColor: theme.palette.background.paper,
+      overflow: "auto",
+    },
+  })
+);
+
 const TaskList = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const { tasks, userId, loading } = useSelector((state: AppState) => ({
     tasks: state.task.tasks,
@@ -29,8 +42,11 @@ const TaskList = () => {
   }
 
   return (
-    <List>
-      {tasks.map((task: Task) => (<ListItem key={task.id}>
+    <List className={classes.root}>
+      {tasks.map((task: Task) => (<ListItem
+        key={task.id}
+        alignItems="flex-start"
+      >
         <TaskItem
           title={task.title}
           realisationDate={formatDate(
