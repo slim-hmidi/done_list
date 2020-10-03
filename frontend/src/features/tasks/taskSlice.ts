@@ -3,7 +3,7 @@ import { openAlert } from "../alert/alertSlice";
 import {
   AddTask,
   addTaskApi,
-  Task,
+  ReturnedTask,
   PostTaskResponse,
   GetTasksResponse,
   getAllTasksApi,
@@ -13,7 +13,7 @@ import history from "../../history/index";
 interface InitialState {
   error: string;
   successMessage: string;
-  tasks: Task[];
+  tasks: ReturnedTask[];
   loading: string;
 }
 
@@ -55,7 +55,7 @@ export const getAllTasks = createAsyncThunk(
 const initialState: InitialState = {
   error: "",
   successMessage: "",
-  tasks: [] as Task[],
+  tasks: [] as ReturnedTask[],
   loading: "idle",
 };
 

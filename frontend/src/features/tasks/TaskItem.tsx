@@ -5,7 +5,9 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
+import Chip from "@material-ui/core/Chip";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 
@@ -26,17 +28,28 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  chip: {
+    marginTop: 12,
+  },
+  tag: {
+    marginTop: 12,
+    marginRight: 5,
+  },
 });
 
 interface Props {
   title: string;
   description: string;
   realisationDate: string;
+  tags: [{
+    id: number;
+    name: string;
+  }];
 }
 
 const TaskItem = (props: Props) => {
   const classes = useStyles();
-  const { title, description, realisationDate } = props;
+  const { title, description, realisationDate, tags } = props;
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -55,15 +68,22 @@ const TaskItem = (props: Props) => {
         <Typography
           className={classes.title}
           color="textSecondary"
+          variant="subtitle1"
           gutterBottom
         >
           {description}
         </Typography>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-        </CardActions>
+        <Grid container alignItems="flex-start">
+          <Typography variant="subtitle1" className={classes.tag}>
+            Tags:
+          </Typography>
+          {tags.map((tag: { id: number; name: string }) => (<Chip
+            key={tag.id}
+            label={tag.name}
+            // color="primary"
+            className={classes.chip}
+          />))}
+        </Grid>
       </CardContent>
     </Card>
   );

@@ -14,7 +14,9 @@ import { formatDate } from "../../app/utils";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      margin: "0 auto",
+      //margin: "0 auto",
+      marginRight: 25,
+      marginLeft: 25,
     },
     item: {
       marginTop: 16,

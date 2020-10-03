@@ -3,11 +3,21 @@ import urls from "../constants";
 import { getToken } from "../utils";
 
 export interface Task {
-  id?: number;
   title: string;
   description: string;
   realisationDate: string;
   tagId: number;
+}
+
+export interface ReturnedTask {
+  id: number;
+  title: string;
+  description: string;
+  realisationDate: string;
+  tags: [{
+    id: number;
+    name: string;
+  }];
 }
 
 export interface AddTask extends Task {
@@ -16,12 +26,12 @@ export interface AddTask extends Task {
 
 export interface PostTaskResponse {
   message: string;
-  data: Task;
+  data: ReturnedTask;
 }
 
 export interface GetTasksResponse {
   message: string;
-  data: Task[];
+  data: ReturnedTask[];
 }
 
 export const addTaskApi = async (task: AddTask): Promise<PostTaskResponse> => {

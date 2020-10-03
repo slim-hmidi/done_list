@@ -8,7 +8,7 @@ import TaskItem from "./TaskItem";
 import { AppState } from "../../app/rootReducer";
 import { getAllTasks } from "./taskSlice";
 import { Typography } from "@material-ui/core";
-import { Task } from "../../api/tasks/index";
+import { ReturnedTask } from "../../api/tasks/index";
 import { formatDate } from "../../app/utils";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,7 +43,7 @@ const TaskList = () => {
 
   return (
     <List className={classes.root}>
-      {tasks.map((task: Task) => (<ListItem
+      {tasks.map((task: ReturnedTask) => (<ListItem
         key={task.id}
         alignItems="flex-start"
       >
@@ -54,6 +54,7 @@ const TaskList = () => {
             "yyyy-MM-dd",
           )}
           description={task.description}
+          tags={task.tags}
         />
       </ListItem>))}
     </List>
