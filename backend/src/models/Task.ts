@@ -10,6 +10,8 @@ export default class Task extends Model {
   description!: string;
   realisation_date!: string;
   user_id!: number;
+  user?: User;
+  tags?: Tag[];
 
   static tableName = tableNames.task;
 
@@ -34,7 +36,7 @@ export default class Task extends Model {
         to: "user.id",
       },
     },
-    tag: {
+    tags: {
       relation: Model.ManyToManyRelation,
       modelClass: Tag,
       join: {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Task from "../models/Task";
-import Tag from "../models/TaskTag";
+import Tag from "../models/Tag";
 import TaskTag from "../models/TaskTag";
 import User from "../models/User";
 import { ErrorHandler } from "../middlewares";
@@ -38,14 +38,21 @@ export const addTask = async (
         task_id: task.id,
         tag_id: tagId,
       });
+
       return task;
     });
 
+    const fetchedTask = await Task.query().withGraphJoined("tags").where(
+      "task.id",
+      createdTask.id,
+    );
+
     return res.status(200).json({
       message: successMessages.taskCreationSuccess,
-      data: snakeToCamelCase(createdTask),
+      data: snakeToCamelCase(fetchedTask[0]),
     });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
@@ -66,10 +73,13 @@ export const getAllTasks = async (
       throw new ErrorHandler(404, errorMessages.invalidUserId);
     }
 
-    const fetchedTasks = await Task.query().where("user_id", userId as string);
+    const fetchedTasks = await Task
+      .query()
+      .withGraphJoined("tags")
+      .where("user_id", userId as string);
 
     let formattedTasks = fetchedTasks.length
-      ? fetchedTasks.map((task: Task) => snakeToCamelCase(task))
+      ? fetchedTasks.map((task) => snakeToCamelCase(task))
       : fetchedTasks;
 
     return res.status(200).json({
@@ -98,17 +108,22 @@ export const getOneTask = async (
       throw new ErrorHandler(404, errorMessages.invalidUserId);
     }
 
-    const fetchedTask = await Task.query().findById(id);
+    const fetchedTask = await Task.query().withGraphJoined("tags").where(
+      "task.id",
+      id,
+    );
 
-    if (!fetchedTask) {
+    console.log(fetchedTask);
+
+    if (!fetchedTask.length) {
       throw new ErrorHandler(404, errorMessages.invalidTaskId);
     }
-    if (fetchedTask.user_id !== parseInt(userId as string, 10)) {
+    if (fetchedTask[0].user_id !== parseInt(userId as string, 10)) {
       throw new ErrorHandler(404, errorMessages.taskNotBelongsToUser);
     }
     return res.status(200).json({
       message: successMessages.taskFetchSuccess,
-      data: snakeToCamelCase(fetchedTask),
+      data: snakeToCamelCase(fetchedTask[0]),
     });
   } catch (error) {
     next(error);
@@ -163,21 +178,25 @@ export const updateOneTask = async (
   try {
     const { id } = req.params;
 
-    const existentTask = await Task.query().findById(id);
+    const existentTask = await Task.query().withGraphJoined("tags").where(
+      "task.id",
+      id,
+    );
 
-    if (!existentTask) {
+    if (!existentTask.length) {
       throw new ErrorHandler(404, errorMessages.invalidTaskId);
     }
-    if (req.body.userId && req.body.userId !== existentTask.user_id) {
+    if (req.body.userId && req.body.userId !== existentTask[0].user_id) {
       throw new ErrorHandler(400, errorMessages.updateUserNotAllowed);
     }
 
-    if (req.body.hasOwnProperty("realisationDate")) {
-      req.body.realisation_date = req.body.realisationDate;
-      delete req.body.realisationDate;
-    }
+    req.body = snakeToCamelCase(req.body);
 
-    const updatedTask = await Task.query().patchAndFetchById(id, req.body);
+    const updatedTask = await Task.query()
+      .withGraphJoined("tags")
+      .patchAndFetchById(id, req.body);
+
+    Object.assign(updatedTask, { tags: existentTask[0].tags });
 
     return res.status(200).json({
       message: successMessages.taskUpdateSuccess,

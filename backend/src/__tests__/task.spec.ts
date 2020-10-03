@@ -14,7 +14,7 @@ describe("Tasks", () => {
   afterAll(() => connection.migrate.rollback());
   describe("POST /task", () => {
     it("Should returns an error if the title is missing", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           description: "task description",
           realisationDate: "2020-09-20",
@@ -22,12 +22,12 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.titleRequired);
+      expect(status).toBe(400);
+      expect(body.message).toEqual(errorMessages.titleRequired);
     });
 
     it("Should returns an error if the description is missing", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           realisationDate: "2020-09-20",
@@ -35,12 +35,12 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.descriptionRequired);
+      expect(status).toBe(400);
+      expect(body.message).toEqual(errorMessages.descriptionRequired);
     });
 
     it("Should returns an error if the realisationDate is missing", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           description: "task description",
@@ -48,14 +48,14 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(400);
+      expect(body.message).toEqual(
         errorMessages.realisationDateRequired,
       );
     });
 
     it("Should returns an error if the userId is missing", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           description: "task description",
@@ -63,14 +63,14 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(400);
+      expect(body.message).toEqual(
         errorMessages.userIdRequired,
       );
     });
 
     it("Should returns an error if the tagId is missing", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           description: "task description",
@@ -78,14 +78,14 @@ describe("Tasks", () => {
           userId: 1,
         });
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(400);
+      expect(body.message).toEqual(
         errorMessages.tagIdRequired,
       );
     });
 
     it("Should returns an error if the userId does not exist", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           description: "task description",
@@ -94,14 +94,14 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(404);
+      expect(body.message).toEqual(
         errorMessages.invalidUserId,
       );
     });
 
     it("Should returns an error if the tagId does not exist", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           description: "task description",
@@ -110,14 +110,14 @@ describe("Tasks", () => {
           tagId: 1234,
         });
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(404);
+      expect(body.message).toEqual(
         errorMessages.invalidTagId,
       );
     });
 
     it("Should create successfully the task", async () => {
-      const response = await request(app).post("/tasks/add")
+      const { status, body } = await request(app).post("/tasks/add")
         .send({
           title: "task title",
           description: "task description",
@@ -126,75 +126,100 @@ describe("Tasks", () => {
           tagId: 1,
         });
 
-      expect(response.status).toBe(200);
-      expect(response.body.message).toEqual(
+      const { data } = body;
+
+      expect(status).toBe(200);
+      expect(body.message).toEqual(
         successMessages.taskCreationSuccess,
       );
-      expect(response.body.data).toHaveProperty("title");
-      expect(response.body.data).toHaveProperty("realisationDate");
-      expect(response.body.data).toHaveProperty("description");
-      expect(response.body.data).toHaveProperty("id");
+      expect(data).toHaveProperty("title");
+      expect(data).toHaveProperty("realisationDate");
+      expect(data).toHaveProperty("description");
+      expect(data).toHaveProperty("id");
+      expect(data).toHaveProperty("tags");
+      expect(data.tags[0]).toHaveProperty("id");
+      expect(data.tags[0]).toHaveProperty("name");
     });
   });
   describe("Get /tasks", () => {
     it("Should return an error if the userId is missing", async () => {
-      const response = await request(app).get("/tasks");
+      const { status, body } = await request(app).get("/tasks");
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.userIdRequired);
+      expect(status).toBe(400);
+      expect(body.message).toEqual(errorMessages.userIdRequired);
     });
     it("Should return an empty list if there is no tasks for the given user", async () => {
-      const response = await request(app).get(`/tasks?userId=11`);
+      const { status, body } = await request(app).get(`/tasks?userId=11`);
 
-      expect(response.status).toBe(200);
-      expect(response.body.data).toHaveLength(0);
+      expect(status).toBe(200);
+      expect(body.data).toHaveLength(0);
     });
 
     it("Should return the list tasks for the given user", async () => {
-      const response = await request(app).get(`/tasks?userId=10`);
+      const { status, body } = await request(app).get(`/tasks?userId=5`);
+      const { data } = body;
 
-      expect(response.status).toBe(200);
-      expect(response.body.data).toHaveLength(1);
-      expect(response.body.data[0]).toHaveProperty("title");
-      expect(response.body.data[0]).toHaveProperty("realisationDate");
-      expect(response.body.data[0]).toHaveProperty("description");
-      expect(response.body.data[0]).toHaveProperty("id");
+      expect(status).toBe(200);
+      expect(data).toHaveLength(1);
+      expect(data[0]).toHaveProperty("title");
+      expect(data[0]).toHaveProperty("realisationDate");
+      expect(data[0]).toHaveProperty("description");
+      expect(data[0]).toHaveProperty("id");
+      expect(data[0]).toHaveProperty("tags");
+      expect(data[0].tags[0]).toHaveProperty("id");
+      expect(data[0].tags[0]).toHaveProperty("name");
+    });
+
+    it("Should return the list tasks for the given user", async () => {
+      const { status, body } = await request(app).get(`/tasks?userId=10`);
+      const { data } = body;
+
+      expect(status).toBe(200);
+      expect(data).toHaveLength(1);
+      expect(data[0]).toHaveProperty("title");
+      expect(data[0]).toHaveProperty("realisationDate");
+      expect(data[0]).toHaveProperty("description");
+      expect(data[0]).toHaveProperty("id");
+      expect(data[0]).toHaveProperty("tags");
+      expect(data[0].tags).toHaveLength(0);
     });
 
     it("Should return an error if the user does not exist", async () => {
-      const response = await request(app).get(`/tasks?userId=100`);
+      const { status, body } = await request(app).get(`/tasks?userId=100`);
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.invalidUserId);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.invalidUserId);
     });
   });
 
   describe("Delete /tasks/:id", () => {
     it("Should return an error if the userId is missing", async () => {
-      const response = await request(app).delete("/tasks/100");
+      const { status, body } = await request(app).delete("/tasks/100");
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.userIdRequired);
+      expect(status).toBe(400);
+      expect(body.message).toEqual(errorMessages.userIdRequired);
     });
     it("Should return an error if the task id not valid", async () => {
-      const response = await request(app).delete(`/tasks/100?userId=11`);
+      const { status, body } = await request(app).delete(
+        `/tasks/100?userId=11`,
+      );
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.invalidTaskId);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.invalidTaskId);
     });
 
     it("Should return an error if the task does not belong to the given user", async () => {
-      const response = await request(app).delete(`/tasks/1?userId=5`);
+      const { status, body } = await request(app).delete(`/tasks/1?userId=5`);
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.taskNotBelongsToUser);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.taskNotBelongsToUser);
     });
 
     it("Should deletes successfully the task", async () => {
-      const response = await request(app).delete(`/tasks/1?userId=1`);
+      const { status, body } = await request(app).delete(`/tasks/1?userId=1`);
 
-      expect(response.status).toBe(200);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(200);
+      expect(body.message).toEqual(
         successMessages.taskDeletionSuccess,
       );
     });
@@ -202,80 +227,93 @@ describe("Tasks", () => {
 
   describe("Get /tasks/:id", () => {
     it("Should return an error if the userId is missing", async () => {
-      const response = await request(app).get(`/tasks/${100}`);
+      const { status, body } = await request(app).get(`/tasks/${100}`);
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(errorMessages.userIdRequired);
+      expect(status).toBe(400);
+      expect(body.message).toEqual(errorMessages.userIdRequired);
     });
     it("Should return an error if the task id not valid", async () => {
-      const response = await request(app).get(`/tasks/100?userId=11`);
+      const { status, body } = await request(app).get(
+        `/tasks/${100}?userId=${11}`,
+      );
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.invalidTaskId);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.invalidTaskId);
     });
 
     it("Should return an error if the task does not belong to the given user", async () => {
-      const response = await request(app).get(`/tasks/1?userId=5`);
+      const { status, body } = await request(app).get(`/tasks/1?userId=5`);
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.taskNotBelongsToUser);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.taskNotBelongsToUser);
     });
 
     it("Should return an error if the user does not exist", async () => {
-      const response = await request(app).get(`/tasks?userId=100`);
+      const { status, body } = await request(app).get(`/tasks?userId=100`);
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.invalidUserId);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.invalidUserId);
     });
 
     it("Should returns successfully the task", async () => {
-      const response = await request(app).get(`/tasks/1?userId=1`);
+      const { status, body } = await request(app).get(`/tasks/1?userId=1`);
+      const { data } = body;
 
-      expect(response.status).toBe(200);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(200);
+      expect(body.message).toEqual(
         successMessages.taskFetchSuccess,
       );
-      expect(response.body.data).toHaveProperty("title");
-      expect(response.body.data).toHaveProperty("realisationDate");
-      expect(response.body.data).toHaveProperty("description");
-      expect(response.body.data).toHaveProperty("id");
+      expect(data).toHaveProperty("title");
+      expect(data).toHaveProperty("realisationDate");
+      expect(data).toHaveProperty("description");
+      expect(data).toHaveProperty("id");
+      expect(data).toHaveProperty("tags");
+      expect(data.tags[0]).toHaveProperty("id");
+      expect(data.tags[0]).toHaveProperty("name");
     });
   });
 
   describe("Update /tasks/:id", () => {
     it("Should return an error if the task id not valid", async () => {
-      const response = await request(app).patch("/tasks/100").send(
-        { title: "updated title" },
-      );
+      const { status, body } = await request(app).patch(
+        `/tasks/${100}`,
+      )
+        .send(
+          { title: "updated title" },
+        );
 
-      expect(response.status).toBe(404);
-      expect(response.body.message).toEqual(errorMessages.invalidTaskId);
+      expect(status).toBe(404);
+      expect(body.message).toEqual(errorMessages.invalidTaskId);
     });
 
     it("Should return an error while updating the userId", async () => {
-      const response = await request(app).patch(`/tasks/1`).send(
+      const { status, body } = await request(app).patch(`/tasks/1`).send(
         { title: "updated title", userId: 2 },
       );
 
-      expect(response.status).toBe(400);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(400);
+      expect(body.message).toEqual(
         errorMessages.updateUserNotAllowed,
       );
     });
 
     it("Should update successfully the task", async () => {
-      const response = await request(app).patch("/tasks/1").send({
+      const { status, body } = await request(app).patch(`/tasks/${1}`).send({
         title: "updated Title",
       });
+      const { data } = body;
 
-      expect(response.status).toBe(200);
-      expect(response.body.message).toEqual(
+      expect(status).toBe(200);
+      expect(body.message).toEqual(
         successMessages.taskUpdateSuccess,
       );
-      expect(response.body.data).toHaveProperty("title");
-      expect(response.body.data).toHaveProperty("realisationDate");
-      expect(response.body.data).toHaveProperty("description");
-      expect(response.body.data).toHaveProperty("id");
+      expect(data).toHaveProperty("title");
+      expect(data).toHaveProperty("realisationDate");
+      expect(data).toHaveProperty("description");
+      expect(data).toHaveProperty("id");
+      expect(data).toHaveProperty("tags");
+      expect(data.tags[0]).toHaveProperty("id");
+      expect(data.tags[0]).toHaveProperty("name");
     });
   });
 });
