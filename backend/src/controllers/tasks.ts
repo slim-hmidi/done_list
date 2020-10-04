@@ -1,11 +1,15 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, query } from "express";
 import Task from "../models/Task";
 import Tag from "../models/Tag";
 import TaskTag from "../models/TaskTag";
 import User from "../models/User";
 import { ErrorHandler } from "../middlewares";
 import { errorMessages, successMessages } from "../constants/httpUtils";
-import { snakeToCamelCase } from "../utils/index";
+import {
+  snakeToCamelCase,
+  formatStringCase,
+  camelToSnakeCase,
+} from "../utils/index";
 
 export const addTask = async (
   req: Request,
@@ -49,7 +53,7 @@ export const addTask = async (
 
     return res.status(200).json({
       message: successMessages.taskCreationSuccess,
-      data: snakeToCamelCase(fetchedTask[0]),
+      data: formatStringCase(snakeToCamelCase, fetchedTask[0]),
     });
   } catch (error) {
     console.log(error);
@@ -63,7 +67,7 @@ export const getAllTasks = async (
   next: NextFunction,
 ) => {
   try {
-    const { userId } = req.query;
+    const { userId, title } = req.query;
 
     const existentUser = await User.query().findById(
       parseInt(userId as string, 10),
@@ -75,11 +79,13 @@ export const getAllTasks = async (
 
     const fetchedTasks = await Task
       .query()
+      .skipUndefined()
       .withGraphJoined("tags")
-      .where("user_id", userId as string);
+      .where("user_id", userId as string)
+      .where("title", title as string);
 
     let formattedTasks = fetchedTasks.length
-      ? fetchedTasks.map((task) => snakeToCamelCase(task))
+      ? fetchedTasks.map((task) => formatStringCase(snakeToCamelCase, task))
       : fetchedTasks;
 
     return res.status(200).json({
@@ -123,7 +129,7 @@ export const getOneTask = async (
     }
     return res.status(200).json({
       message: successMessages.taskFetchSuccess,
-      data: snakeToCamelCase(fetchedTask[0]),
+      data: formatStringCase(snakeToCamelCase, fetchedTask[0]),
     });
   } catch (error) {
     next(error);
@@ -190,7 +196,7 @@ export const updateOneTask = async (
       throw new ErrorHandler(400, errorMessages.updateUserNotAllowed);
     }
 
-    req.body = snakeToCamelCase(req.body);
+    req.body = formatStringCase(snakeToCamelCase, req.body);
 
     const updatedTask = await Task.query()
       .withGraphJoined("tags")
@@ -200,7 +206,7 @@ export const updateOneTask = async (
 
     return res.status(200).json({
       message: successMessages.taskUpdateSuccess,
-      data: snakeToCamelCase(updatedTask),
+      data: formatStringCase(snakeToCamelCase, updatedTask),
     });
   } catch (error) {
     next(error);

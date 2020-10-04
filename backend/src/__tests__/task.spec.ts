@@ -180,8 +180,6 @@ describe("Tasks", () => {
       expect(data[0]).toHaveProperty("realisationDate");
       expect(data[0]).toHaveProperty("description");
       expect(data[0]).toHaveProperty("id");
-      expect(data[0]).toHaveProperty("tags");
-      expect(data[0].tags).toHaveLength(0);
     });
 
     it("Should return an error if the user does not exist", async () => {
