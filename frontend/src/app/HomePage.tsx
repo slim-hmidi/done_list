@@ -6,6 +6,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Dialog from "../components/Dialog";
 import AddTaskForm from "../features/tasks/AddTaskForm";
 import TaskList from "../features/tasks/TaskList";
+import SearchField from "../features/tasks/SearchTask";
+
+interface TaskType {
+  title: string;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,15 +29,19 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const HomePage = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+
   const handleClick = () => {
-    setOpen(true);
+    setOpenDialog(true);
   };
+
   const handleClose = () => {
-    setOpen(false);
+    setOpenDialog(false);
   };
+
   return (
     <div>
+      <SearchField />
       <TaskList />
       <Tooltip title="New Task" aria-label="add">
         <Fab
@@ -46,7 +55,7 @@ const HomePage = () => {
       </Tooltip>
 
       <Dialog
-        open={open}
+        open={openDialog}
         title="Add new task"
         handleClose={handleClose}
       >

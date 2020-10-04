@@ -37,9 +37,9 @@ export const addTask = createAsyncThunk(
 
 export const getAllTasks = createAsyncThunk(
   "task/getAll",
-  async (userId: number, { dispatch, rejectWithValue }) => {
+  async (queryParams: string[], { dispatch, rejectWithValue }) => {
     try {
-      const response = await getAllTasksApi(userId);
+      const response = await getAllTasksApi(queryParams);
       return response;
     } catch (error) {
       let errorMessage = "Internal Server Error";

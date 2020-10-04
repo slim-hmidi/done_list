@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import TaskItem from "./TaskItem";
 import { AppState } from "../../app/rootReducer";
-import { getAllTasks } from "./taskSlice";
 import { Typography } from "@material-ui/core";
 import { ReturnedTask } from "../../api/tasks/index";
 import { formatDate } from "../../app/utils";
@@ -24,16 +23,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const TaskList = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const { tasks, userId, loading } = useSelector((state: AppState) => ({
+  const { tasks, loading } = useSelector((state: AppState) => ({
     tasks: state.task.tasks,
     userId: state.authentication.user.userId,
     loading: state.task.loading,
   }));
-  useEffect(() => {
-    dispatch(getAllTasks(userId));
-  }, [userId, dispatch]);
-
   if (!tasks.length) {
     if (loading === "pending") {
       return <CircularProgress />;

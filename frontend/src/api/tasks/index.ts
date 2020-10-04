@@ -41,9 +41,10 @@ export const addTaskApi = async (task: AddTask): Promise<PostTaskResponse> => {
 };
 
 export const getAllTasksApi = async (
-  userId: number,
+  queryParams: string[],
 ): Promise<GetTasksResponse> => {
   axios.defaults.headers.common["x-access-token"] = getToken();
-  const { data } = await axios.get(`${urls.getTasks}?userId=${userId}`);
+  const params = queryParams.join("&");
+  const { data } = await axios.get(`${urls.getTasks}?${params}`);
   return data;
 };
