@@ -1,24 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllTasks } from "./taskSlice";
 import { ReturnedTask } from "../../api/tasks/index";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { AppState } from "../../app/rootReducer";
+import { debounce } from "../../app/utils";
 
-interface TaskType {
-  title: string;
-}
 const SearchTask = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const debounceOnChange = useCallback(debounce(handleChange, 400), []);
   const { tasks, userId } = useSelector((state: AppState) => ({
     tasks: state.task.tasks,
     userId: state.authentication.user.userId,
   }));
 
-  // const loadingOptions = open && tasks.length === 0;
   const options = tasks.length
     ? tasks.map((task: ReturnedTask) => ({ title: task.title }))
     : [];
@@ -26,17 +23,17 @@ const SearchTask = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleChange = (
+  function handleChange(
     e: React.ChangeEvent<{}>,
     value: string,
-  ) => {
+  ) {
     const queryParams = [`userId=${userId}`];
-    console.log(value);
-    if (value) {
+    if (value.length) {
+      console.log(value);
       queryParams.push(`title=${value}`);
+      dispatch(getAllTasks(queryParams));
     }
-    dispatch(getAllTasks(queryParams));
-  };
+  }
 
   return (
     <Autocomplete
@@ -44,7 +41,8 @@ const SearchTask = () => {
       open={open}
       onOpen={handleOpen}
       onClose={handleClose}
-      onInputChange={handleChange}
+      onInputChange={(e: React.ChangeEvent<{}>, value: string) =>
+        debounceOnChange(e, value)}
       getOptionSelected={(option, value) => option.title === value.title}
       getOptionLabel={(option) => option.title}
       options={options}

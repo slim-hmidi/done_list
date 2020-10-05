@@ -9,16 +9,15 @@ export const isAuthenticated = () => {
 export const formatDate = (date: Date, dateFormat: string) =>
   format(date, dateFormat);
 
-export const debounce = <F extends ((...args: any[]) => any)>(
-  func: F,
-  waitFor: number,
-) => {
-  let timeout: number = 0;
-
-  const debounced = (...args: any[]) => {
-    clearTimeout(timeout);
-    setTimeout(() => func(...args), waitFor);
+export const debounce = (
+  func: (...args: any[]) => any,
+  timeout: number,
+): (...args: any[]) => void => {
+  let timer: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, timeout);
   };
-
-  return debounced as (...args: Parameters<F>[]) => ReturnType<F>;
 };
