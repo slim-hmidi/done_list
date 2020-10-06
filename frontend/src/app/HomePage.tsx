@@ -15,9 +15,7 @@ interface TaskType {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      height: 380,
-      transform: "translateZ(0px)",
-      flexGrow: 1,
+      margin: "0 auto",
     },
     fab: {
       position: "fixed",
@@ -40,7 +38,7 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <SearchField />
       <TaskList />
       <Tooltip title="New Task" aria-label="add">
