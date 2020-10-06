@@ -8,15 +8,8 @@ import AddTaskForm from "../features/tasks/AddTaskForm";
 import TaskList from "../features/tasks/TaskList";
 import SearchField from "../features/tasks/SearchTask";
 
-interface TaskType {
-  title: string;
-}
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      margin: "0 auto",
-    },
     fab: {
       position: "fixed",
       bottom: theme.spacing(2),
@@ -38,7 +31,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div>
       <SearchField />
       <TaskList />
       <Tooltip title="New Task" aria-label="add">

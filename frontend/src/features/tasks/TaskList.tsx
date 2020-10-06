@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       overflow: "auto",
     },
+    typography: {
+      margin: 50,
+    },
   })
 );
 
@@ -32,7 +35,13 @@ const TaskList = () => {
     if (loading === "pending") {
       return <CircularProgress />;
     }
-    return (<Typography>No Task Found</Typography>);
+    return (<Typography
+      variant="h6"
+      align="center"
+      className={classes.typography}
+    >
+      No Task Found
+    </Typography>);
   }
 
   return (
