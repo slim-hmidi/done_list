@@ -10,6 +10,7 @@ const SignIn = () => {
   const { open, message, severity } = useSelector((state: AppState) =>
     state.alert
   );
+
   const handleClose = () => {
     dispatch(closeAlert());
   };

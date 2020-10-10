@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     autocomplete: {
       margin: "0 auto",
-      width: 300,
+      width: '50%',
     },
   })
 );
@@ -48,7 +48,6 @@ const SearchTask = () => {
 
   return (
     <Autocomplete
-      //style={{ width: 300, margin="0 auto" }}
       className={classes.autocomplete}
       open={open}
       onOpen={handleOpen}
@@ -58,6 +57,7 @@ const SearchTask = () => {
       getOptionSelected={(option, value) => option.title === value.title}
       getOptionLabel={(option) => option.title}
       options={options}
+      fullWidth
       renderInput={(params) => (
         <TextField
           {...params}

@@ -10,6 +10,9 @@ import SearchField from "../features/tasks/SearchTask";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    root: {
+      marginTop: theme.spacing(4),
+    },
     fab: {
       position: "fixed",
       bottom: theme.spacing(2),
@@ -31,7 +34,7 @@ const HomePage = () => {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <SearchField />
       <TaskList />
       <Tooltip title="New Task" aria-label="add">

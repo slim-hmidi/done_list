@@ -26,8 +26,8 @@ interface User {
 interface InitialState {
   error: string;
   successMessage: string;
-  loading: string;
   user: User;
+  loading: string;
 }
 
 interface UserPayload {
@@ -49,7 +49,6 @@ export const signIn = createAsyncThunk(
   async (user: AuthenticatedUser, { dispatch, rejectWithValue }) => {
     try {
       const response = await signInApi(user);
-      dispatch(openAlert({ message: response.message, severity: "success" }));
       history.push("/");
       return handleUserResponse(response);
     } catch (error) {
@@ -68,7 +67,6 @@ export const signUp = createAsyncThunk(
   async (user: NewUser, { dispatch, rejectWithValue }) => {
     try {
       const response = await signUpApi(user);
-      dispatch(openAlert({ message: response.message, severity: "success" }));
       history.push("/");
       return handleUserResponse(response);
     } catch (error) {
@@ -87,18 +85,32 @@ const initialState: InitialState = {
   error: "",
   successMessage: "",
   loading: "idle",
-  user: {} as User,
+  user: {
+    username: "",
+    userId: -1,
+  },
 };
 
 const authenticationSlice = createSlice({
   name: "authentication",
   initialState,
-  reducers: {},
+  reducers: {
+    signOut: (state) => {
+      state.user = {
+        username: "",
+        userId: -1,
+      };
+      state.successMessage = "";
+      state.error = "";
+      window.localStorage.removeItem(process.env.REACT_APP_TOKEN as string);
+      history.push("/signIn");
+    },
+  },
   extraReducers: {
     [`${signIn.pending}`]: (
-      state,
+      state
     ) => {
-      state.loading = "pending";
+      state.loading="pending";
     },
     [`${signIn.fulfilled}`]: (
       state,
@@ -110,7 +122,7 @@ const authenticationSlice = createSlice({
         userId,
       };
       state.successMessage = message;
-      state.loading = "resolved";
+      state.loading="resolved";
     },
     [`${signIn.rejected}`]: (
       state,
@@ -121,13 +133,12 @@ const authenticationSlice = createSlice({
       } else {
         state.error = action.error;
       }
-
-      state.loading = "failed";
+      state.loading="failed";
     },
     [`${signUp.pending}`]: (
-      state,
+      state
     ) => {
-      state.loading = "pending";
+      state.loading="pending";
     },
     [`${signUp.fulfilled}`]: (
       state,
@@ -139,7 +150,7 @@ const authenticationSlice = createSlice({
         userId,
       };
       state.successMessage = message;
-      state.loading = "resolved";
+      state.loading="resolved";
     },
     [`${signUp.rejected}`]: (
       state,
@@ -150,10 +161,11 @@ const authenticationSlice = createSlice({
       } else {
         state.error = action.error;
       }
-
-      state.loading = "failed";
+      state.loading="resolved";
     },
   },
 });
 
 export default authenticationSlice.reducer;
+
+export const { signOut } = authenticationSlice.actions;
