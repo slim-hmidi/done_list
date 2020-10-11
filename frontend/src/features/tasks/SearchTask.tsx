@@ -12,7 +12,7 @@ const useStyles = makeStyles(() =>
   createStyles({
     autocomplete: {
       margin: '0 auto',
-      width: '51%',
+      width: '50%',
     },
   }),
 );
