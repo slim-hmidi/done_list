@@ -48,12 +48,9 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run lint-fix",
+      "pre-push": "npm format"
     }
-  },
-  "lint-staged": {
-    "*.{ts, tsx}": "eslint  --fix",
-    "*.{ts, tsx, css, md, mdx, html}": "prettier --write"
   },
   "browserslist": {
     "production": [
@@ -80,7 +77,6 @@
     "eslint-plugin-react-hooks": "4.1.2",
     "husky": "^4.3.0",
     "jest": "26.5.2",
-    "lint-staged": "^10.4.0",
     "prettier": "2.1.2"
   }
 }
