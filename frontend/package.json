@@ -48,12 +48,19 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run lint-fix",
+      "pre-push": "npm run format"
     }
   },
   "lint-staged": {
-    "*.{ts, tsx}": "eslint --cache --fix",
-    "*.{ts, tsx, css, md, mdx, html}": "prettier --write"
+    "src/**/*.{ts, tsx}": [
+      "eslint  --fix",
+      "git add"
+    ],
+    "src/**/*.{ts, tsx, css, md, mdx, html}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "browserslist": {
     "production": [
