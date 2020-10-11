@@ -15,7 +15,6 @@ import {MaterialUiPickersDate} from '@material-ui/pickers/typings/date';
 const useStyles = makeStyles(() =>
   createStyles({
     container: {
-      // margin: "0 auto",
       marginRight: 25,
       marginLeft: 25,
     },
