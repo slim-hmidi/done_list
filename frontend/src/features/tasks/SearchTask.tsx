@@ -11,8 +11,8 @@ import {debounce} from '../../app/utils';
 const useStyles = makeStyles(() =>
   createStyles({
     autocomplete: {
-      margin: '0 auto',
-      width: '52%'
+      margin: '0 auto'
+      width: '52%',
     },
   }),
 );
