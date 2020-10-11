@@ -52,15 +52,8 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts, tsx}": [
-      "eslint  --fix",
-      "git add"
-    ],
-    "src/**/*.{ts, tsx, css, md, mdx, html}": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.js": "eslint --cache --fix"
+    "*.{ts, tsx}": "eslint  --fix",
+    "*.{ts, tsx, css, md, mdx, html}": "prettier --write"
   },
   "browserslist": {
     "production": [
