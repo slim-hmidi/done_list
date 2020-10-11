@@ -1,11 +1,11 @@
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import clsx from "clsx";
-import React, { useState } from "react";
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import clsx from 'clsx';
+import React, {useState} from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,31 +15,23 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       flexBasis: 200,
     },
-  })
+  }),
 );
 
 interface IProps {
-  onBlur: (arg: any) => void;
-  onChange: (arg: any) => void;
+  onChange: (arg: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (arg: React.FocusEvent<HTMLInputElement>) => void;
   value: string;
   fullWidth: boolean;
   touched?: boolean;
   error?: string;
   required: boolean;
 }
-const PasswordWrapper = (props: IProps) => {
+const PasswordWrapper = (props: IProps): JSX.Element => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
 
-  const {
-    fullWidth,
-    value,
-    onChange,
-    onBlur,
-    touched,
-    error,
-    required,
-  } = props;
+  const {fullWidth, value, onChange, onBlur, touched, error, required} = props;
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -55,13 +47,13 @@ const PasswordWrapper = (props: IProps) => {
     <TextField
       className={clsx(classes.margin, classes.textField)}
       variant="outlined"
-      type={showPassword ? "text" : "password"}
+      type={showPassword ? 'text' : 'password'}
       label="Password"
       value={value}
       onChange={onChange}
       onBlur={onBlur}
       error={!!(touched && error)}
-      helperText={touched && error ? error : ""}
+      helperText={touched && error ? error : ''}
       fullWidth={fullWidth}
       required={required}
       InputProps={{

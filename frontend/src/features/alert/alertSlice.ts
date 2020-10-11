@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SnackBarSeverity } from "../../components/SnackBar";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {SnackBarSeverity} from '../../components/SnackBar';
 
 interface InitialState {
   open: boolean;
@@ -14,16 +14,16 @@ interface AlertPayload {
 const initialState: InitialState = {
   open: false,
   severity: undefined,
-  message: "",
+  message: '',
 };
 
 const alertSlice = createSlice({
-  name: "alert",
+  name: 'alert',
   initialState,
   reducers: {
     openAlert: (
       state,
-      { payload: {message, severity} }: PayloadAction<AlertPayload>,
+      {payload: {message, severity}}: PayloadAction<AlertPayload>,
     ) => {
       state.open = true;
       state.message = message;
@@ -32,11 +32,11 @@ const alertSlice = createSlice({
     closeAlert: (state) => {
       state.open = false;
     },
-    resetAlert: (state) => {
-      state = initialState;
+    resetAlert: () => {
+      return initialState;
     },
   },
 });
 
-export const { openAlert, closeAlert, resetAlert } = alertSlice.actions;
+export const {openAlert, closeAlert, resetAlert} = alertSlice.actions;
 export default alertSlice.reducer;

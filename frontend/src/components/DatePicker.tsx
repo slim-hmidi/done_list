@@ -1,15 +1,16 @@
-import "date-fns";
-import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import DateFnsUtils from "@date-io/date-fns";
+import 'date-fns';
+import React from 'react';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from "@material-ui/pickers";
+} from '@material-ui/pickers';
+import {MaterialUiPickersDate} from '@material-ui/pickers/typings/date';
 
 interface Props {
-  value: Date;
-  onChange: (arg: any) => void;
+  value: MaterialUiPickersDate;
+  onChange: (arg: MaterialUiPickersDate) => void;
   format: string;
   label: string;
 }
@@ -20,12 +21,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
     },
-  })
+  }),
 );
 
-const DatePicker = (props: Props) => {
+const DatePicker = (props: Props): JSX.Element => {
   const classes = useStyles();
-  const { label, format, value, onChange } = props;
+  const {label, format, value, onChange} = props;
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -41,7 +42,7 @@ const DatePicker = (props: Props) => {
         inputVariant="outlined"
         onChange={onChange}
         KeyboardButtonProps={{
-          "aria-label": "change date",
+          'aria-label': 'change date',
         }}
         fullWidth
       />

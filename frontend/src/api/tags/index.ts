@@ -1,5 +1,5 @@
-import axios from "axios";
-import urls from "../constants";
+import axios from 'axios';
+import urls from '../constants';
 
 export interface Tag {
   id: number;
@@ -11,8 +11,8 @@ export interface TagResponse {
 }
 
 const getAllTagsApi = async (): Promise<TagResponse> => {
-  const { data } = await axios.get(urls.getTags);
+  const {data} = await axios.get(urls.getTags);
   return data;
 };
 
-export { getAllTagsApi };
+export {getAllTagsApi};

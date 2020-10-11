@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import SignInForm from "./SignInForm";
-import SnackBar from "../../../components/SnackBar";
-import { AppState } from "../../../app/rootReducer";
-import { closeAlert, resetAlert } from "../../alert/alertSlice";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import SignInForm from './SignInForm';
+import SnackBar from '../../../components/SnackBar';
+import {AppState} from '../../../app/rootReducer';
+import {closeAlert, resetAlert} from '../../alert/alertSlice';
 
-const SignIn = () => {
+const SignIn = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { open, message, severity } = useSelector((state: AppState) =>
-    state.alert
+  const {open, message, severity} = useSelector(
+    (state: AppState) => state.alert,
   );
 
   const handleClose = () => {
@@ -27,8 +27,8 @@ const SignIn = () => {
         severity={severity}
         textMessage={message}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       />
       <SignInForm />

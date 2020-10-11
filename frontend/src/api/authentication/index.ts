@@ -1,5 +1,5 @@
-import axios from "axios";
-import urls from "../constants";
+import axios from 'axios';
+import urls from '../constants';
 
 export interface AuthenticatedUser {
   username: string;
@@ -26,20 +26,15 @@ export interface NewUser {
 const signInApi = async (
   user: AuthenticatedUser,
 ): Promise<AuthenticationResponse> => {
-  const { data } = await axios.post(urls.signIn, user);
+  const {data} = await axios.post(urls.signIn, user);
 
   return data;
 };
 
-const signUpApi = async (
-  user: NewUser,
-): Promise<AuthenticationResponse> => {
-  const { data } = await axios.post(urls.signUp, user);
+const signUpApi = async (user: NewUser): Promise<AuthenticationResponse> => {
+  const {data} = await axios.post(urls.signUp, user);
 
   return data;
 };
 
-export {
-  signInApi,
-  signUpApi,
-};
+export {signInApi, signUpApi};

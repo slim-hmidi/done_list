@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import DatePicker from "../../components/DatePicker";
-import TextField from "../../components/TextField";
-import { addTask } from "./taskSlice";
-import { getTags } from "../tags/tagSlice";
-import { AppState } from "../../app/rootReducer";
-import SelectField from "../../components/SelectField";
-import { formatDate } from "../../app/utils";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import {createStyles, makeStyles} from '@material-ui/core/styles';
+import DatePicker from '../../components/DatePicker';
+import TextField from '../../components/TextField';
+import {addTask} from './taskSlice';
+import {getTags} from '../tags/tagSlice';
+import {AppState} from '../../app/rootReducer';
+import SelectField from '../../components/SelectField';
+import {formatDate} from '../../app/utils';
+import {MaterialUiPickersDate} from '@material-ui/pickers/typings/date';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     container: {
-      //margin: "0 auto",
+      // margin: "0 auto",
       marginRight: 25,
       marginLeft: 25,
     },
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: 16,
     },
-  })
+  }),
 );
 
 interface TouchedState {
@@ -48,17 +49,16 @@ interface FormState {
   realisationDate: Date;
 }
 
-const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
+const AddTaskForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const { userId, tags } = useSelector((state: AppState) => ({
+  const {userId, tags} = useSelector((state: AppState) => ({
     userId: state.authentication.user.userId,
     tags: state.tag.tags,
   }));
-  console.log(userId);
   const [state, setFormState] = useState<FormState>({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     realisationDate: new Date(),
     tagId: 0,
   });
@@ -69,62 +69,61 @@ const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
     realisationDate: false,
   });
   const [error, setError] = useState<ErrorState>({
-    title: "",
-    description: "",
-    tagId: "",
-    realisationDate: "",
+    title: '',
+    description: '',
+    tagId: '',
+    realisationDate: '',
   });
 
   useEffect(() => {
     dispatch(getTags());
   }, [dispatch]);
-  const handleChange = (name: string) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value.trim();
-      setFormState((state) => {
-        return { ...state, [name]: value };
+  const handleChange = (name: string) => (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = e.target.value.trim();
+    setFormState((formState: FormState) => {
+      return {...formState, [name]: value};
+    });
+  };
+  const handleBlur = (name: string) => (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const {value} = e.target;
+    setTouched((formState: TouchedState) => {
+      return {...formState, [name]: true};
+    });
+    if (!value.trim()) {
+      setError((formState: ErrorState) => {
+        return {...formState, [name]: `${name} required`};
       });
-    };
-  const handleBlur = (name: string) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      setTouched((state) => {
-        return { ...state, [name]: true };
+    } else {
+      setError((formState: ErrorState) => {
+        return {...formState, [name]: ''};
       });
-      if (!value.trim()) {
-        setError((state) => {
-          return { ...state, [name]: `${name} required` };
-        });
-      } else {
-        setError((state) => {
-          return { ...state, [name]: "" };
-        });
-      }
-    };
+    }
+  };
 
-  const handleDateChange = (date: Date) => {
-    setFormState((state) => {
-      return { ...state, birthday: date };
+  const handleDateChange = (date: MaterialUiPickersDate) => {
+    setFormState((formState: FormState) => {
+      return {...formState, birthday: date};
     });
   };
 
-  const handleTagChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setFormState((state) => ({
-      ...state,
+  const handleTagChange = (event: React.ChangeEvent<{value: unknown}>) => {
+    setFormState((formState: FormState) => ({
+      ...formState,
       tagId: event.target.value as number,
     }));
   };
 
-  handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = Object.assign(
-      {},
-      state,
-      {
-        realisationDate: formatDate(state.realisationDate, "yyyy-MM-dd"),
-        userId,
-      },
-    );
+    const data = {
+      ...state,
+      realisationDate: formatDate(state.realisationDate, 'yyyy-MM-dd'),
+      userId,
+    };
     dispatch(addTask(data));
   };
 
@@ -139,10 +138,10 @@ const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
               fullWidth
               type="text"
               value={state.title}
-              onChange={handleChange("title")}
+              onChange={handleChange('title')}
               touched={touched.title}
               error={error.title}
-              onBlur={handleBlur("title")}
+              onBlur={handleBlur('title')}
             />
           </Grid>
           <Grid item md={12}>
@@ -154,10 +153,10 @@ const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
               multiline
               rows={4}
               value={state.description}
-              onChange={handleChange("description")}
+              onChange={handleChange('description')}
               touched={touched.description}
               error={error.description}
-              onBlur={handleBlur("description")}
+              onBlur={handleBlur('description')}
             />
           </Grid>
           <Grid item md={12}>
@@ -178,12 +177,7 @@ const AddTaskForm = ({ pristine, submitting, handleSubmit }: any) => {
           </Grid>
 
           <Grid item className={classes.item}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={pristine || submitting}
-            >
+            <Button variant="contained" color="primary" type="submit">
               Add Task
             </Button>
           </Grid>

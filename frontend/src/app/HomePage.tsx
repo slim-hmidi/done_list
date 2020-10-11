@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
-import Tooltip from "@material-ui/core/Tooltip";
-import Dialog from "../components/Dialog";
-import AddTaskForm from "../features/tasks/AddTaskForm";
-import TaskList from "../features/tasks/TaskList";
-import SearchField from "../features/tasks/SearchTask";
+import React, {useState} from 'react';
+import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
+import Dialog from '../components/Dialog';
+import AddTaskForm from '../features/tasks/AddTaskForm';
+import TaskList from '../features/tasks/TaskList';
+import SearchField from '../features/tasks/SearchTask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,14 +14,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(4),
     },
     fab: {
-      position: "fixed",
+      position: 'fixed',
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
-  })
+  }),
 );
 
-const HomePage = () => {
+const HomePage = (): JSX.Element => {
   const classes = useStyles();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -48,11 +48,7 @@ const HomePage = () => {
         </Fab>
       </Tooltip>
 
-      <Dialog
-        open={openDialog}
-        title="Add new task"
-        handleClose={handleClose}
-      >
+      <Dialog open={openDialog} title="Add new task" handleClose={handleClose}>
         <AddTaskForm />
       </Dialog>
     </div>

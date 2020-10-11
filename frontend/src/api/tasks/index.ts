@@ -1,6 +1,6 @@
-import axios from "axios";
-import urls from "../constants";
-import { getToken } from "../utils";
+import axios from 'axios';
+import urls from '../constants';
+import {getToken} from '../utils';
 
 export interface Task {
   title: string;
@@ -14,10 +14,12 @@ export interface ReturnedTask {
   title: string;
   description: string;
   realisationDate: string;
-  tags: [{
-    id: number;
-    name: string;
-  }];
+  tags: [
+    {
+      id: number;
+      name: string;
+    },
+  ];
 }
 
 export interface AddTask extends Task {
@@ -35,16 +37,16 @@ export interface GetTasksResponse {
 }
 
 export const addTaskApi = async (task: AddTask): Promise<PostTaskResponse> => {
-  axios.defaults.headers.common["x-access-token"] = getToken();
-  const { data } = await axios.post(urls.addTask, task);
+  axios.defaults.headers.common['x-access-token'] = getToken();
+  const {data} = await axios.post(urls.addTask, task);
   return data;
 };
 
 export const getAllTasksApi = async (
   queryParams: string[],
 ): Promise<GetTasksResponse> => {
-  axios.defaults.headers.common["x-access-token"] = getToken();
-  const params = queryParams.join("&");
-  const { data } = await axios.get(`${urls.getTasks}?${params}`);
+  axios.defaults.headers.common['x-access-token'] = getToken();
+  const params = queryParams.join('&');
+  const {data} = await axios.get(`${urls.getTasks}?${params}`);
   return data;
 };

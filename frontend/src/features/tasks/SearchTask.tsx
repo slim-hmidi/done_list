@@ -1,46 +1,42 @@
-import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { getAllTasks } from "./taskSlice";
-import { ReturnedTask } from "../../api/tasks/index";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { AppState } from "../../app/rootReducer";
-import { debounce } from "../../app/utils";
+import React, {useCallback} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {makeStyles, createStyles} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import {getAllTasks} from './taskSlice';
+import {ReturnedTask} from '../../api/tasks/index';
+import {AppState} from '../../app/rootReducer';
+import {debounce} from '../../app/utils';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     autocomplete: {
-      margin: "0 auto",
+      margin: '0 auto',
       width: '50%',
     },
-  })
+  }),
 );
 
-const SearchTask = () => {
+const SearchTask = (): JSX.Element => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const debounceOnChange = useCallback(debounce(handleChange, 400), []);
-  const { tasks, userId } = useSelector((state: AppState) => ({
+  const {tasks, userId} = useSelector((state: AppState) => ({
     tasks: state.task.tasks,
     userId: state.authentication.user.userId,
   }));
 
   const options = tasks.length
-    ? tasks.map((task: ReturnedTask) => ({ title: task.title }))
+    ? tasks.map((task: ReturnedTask) => ({title: task.title}))
     : [];
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  function handleChange(
-    e: React.ChangeEvent<{}>,
-    value: string,
-  ) {
+  function handleChange(e: React.ChangeEvent<unknown>, value: string) {
     const queryParams = [`userId=${userId}`];
     if (value.length) {
-      console.log(value);
       queryParams.push(`title=${value}`);
       dispatch(getAllTasks(queryParams));
     }
@@ -52,18 +48,19 @@ const SearchTask = () => {
       open={open}
       onOpen={handleOpen}
       onClose={handleClose}
-      onInputChange={(e: React.ChangeEvent<{}>, value: string) =>
-        debounceOnChange(e, value)}
+      onInputChange={(e: React.ChangeEvent<unknown>, value: string) =>
+        debounceOnChange(e, value)
+      }
       getOptionSelected={(option, value) => option.title === value.title}
       getOptionLabel={(option) => option.title}
       options={options}
       fullWidth
       renderInput={(params) => (
         <TextField
-          {...params}
+          // {...params}
           label="Search Tasks"
           variant="outlined"
-          InputProps={{ ...params.InputProps, type: "search" }}
+          InputProps={{...params.InputProps, type: 'search'}}
         />
       )}
     />

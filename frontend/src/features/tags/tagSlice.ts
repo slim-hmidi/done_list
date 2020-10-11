@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { getAllTagsApi, Tag } from "../../api/tags";
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
+import {getAllTagsApi, Tag} from '../../api/tags';
 
 interface InitialState {
   tags: Tag[];
@@ -7,13 +7,13 @@ interface InitialState {
 }
 
 export const getTags = createAsyncThunk(
-  "tags/getAll",
-  async (params, { rejectWithValue }) => {
+  'tags/getAll',
+  async (params, {rejectWithValue}) => {
     try {
       const response = await getAllTagsApi();
       return response.data;
     } catch (error) {
-      let errorMessage = "Internal Server Error";
+      let errorMessage = 'Internal Server Error';
       if (error.response) {
         errorMessage = error.response.data.message;
       }
@@ -22,13 +22,13 @@ export const getTags = createAsyncThunk(
   },
 );
 
-const initialState = {
+const initialState: InitialState = {
   tags: [] as Tag[],
-  error: "",
+  error: '',
 };
 
 const tagSlice = createSlice({
-  name: "tag",
+  name: 'tag',
   initialState,
   reducers: {},
   extraReducers: {
@@ -37,7 +37,7 @@ const tagSlice = createSlice({
     },
     [`${getTags.rejected}`]: (
       state,
-      action: PayloadAction<string, any, any, string>,
+      action: PayloadAction<string, string, unknown, string>,
     ) => {
       if (action.payload) {
         state.error = action.payload;

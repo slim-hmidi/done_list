@@ -1,6 +1,6 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import React from "react";
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -8,13 +8,13 @@ const useStyles = makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
     },
-  })
+  }),
 );
 
 interface Props {
   label: string;
-  onChange: (arg: any) => void;
-  onBlur: (arg: any) => void;
+  onChange: (arg: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (arg: React.FocusEvent<HTMLInputElement>) => void;
   value: string;
   type: string;
   fullWidth: boolean;
@@ -25,7 +25,7 @@ interface Props {
   rows?: number;
 }
 
-function SimpleTextField(props: Props) {
+const SimpleTextField = (props: Props): JSX.Element => {
   const classes = useStyles();
 
   const {
@@ -56,9 +56,9 @@ function SimpleTextField(props: Props) {
       fullWidth={fullWidth}
       multiline={multiline}
       rows={rows}
-      helperText={touched && error ? error : ""}
+      helperText={touched && error ? error : ''}
     />
   );
-}
+};
 
 export default SimpleTextField;
