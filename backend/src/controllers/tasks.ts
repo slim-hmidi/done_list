@@ -1,16 +1,11 @@
-import {
-  Request, Response, NextFunction,
-} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Task from '../models/Task';
 import Tag from '../models/Tag';
 import TaskTag from '../models/TaskTag';
 import User from '../models/User';
 import { ErrorHandler } from '../middlewares';
 import { errorMessages, successMessages } from '../constants/httpUtils';
-import {
-  snakeToCamelCase,
-  formatStringCase,
-} from '../utils/index';
+import { snakeToCamelCase, formatStringCase } from '../utils/index';
 
 export const addTask = async (
   req: Request,

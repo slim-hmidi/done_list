@@ -2,11 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { successMessages } from '../constants/httpUtils';
 import Tag from '../models/Tag';
 
-const getAllTags = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+const getAllTags = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const fetchedTags = await Tag.query();
 

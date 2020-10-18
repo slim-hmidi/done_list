@@ -8,14 +8,16 @@ export const formatStringCase = (
   // eslint-disable-next-line no-unused-vars
   fn: (arg: any) => string | object,
   arg: any,
-// eslint-disable-next-line consistent-return
+  // eslint-disable-next-line consistent-return
 ) => {
   if (arg.constructor === String) {
     return fn(arg);
   }
 
   if (
-    arg.constructor === Object || Array.isArray(arg) || arg instanceof Model
+    arg.constructor === Object
+    || Array.isArray(arg)
+    || arg instanceof Model
   ) {
     const result = {};
     for (const key in arg) {
@@ -23,18 +25,16 @@ export const formatStringCase = (
       switch (arg[key].constructor) {
         case Array:
           for (const k of arg[key]) {
-            Object.assign(
-              result,
-              { [formattedCase]: [].concat(formatStringCase(fn, k) as any) },
-            );
+            Object.assign(result, {
+              [formattedCase]: [].concat(formatStringCase(fn, k) as any),
+            });
           }
 
           break;
         case Object:
-          Object.assign(
-            result,
-            { [formattedCase]: formatStringCase(fn, arg[key]) },
-          );
+          Object.assign(result, {
+            [formattedCase]: formatStringCase(fn, arg[key]),
+          });
           break;
         default:
           Object.assign(result, { [formattedCase]: arg[key] });
@@ -48,10 +48,12 @@ export const snakeToCamelCase = (input: string) => {
   if (input.indexOf('_') === -1) return input;
   const strElements = input.split('_');
   const first = strElements[0];
-  return strElements.slice(1).reduce(
-    (acc, current) => acc.concat(current.charAt(0).toUpperCase() + current.slice(1)),
-    first,
-  );
+  return strElements
+    .slice(1)
+    .reduce(
+      (acc, current) => acc.concat(current.charAt(0).toUpperCase() + current.slice(1)),
+      first,
+    );
 };
 
 export const camelToSnakeCase = (input: string) => input.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
@@ -60,11 +62,16 @@ export const sign = (payload: TokenPayload) => {
   const secret = process.env.JWT_SECRET as jwt.Secret;
   const expiresIn = process.env.JWT_TOKEN_EXPIRY as string;
   return new Promise((resolve, reject) => {
-    jwt.sign(payload, secret, {
-      expiresIn,
-    }, (error, token) => {
-      if (error) return reject(error);
-      return resolve(token);
-    });
+    jwt.sign(
+      payload,
+      secret,
+      {
+        expiresIn,
+      },
+      (error, token) => {
+        if (error) return reject(error);
+        return resolve(token);
+      },
+    );
   });
 };

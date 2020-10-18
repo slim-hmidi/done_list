@@ -65,11 +65,14 @@ export const schemaUpdateValidator = (shape: any, props: string[]) => async (
     if (!existantProps.length) {
       throw new ErrorHandler(400, 'Update body should not be null');
     }
-    const filtredSchema = Object.keys(existantProps).reduce((acc: any, curr) => {
-      const result = acc;
-      result[curr] = shape[curr];
-      return result;
-    }, {});
+    const filtredSchema = Object.keys(existantProps).reduce(
+      (acc: any, curr) => {
+        const result = acc;
+        result[curr] = shape[curr];
+        return result;
+      },
+      {},
+    );
     const schema = yup.object().shape(filtredSchema);
     await schema.validate(req.body);
     return next();
