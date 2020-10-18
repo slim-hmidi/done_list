@@ -1,17 +1,18 @@
-import * as Knex from "knex";
-import { tableNames } from "../constants/tableNames";
+import * as Knex from 'knex';
+import tableNames from '../constants/tableNames';
 
 export async function up(knex: Knex): Promise<void> {
+  // eslint-disable-next-line consistent-return
   return knex.schema.hasTable(tableNames.user).then((exists) => {
     if (!exists) {
       return knex.schema.createTable(tableNames.user, (table) => {
-        table.increments("id").primary();
-        table.string("first_name", 255).notNullable();
-        table.string("last_name", 255).notNullable();
-        table.string("username", 50).notNullable().unique();
-        table.string("password", 255).notNullable();
-        table.string("email").notNullable().unique();
-        table.date("birthday");
+        table.increments('id').primary();
+        table.string('first_name', 255).notNullable();
+        table.string('last_name', 255).notNullable();
+        table.string('username', 50).notNullable().unique();
+        table.string('password', 255).notNullable();
+        table.string('email').notNullable().unique();
+        table.date('birthday');
       });
     }
   });

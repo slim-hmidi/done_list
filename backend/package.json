@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint ./src/**/*.ts --quiet",
+    "lint-fix": "eslint ./src/**/*.ts --fix",
+    "format": "prettier --write ./src/**/*.ts",
     "migrate": "knex migrate:latest --knexfile ./build/knexfile.js",
     "rollback": "knex migrate:rollback --knexfile ./build/knexfile.js",
     "seed": "knex seed:run --knexfile ./build/knexfile.js",
@@ -14,34 +17,47 @@
     "start": "concurrently npm:start:*",
     "test": "jest --runInBand --detectOpenHandles"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-fix",
+      "pre-push": "npm run format"
+    }
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/bcrypt": "^3.0.0",
-    "@types/express": "^4.17.8",
-    "@types/jest": "^26.0.14",
-    "@types/jsonwebtoken": "^8.5.0",
-    "@types/knex": "^0.16.1",
-    "@types/supertest": "^2.0.10",
-    "@types/yup": "^0.29.7",
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "helmet": "^4.1.1",
-    "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.5",
-    "moment": "^2.28.0",
-    "objection": "^2.2.3",
-    "pg": "^8.3.3",
-    "ts-node": "^9.0.0",
-    "yup": "^0.29.3"
+    "@types/bcrypt": "3.0.0",
+    "@types/express": "4.17.8",
+    "@types/jest": "26.0.14",
+    "@types/jsonwebtoken": "8.5.0",
+    "@types/knex": "0.16.1",
+    "@types/supertest": "2.0.10",
+    "@types/yup": "0.29.7",
+    "bcrypt": "5.0.0",
+    "body-parser": "1.19.0",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "helmet": "4.1.1",
+    "jsonwebtoken": "8.5.1",
+    "knex": "0.21.5",
+    "moment": "2.28.0",
+    "objection": "2.2.3",
+    "pg": "8.3.3",
+    "ts-node": "9.0.0",
+    "yup": "0.29.3"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0",
-    "jest": "^26.4.2",
-    "supertest": "^4.0.2",
-    "ts-jest": "^26.3.0",
-    "typescript": "^4.0.2"
+    "@typescript-eslint/eslint-plugin": "4.4.1",
+    "@typescript-eslint/parser": "4.4.1",
+    "concurrently": "5.3.0",
+    "eslint": "7.11.0",
+    "eslint-config-airbnb-base": "14.2.0",
+    "eslint-plugin-import": "2.22.1",
+    "husky": "4.3.0",
+    "jest": "26.4.2",
+    "prettier": "2.1.2",
+    "supertest": "4.0.2",
+    "ts-jest": "26.3.0",
+    "typescript": "4.0.2"
   }
 }

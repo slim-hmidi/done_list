@@ -1,10 +1,14 @@
-import * as jwt from "jsonwebtoken";
-import { TokenPayload } from "../interfaces/users";
-import { Model } from "objection";
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable guard-for-in */
+import * as jwt from 'jsonwebtoken';
+import { Model } from 'objection';
+import { TokenPayload } from '../interfaces/users';
 
 export const formatStringCase = (
+  // eslint-disable-next-line no-unused-vars
   fn: (arg: any) => string | object,
   arg: any,
+// eslint-disable-next-line consistent-return
 ) => {
   if (arg.constructor === String) {
     return fn(arg);
@@ -13,12 +17,12 @@ export const formatStringCase = (
   if (
     arg.constructor === Object || Array.isArray(arg) || arg instanceof Model
   ) {
-    let result = {};
-    for (let key in arg) {
+    const result = {};
+    for (const key in arg) {
       const formattedCase = formatStringCase(fn, key) as string;
       switch (arg[key].constructor) {
         case Array:
-          for (let k of arg[key]) {
+          for (const k of arg[key]) {
             Object.assign(
               result,
               { [formattedCase]: [].concat(formatStringCase(fn, k) as any) },
@@ -41,18 +45,16 @@ export const formatStringCase = (
   }
 };
 export const snakeToCamelCase = (input: string) => {
-  if (input.indexOf("_") === -1) return input;
-  const strElements = input.split("_");
+  if (input.indexOf('_') === -1) return input;
+  const strElements = input.split('_');
   const first = strElements[0];
   return strElements.slice(1).reduce(
-    (acc, current) =>
-      acc.concat(current.charAt(0).toUpperCase() + current.slice(1)),
+    (acc, current) => acc.concat(current.charAt(0).toUpperCase() + current.slice(1)),
     first,
   );
 };
 
-export const camelToSnakeCase = (input: string) =>
-  input.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+export const camelToSnakeCase = (input: string) => input.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
 export const sign = (payload: TokenPayload) => {
   const secret = process.env.JWT_SECRET as jwt.Secret;

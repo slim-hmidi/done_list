@@ -1,40 +1,37 @@
-import { Request, Response, NextFunction } from "express";
-import * as yup from "yup";
-import { ErrorHandler } from "../middlewares";
-import { errorMessages } from "../constants/httpUtils";
+import * as yup from 'yup';
+import { errorMessages } from '../constants/httpUtils';
 // import moment from "moment";
 
 export const validateEmail = (email: string) => {
-  const re =
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 };
 
 export const singUpSchema = yup.object().shape({
-  firstName: yup.string().trim().min(
-    2,
-    errorMessages.minLengthRequired("First name"),
-  )
-    .required(
-      errorMessages.firstNameRequired,
-    ),
-  lastName: yup.string().trim().min(
-    2,
-    errorMessages.minLengthRequired("Last name"),
-  )
+  firstName: yup
+    .string()
+    .trim()
+    .min(2, errorMessages.minLengthRequired('First name'))
+    .required(errorMessages.firstNameRequired),
+  lastName: yup
+    .string()
+    .trim()
+    .min(2, errorMessages.minLengthRequired('Last name'))
     .required(errorMessages.lastNameRequired),
-  username: yup.string().trim().min(
-    2,
-    errorMessages.minLengthRequired("Username"),
-  )
+  username: yup
+    .string()
+    .trim()
+    .min(2, errorMessages.minLengthRequired('Username'))
     .required(errorMessages.usernameRequired),
-  email: yup.string().trim().email(errorMessages.emailNotValid).required(
-    errorMessages.emailRequired,
-  ),
-  birthday: yup.string().matches(
-    /\d{4}-\d{2}-\d{2}/,
-    errorMessages.dateFormatRequired,
-  ).required(errorMessages.birthdayRequired),
+  email: yup
+    .string()
+    .trim()
+    .email(errorMessages.emailNotValid)
+    .required(errorMessages.emailRequired),
+  birthday: yup
+    .string()
+    .matches(/\d{4}-\d{2}-\d{2}/, errorMessages.dateFormatRequired)
+    .required(errorMessages.birthdayRequired),
   password: yup
     .string()
     .min(8, errorMessages.passwordLengthRequired)
@@ -48,8 +45,5 @@ export const singUpSchema = yup.object().shape({
 
 export const signInSchema = yup.object().shape({
   username: yup.string().trim().required(errorMessages.usernameRequired),
-  password: yup
-    .string()
-    .trim()
-    .required(errorMessages.passwordRequired),
+  password: yup.string().trim().required(errorMessages.passwordRequired),
 });

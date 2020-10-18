@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { successMessages } from "../constants/httpUtils";
-import Tag from "../models/Tag";
+import { NextFunction, Request, Response } from 'express';
+import { successMessages } from '../constants/httpUtils';
+import Tag from '../models/Tag';
 
-export const getAllTags = async (
+const getAllTags = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -15,6 +15,8 @@ export const getAllTags = async (
       data: fetchedTags,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
+
+export default getAllTags;

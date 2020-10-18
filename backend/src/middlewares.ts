@@ -1,28 +1,30 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import * as yup from "yup";
-import { errorMessages } from "./constants/httpUtils";
+/* eslint-disable no-unused-vars */
+import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import * as yup from 'yup';
+import { errorMessages } from './constants/httpUtils';
 
-declare module "express-serve-static-core" {
+declare module 'express-serve-static-core' {
+  // eslint-disable-next-line no-shadow
   interface Request {
     userId: string;
   }
 }
 
-class ErrorHandler extends Error {
+export class ErrorHandler extends Error {
   constructor(public statusCode: number, public message: string) {
     super(message);
     this.statusCode = statusCode;
   }
 }
 
-const notFound = (req: Request, res: Response, next: NextFunction) => {
+export const notFound = (req: Request, res: Response, next: NextFunction) => {
   const error = new Error(`Not found - ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
 
-const errorHandlerMiddleware = (
+export const errorHandlerMiddleware = (
   error: ErrorHandler,
   req: Request,
   res: Response,
@@ -33,57 +35,55 @@ const errorHandlerMiddleware = (
   res.json({
     status: statusCode,
     message: error.message,
-    stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+    stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
   });
+  next();
 };
 
-export const schemaValidator = (schema: any, path: keyof Request) =>
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    try {
-      await schema.validate(req[path]);
-      next();
-    } catch (error) {
-      const err = new ErrorHandler(400, error.message);
-      next(err);
-    }
-  };
+export const schemaValidator = (schema: any, path: keyof Request) => async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    await schema.validate(req[path]);
+    return next();
+  } catch (error) {
+    const err = new ErrorHandler(400, error.message);
+    return next(err);
+  }
+};
 
-export const schemaUpdateValidator = (shape: any, props: string[]) =>
-  async (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    try {
-      const existantProps = props.filter((prop) =>
-        req.body.hasOwnProperty(prop)
-      );
-      if (!existantProps.length) {
-        throw new ErrorHandler(400, "Update body should not be null");
-      }
-      let filtredSchema = {} as any;
-      for (let key of existantProps) {
-        filtredSchema[key] = shape[key];
-      }
-      const schema = yup.object().shape(filtredSchema);
-      await schema.validate(req.body);
-      next();
-    } catch (error) {
-      const err = new ErrorHandler(400, error.message);
-      next(err);
+export const schemaUpdateValidator = (shape: any, props: string[]) => async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const existantProps = props
+      .filter((prop) => Object.prototype.hasOwnProperty.call(req.body, prop));
+    if (!existantProps.length) {
+      throw new ErrorHandler(400, 'Update body should not be null');
     }
-  };
+    const filtredSchema = Object.keys(existantProps).reduce((acc: any, curr) => {
+      const result = acc;
+      result[curr] = shape[curr];
+      return result;
+    }, {});
+    const schema = yup.object().shape(filtredSchema);
+    await schema.validate(req.body);
+    return next();
+  } catch (error) {
+    const err = new ErrorHandler(400, error.message);
+    return next(err);
+  }
+};
 
-const checkToken = (req: Request, res: Response, next: NextFunction) => {
-  const secret = process.env.JWT_SECRET as jwt.Secret;
-  if (process.env.NODE_ENV === "test") {
+export const checkToken = (req: Request, res: Response, next: NextFunction) => {
+  if (process.env.NODE_ENV === 'test') {
     return next();
   }
-  const token = req.headers["x-access-token"];
+  const token = req.headers['x-access-token'];
   if (!token) {
     return next(new ErrorHandler(403, errorMessages.tokenRequired));
   }
@@ -99,11 +99,4 @@ const checkToken = (req: Request, res: Response, next: NextFunction) => {
       return next();
     },
   );
-};
-
-export {
-  notFound,
-  errorHandlerMiddleware,
-  checkToken,
-  ErrorHandler,
 };

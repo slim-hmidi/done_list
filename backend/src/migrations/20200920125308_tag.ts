@@ -1,12 +1,13 @@
-import * as Knex from "knex";
-import { tableNames } from "../constants/tableNames";
+import * as Knex from 'knex';
+import tableNames from '../constants/tableNames';
 
 export async function up(knex: Knex): Promise<void> {
+  // eslint-disable-next-line consistent-return
   return knex.schema.hasTable(tableNames.tag).then((exists) => {
     if (!exists) {
       return knex.schema.createTable(tableNames.tag, (table) => {
-        table.increments("id").primary();
-        table.string("name").notNullable();
+        table.increments('id').primary();
+        table.string('name').notNullable();
       });
     }
   });

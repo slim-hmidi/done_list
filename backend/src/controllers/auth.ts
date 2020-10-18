@@ -1,14 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { compareSync, genSaltSync, hashSync } from "bcrypt";
+import { NextFunction, Request, Response } from 'express';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import {
   errorMessages,
   httpStatuscodes,
   successMessages,
-} from "../constants/httpUtils";
-import { ErrorHandler } from "../middlewares";
-import { sign } from "../utils/index";
-import { TokenPayload } from "../interfaces/users";
-import User from "../models/User";
+} from '../constants/httpUtils';
+import { ErrorHandler } from '../middlewares';
+import { sign } from '../utils/index';
+import { TokenPayload } from '../interfaces/users';
+import User from '../models/User';
 
 export const signUp = async (
   req: Request,
@@ -17,13 +17,12 @@ export const signUp = async (
 ) => {
   try {
     const saltRound = 10;
-    const { username, firstName, lastName, email, birthday, password } =
-      req.body;
+    const {
+      username, firstName, lastName, email, birthday, password,
+    } = req.body;
 
     const existantUser = await User.query()
-      .where((builder) =>
-        builder.where("email", email).orWhere("username", username)
-      )
+      .where((builder) => builder.where('email', email).orWhere('username', username))
       .first();
 
     if (existantUser) {
@@ -45,7 +44,7 @@ export const signUp = async (
       birthday,
     });
 
-    createdUser.password = "";
+    createdUser.password = '';
 
     const payload: TokenPayload = {
       id: createdUser.id,
@@ -63,7 +62,7 @@ export const signUp = async (
       },
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -100,6 +99,6 @@ export const signIn = async (
       },
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };

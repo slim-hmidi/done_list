@@ -1,15 +1,16 @@
-import { Request, Response, NextFunction, query } from "express";
-import Task from "../models/Task";
-import Tag from "../models/Tag";
-import TaskTag from "../models/TaskTag";
-import User from "../models/User";
-import { ErrorHandler } from "../middlewares";
-import { errorMessages, successMessages } from "../constants/httpUtils";
+import {
+  Request, Response, NextFunction,
+} from 'express';
+import Task from '../models/Task';
+import Tag from '../models/Tag';
+import TaskTag from '../models/TaskTag';
+import User from '../models/User';
+import { ErrorHandler } from '../middlewares';
+import { errorMessages, successMessages } from '../constants/httpUtils';
 import {
   snakeToCamelCase,
   formatStringCase,
-  camelToSnakeCase,
-} from "../utils/index";
+} from '../utils/index';
 
 export const addTask = async (
   req: Request,
@@ -17,7 +18,9 @@ export const addTask = async (
   next: NextFunction,
 ) => {
   try {
-    const { title, description, realisationDate, userId, tagId } = req.body;
+    const {
+      title, description, realisationDate, userId, tagId,
+    } = req.body;
 
     const existentUser = await User.query().findById(userId);
     const existentTag = await Tag.query().findById(tagId);
@@ -46,18 +49,16 @@ export const addTask = async (
       return task;
     });
 
-    const fetchedTask = await Task.query().withGraphJoined("tags").where(
-      "task.id",
-      createdTask.id,
-    );
+    const fetchedTask = await Task.query()
+      .withGraphJoined('tags')
+      .where('task.id', createdTask.id);
 
     return res.status(200).json({
       message: successMessages.taskCreationSuccess,
       data: formatStringCase(snakeToCamelCase, fetchedTask[0]),
     });
   } catch (error) {
-    console.log(error);
-    next(error);
+    return next(error);
   }
 };
 
@@ -77,14 +78,13 @@ export const getAllTasks = async (
       throw new ErrorHandler(404, errorMessages.invalidUserId);
     }
 
-    const fetchedTasks = await Task
-      .query()
+    const fetchedTasks = await Task.query()
       .skipUndefined()
-      .withGraphJoined("tags")
-      .where("user_id", userId as string)
-      .where("title", title as string);
+      .withGraphJoined('tags')
+      .where('user_id', userId as string)
+      .where('title', title as string);
 
-    let formattedTasks = fetchedTasks.length
+    const formattedTasks = fetchedTasks.length
       ? fetchedTasks.map((task) => formatStringCase(snakeToCamelCase, task))
       : fetchedTasks;
 
@@ -93,7 +93,7 @@ export const getAllTasks = async (
       data: formattedTasks,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -114,12 +114,9 @@ export const getOneTask = async (
       throw new ErrorHandler(404, errorMessages.invalidUserId);
     }
 
-    const fetchedTask = await Task.query().withGraphJoined("tags").where(
-      "task.id",
-      id,
-    );
-
-    console.log(fetchedTask);
+    const fetchedTask = await Task.query()
+      .withGraphJoined('tags')
+      .where('task.id', id);
 
     if (!fetchedTask.length) {
       throw new ErrorHandler(404, errorMessages.invalidTaskId);
@@ -132,7 +129,7 @@ export const getOneTask = async (
       data: formatStringCase(snakeToCamelCase, fetchedTask[0]),
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -157,12 +154,10 @@ export const deleteOneTask = async (
       throw new ErrorHandler(404, errorMessages.invalidTaskId);
     }
 
-    const numDeleted = await Task.query().delete()
-      .where("id", id)
-      .andWhere(
-        "user_id",
-        parseInt(userId as string, 10),
-      );
+    const numDeleted = await Task.query()
+      .delete()
+      .where('id', id)
+      .andWhere('user_id', parseInt(userId as string, 10));
 
     if (!numDeleted) {
       throw new ErrorHandler(404, errorMessages.taskNotBelongsToUser);
@@ -172,7 +167,7 @@ export const deleteOneTask = async (
       message: successMessages.taskDeletionSuccess,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 
@@ -184,10 +179,9 @@ export const updateOneTask = async (
   try {
     const { id } = req.params;
 
-    const existentTask = await Task.query().withGraphJoined("tags").where(
-      "task.id",
-      id,
-    );
+    const existentTask = await Task.query()
+      .withGraphJoined('tags')
+      .where('task.id', id);
 
     if (!existentTask.length) {
       throw new ErrorHandler(404, errorMessages.invalidTaskId);
@@ -199,7 +193,7 @@ export const updateOneTask = async (
     req.body = formatStringCase(snakeToCamelCase, req.body);
 
     const updatedTask = await Task.query()
-      .withGraphJoined("tags")
+      .withGraphJoined('tags')
       .patchAndFetchById(id, req.body);
 
     Object.assign(updatedTask, { tags: existentTask[0].tags });
@@ -209,6 +203,6 @@ export const updateOneTask = async (
       data: formatStringCase(snakeToCamelCase, updatedTask),
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
