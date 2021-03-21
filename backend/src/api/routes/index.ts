@@ -2,7 +2,7 @@ import { Router } from 'express';
 import authRoutes from './auth';
 import tagRoutes from './tags';
 import taskRoutes from './tasks';
-import { checkToken } from '../middlewares';
+import { checkToken } from '../middlewares/auth';
 
 const routes: Router = Router();
 

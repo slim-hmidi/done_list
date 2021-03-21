@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../app';
-import connection from '../db';
+import app from '../loaders/index';
+import connection from '../loaders/db';
 
 describe('Tags', () => {
   beforeEach(() => connection.migrate

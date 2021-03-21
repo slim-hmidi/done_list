@@ -5,14 +5,14 @@ import {
   getAllTasks,
   getOneTask,
   updateOneTask,
-} from '../controllers/tasks';
-import { schemaUpdateValidator, schemaValidator } from '../middlewares';
+} from '../../controllers/tasks';
+import { schemaUpdateValidator, schemaValidator } from '../middlewares/schemaValidator';
 import {
   addTaskSchema,
   queryTaskSchema,
   taskProps,
   taskSchema,
-} from '../validations/task';
+} from '../../validations/task';
 
 const taskRoutes = Router();
 

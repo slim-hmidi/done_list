@@ -3,7 +3,7 @@ import Task from '../models/Task';
 import Tag from '../models/Tag';
 import TaskTag from '../models/TaskTag';
 import User from '../models/User';
-import { ErrorHandler } from '../middlewares';
+import { ErrorHandler } from '../api/middlewares/errorHandler';
 import { errorMessages, successMessages } from '../constants/httpUtils';
 import { snakeToCamelCase, formatStringCase } from '../utils/index';
 
