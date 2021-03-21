@@ -19,7 +19,7 @@ export = {
       database: process.env.DB_TEST_NAME || 'done_list_test',
     },
     migrations: {
-      directory: path.join(__dirname, './migrations'),
+      directory: path.join(__dirname, '../migrations'),
       extension: 'ts',
     },
   },

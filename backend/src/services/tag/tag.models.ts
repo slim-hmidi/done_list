@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import tableNames from '../constants/tableNames';
+import tableNames from '../../constants/tableNames';
 
 export default class Tag extends Model {
   id!: number;

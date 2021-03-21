@@ -1,8 +1,8 @@
 import { Model } from 'objection';
-import tableNames from '../constants/tableNames';
-import Tag from './Tag';
-import TaskTag from './TaskTag';
-import User from './User';
+import tableNames from '../../constants/tableNames';
+import Tag from '../tag/tag.models';
+import TaskTag from '../task-tag/task-tag.models';
+import User from '../auth/auth.models';
 
 export default class Task extends Model {
   id!: number;

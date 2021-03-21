@@ -1,11 +1,12 @@
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import User from './auth.models';
-import { NewUser, AuthenticationResponse, TokenPayload } from '../../types/user';
+import { NewUser, AuthenticationResponse } from './auth.interfaces';
+import { TokenPayload } from '../../types/common';
 import { ErrorHandler } from '../../api/middlewares/errorHandler';
 import { httpStatuscodes, errorMessages, successMessages } from '../../constants/httpUtils';
 import { sign } from '../../utils/index';
 
-export default class Authentication {
+export default class AuthenticationService {
     private model;
 
     constructor() {
@@ -20,7 +21,7 @@ export default class Authentication {
         } = newUser;
 
         // check user's existence
-        const existantUser = await User.query()
+        const existantUser = await this.model.query()
           .where((builder) => builder.where('email', email).orWhere('username', username))
           .first();
 
@@ -92,6 +93,16 @@ export default class Authentication {
             token: token as string,
           },
         };
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    }
+
+    public async isExistentUser(id: number): Promise<boolean> {
+      try {
+        const fetchedUser = await this.model.query().findById(id);
+        return !!fetchedUser;
       } catch (error) {
         console.error(error);
         throw error;

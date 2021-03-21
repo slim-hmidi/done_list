@@ -2,14 +2,16 @@
 /* eslint-disable guard-for-in */
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'objection';
-import { TokenPayload } from '../types/user';
+import { TokenPayload } from '../types/common';
+
+export type FormatStringCaseType = Record<string, unknown> | string
 
 export const formatStringCase = (
   // eslint-disable-next-line no-unused-vars
-  fn: (arg: any) => string | object,
+  fn: (arg: any) => FormatStringCaseType,
   arg: any,
   // eslint-disable-next-line consistent-return
-) => {
+): FormatStringCaseType => {
   if (arg.constructor === String) {
     return fn(arg);
   }
@@ -43,6 +45,7 @@ export const formatStringCase = (
     }
     return result;
   }
+  return arg;
 };
 export const snakeToCamelCase = (input: string) => {
   if (input.indexOf('_') === -1) return input;

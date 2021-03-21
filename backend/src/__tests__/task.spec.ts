@@ -246,7 +246,7 @@ describe('Tasks', () => {
     it('Should return an error if the task id not valid', async () => {
       const { status, body } = await request(app)
         .patch(`/tasks/${100}`)
-        .send({ title: 'updated title' });
+        .send({ title: 'updated title', userId: 1 });
 
       expect(status).toBe(404);
       expect(body.message).toEqual(errorMessages.invalidTaskId);
@@ -264,6 +264,7 @@ describe('Tasks', () => {
     it('Should update successfully the task', async () => {
       const { status, body } = await request(app).patch(`/tasks/${1}`).send({
         title: 'updated Title',
+        userId: 1,
       });
       const { data } = body;
 

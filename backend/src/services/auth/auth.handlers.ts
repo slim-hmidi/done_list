@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import Authentication from './auth.service';
+import AuthenticationService from './auth.service';
 
 export const signInHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
-    const authentication = new Authentication();
+    const authentication = new AuthenticationService();
     const { message, data } = await authentication.signIn(username, password);
     return res.status(200).json({ message, data });
   } catch (error) {
@@ -14,7 +14,7 @@ export const signInHandler = async (req: Request, res: Response, next: NextFunct
 
 export const signUpHandler = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const authentication = new Authentication();
+    const authentication = new AuthenticationService();
     const { message, data } = await authentication.signUp(req.body);
     return res.status(200).json({ message, data });
   } catch (error) {
