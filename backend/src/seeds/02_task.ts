@@ -1,4 +1,4 @@
-import * as Knex from 'knex';
+import {Knex} from 'knex';
 import tableNames from '../constants/tableNames';
 
 // eslint-disable-next-line import/prefer-default-export

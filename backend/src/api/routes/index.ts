@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import authRoutes from './auth';
+import authRoutes from '../../services/auth/auth.routes';
 import tagRoutes from './tags';
 import taskRoutes from './tasks';
 import { checkToken } from '../middlewares/auth';

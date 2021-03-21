@@ -2,7 +2,7 @@
 /* eslint-disable guard-for-in */
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'objection';
-import { TokenPayload } from '../interfaces/users';
+import { TokenPayload } from '../types/user';
 
 export const formatStringCase = (
   // eslint-disable-next-line no-unused-vars
@@ -58,7 +58,7 @@ export const snakeToCamelCase = (input: string) => {
 
 export const camelToSnakeCase = (input: string) => input.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
-export const sign = (payload: TokenPayload) => {
+export const sign = (payload: TokenPayload): Promise<string | undefined> => {
   const secret = process.env.JWT_SECRET as jwt.Secret;
   const expiresIn = process.env.JWT_TOKEN_EXPIRY as string;
   return new Promise((resolve, reject) => {

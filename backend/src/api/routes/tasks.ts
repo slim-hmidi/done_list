@@ -6,7 +6,7 @@ import {
   getOneTask,
   updateOneTask,
 } from '../../controllers/tasks';
-import { schemaUpdateValidator, schemaValidator } from '../middlewares/schemaValidator';
+import { schemaUpdateValidator, schemaValidator } from '../middlewares/schemaValidators';
 import {
   addTaskSchema,
   queryTaskSchema,
