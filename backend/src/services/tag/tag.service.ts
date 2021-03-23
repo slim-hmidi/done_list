@@ -1,12 +1,14 @@
+import MainService from '../main/main.service';
 import Tag from './tag.models';
 import { successMessages } from '../../constants/httpUtils';
 import { ApiResponse } from '../../types/common';
 import { TagResponse } from './tag.interfaces';
 
-export default class TagService {
+export default class TagService extends MainService {
     private model;
 
     constructor() {
+      super();
       this.model = Tag;
     }
 
@@ -19,7 +21,7 @@ export default class TagService {
           data: fetchedTags as ApiResponse<TagResponse[]>['data'],
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }

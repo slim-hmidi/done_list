@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
 import { ErrorHandler } from './errorHandler';
+import logger from '../../loaders/logger';
 
 export const schemaValidator = (schema: any, path: keyof Request) => async (
   req: Request,
@@ -12,6 +13,7 @@ export const schemaValidator = (schema: any, path: keyof Request) => async (
     return next();
   } catch (error) {
     const err = new ErrorHandler(400, error.message);
+    logger.error(err);
     return next(err);
   }
 };
@@ -40,6 +42,7 @@ export const schemaUpdateValidator = (shape: any, props: string[]) => async (
     return next();
   } catch (error) {
     const err = new ErrorHandler(400, error.message);
+    logger.error(err);
     return next(err);
   }
 };

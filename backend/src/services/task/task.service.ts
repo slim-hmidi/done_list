@@ -1,4 +1,5 @@
 import { PartialModelObject } from 'objection';
+import MainService from '../main/main.service';
 import Task from './task.models';
 import Tag from '../tag/tag.models';
 import { ErrorHandler } from '../../api/middlewares/errorHandler';
@@ -9,10 +10,11 @@ import { ApiResponse } from '../../types/common';
 import AuthenticationService from '../auth/auth.service';
 import TaskTagService from '../task-tag/task-tag.service';
 
-export default class TaskService {
+export default class TaskService extends MainService {
     private model;
 
     constructor() {
+      super();
       this.model = Task;
     }
 
@@ -57,7 +59,7 @@ export default class TaskService {
           data: formatStringCase(snakeToCamelCase, fetchedTask[0]) as ApiResponse<TaskResponse>['data'],
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
@@ -86,7 +88,7 @@ export default class TaskService {
           data: formattedTasks as ApiResponse<TaskResponse[]>['data'],
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
@@ -115,7 +117,7 @@ export default class TaskService {
           data: formatStringCase(snakeToCamelCase, fetchedTask[0]) as ApiResponse<TaskResponse>['data'],
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
@@ -147,7 +149,7 @@ export default class TaskService {
           data: {},
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
@@ -185,7 +187,7 @@ export default class TaskService {
           data: formatStringCase(snakeToCamelCase, updatedTask) as ApiResponse<TaskResponse>['data'],
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }

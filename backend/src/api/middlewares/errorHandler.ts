@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Request, Response, NextFunction } from 'express';
+
 declare module 'express-serve-static-core' {
   // eslint-disable-next-line no-shadow
   interface Request {

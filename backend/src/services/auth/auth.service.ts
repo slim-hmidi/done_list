@@ -1,15 +1,17 @@
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import User from './auth.models';
+import MainService from '../main/main.service';
 import { NewUser, AuthenticationResponse } from './auth.interfaces';
 import { TokenPayload } from '../../types/common';
 import { ErrorHandler } from '../../api/middlewares/errorHandler';
 import { httpStatuscodes, errorMessages, successMessages } from '../../constants/httpUtils';
 import { sign } from '../../utils/index';
 
-export default class AuthenticationService {
+export default class AuthenticationService extends MainService {
     private model;
 
     constructor() {
+      super();
       this.model = User;
     }
 
@@ -62,7 +64,7 @@ export default class AuthenticationService {
           },
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
@@ -94,7 +96,7 @@ export default class AuthenticationService {
           },
         };
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
@@ -104,7 +106,7 @@ export default class AuthenticationService {
         const fetchedUser = await this.model.query().findById(id);
         return !!fetchedUser;
       } catch (error) {
-        console.error(error);
+        this.logger.error(error);
         throw error;
       }
     }
