@@ -5,7 +5,7 @@ import { errorMessages, successMessages } from 'constants/httpUtils';
 
 process.env.NODE_ENV = 'test';
 
-describe('Authentication', () => {
+describe('Authentication Apis', () => {
   beforeEach(() => connection.migrate
     .rollback()
     .then(() => connection.migrate.latest())

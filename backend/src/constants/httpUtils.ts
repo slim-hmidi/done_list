@@ -1,5 +1,6 @@
 const httpStatuscodes = {
   uniqueViolationError: 409,
+  forbidden: 403,
 };
 
 const successMessages = {

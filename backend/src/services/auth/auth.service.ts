@@ -17,6 +17,7 @@ export default class AuthenticationService extends MainService {
 
     public async signUp(newUser: NewUser): Promise<AuthenticationResponse> {
       try {
+        const {uniqueViolationError} = httpStatuscodes;
         const saltRound = 10;
         const {
           username, firstName, lastName, email, birthday, password,
@@ -29,7 +30,7 @@ export default class AuthenticationService extends MainService {
 
         if (existantUser) {
           throw new ErrorHandler(
-            httpStatuscodes.uniqueViolationError,
+            uniqueViolationError,
             errorMessages.userExists,
           );
         }
@@ -71,14 +72,15 @@ export default class AuthenticationService extends MainService {
 
     public async signIn(username: string, password: string): Promise<AuthenticationResponse> {
       try {
+        const {forbidden} = httpStatuscodes;
         const fetchedUser = await this.model.query().findOne({ username });
         if (!fetchedUser) {
-          throw new ErrorHandler(403, errorMessages.invalidUsername);
+          throw new ErrorHandler(forbidden, errorMessages.invalidUsername);
         }
 
         const validPasswod = compareSync(password, fetchedUser.password);
         if (!validPasswod) {
-          throw new ErrorHandler(403, errorMessages.wrongPassword);
+          throw new ErrorHandler(forbidden, errorMessages.wrongPassword);
         }
         const payload: TokenPayload = {
           id: fetchedUser.id,
