@@ -1,6 +1,7 @@
 module.exports = {
   clearMocks: true,
   coverageDirectory: "coverage",
+  setupFilesAfterEnv: ['jest-extended'],
   roots: [
     "./src",
   ],
