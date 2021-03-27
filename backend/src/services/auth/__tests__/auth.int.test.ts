@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../loaders/index';
-import connection from '../loaders/db';
-import { errorMessages, successMessages } from '../constants/httpUtils';
+import app from 'loaders/index';
+import connection from 'loaders/db';
+import { errorMessages, successMessages } from 'constants/httpUtils';
 
 process.env.NODE_ENV = 'test';
 

@@ -2,10 +2,10 @@ import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import User from './auth.models';
 import MainService from '../main/main.service';
 import { NewUser, AuthenticationResponse } from './auth.interfaces';
-import { TokenPayload } from '../../types/common';
-import { ErrorHandler } from '../../api/middlewares/errorHandler';
-import { httpStatuscodes, errorMessages, successMessages } from '../../constants/httpUtils';
-import { sign } from '../../utils/index';
+import { TokenPayload } from 'types/common';
+import { ErrorHandler } from 'api/middlewares/errorHandler';
+import { httpStatuscodes, errorMessages, successMessages } from 'constants/httpUtils';
+import { sign } from 'utils/index';
 
 export default class AuthenticationService extends MainService {
     private model;

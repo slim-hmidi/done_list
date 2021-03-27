@@ -2,7 +2,7 @@
 /* eslint-disable guard-for-in */
 import * as jwt from 'jsonwebtoken';
 import { Model } from 'objection';
-import { TokenPayload } from '../types/common';
+import { TokenPayload } from 'types/common';
 
 export type FormatStringCaseType = Record<string, unknown> | string
 

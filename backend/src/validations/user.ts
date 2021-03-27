@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { errorMessages } from '../constants/httpUtils';
+import { errorMessages } from 'constants/httpUtils';
 // import moment from "moment";
 
 export const validateEmail = (email: string) => {

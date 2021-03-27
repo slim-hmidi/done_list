@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import tableNames from '../../constants/tableNames';
+import tableNames from 'constants/tableNames';
 import Tag from '../tag/tag.models';
 import TaskTag from '../task-tag/task-tag.models';
 import User from '../auth/auth.models';

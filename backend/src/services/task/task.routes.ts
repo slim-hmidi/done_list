@@ -6,13 +6,13 @@ import {
   getOneTaskHandler,
   updateOneTaskHandler,
 } from './task.handlers';
-import { schemaUpdateValidator, schemaValidator } from '../../api/middlewares/schemaValidators';
+import { schemaUpdateValidator, schemaValidator } from 'api/middlewares/schemaValidators';
 import {
   addTaskSchema,
   queryTaskSchema,
   taskProps,
   taskSchema,
-} from '../../validations/task';
+} from 'validations/task';
 
 const taskRoutes = Router();
 

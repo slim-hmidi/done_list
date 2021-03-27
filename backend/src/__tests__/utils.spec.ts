@@ -2,7 +2,7 @@ import {
   formatStringCase,
   snakeToCamelCase,
   camelToSnakeCase,
-} from '../utils/index';
+} from 'utils/index';
 
 describe('Utils', () => {
   describe('snakeToCamelCase', () => {

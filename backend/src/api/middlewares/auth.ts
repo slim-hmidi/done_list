@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { ErrorHandler } from './errorHandler';
-import { errorMessages } from '../../constants/httpUtils';
+import { errorMessages } from 'constants/httpUtils';
 
 const checkToken = (req: Request, res: Response, next: NextFunction) => {
   if (process.env.NODE_ENV === 'test') {

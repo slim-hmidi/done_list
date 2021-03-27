@@ -4,7 +4,7 @@ import { json } from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import routes from '../api/routes';
-import { notFound, errorHandlerMiddleware } from '../api/middlewares/errorHandler';
+import { notFound, errorHandlerMiddleware } from 'api/middlewares/errorHandler';
 
 const expressLoader = (app: Express) => {
   // Enable Cross-origin

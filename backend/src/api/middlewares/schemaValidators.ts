@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as yup from 'yup';
 import { ErrorHandler } from './errorHandler';
-import logger from '../../loaders/logger';
+import logger from 'loaders/logger';
 
 export const schemaValidator = (schema: any, path: keyof Request) => async (
   req: Request,

@@ -2,11 +2,11 @@ import { PartialModelObject } from 'objection';
 import MainService from '../main/main.service';
 import Task from './task.models';
 import Tag from '../tag/tag.models';
-import { ErrorHandler } from '../../api/middlewares/errorHandler';
-import { errorMessages, successMessages } from '../../constants/httpUtils';
-import { camelToSnakeCase, snakeToCamelCase, formatStringCase } from '../../utils/index';
+import { ErrorHandler } from 'api/middlewares/errorHandler';
+import { errorMessages, successMessages } from 'constants/httpUtils';
+import { camelToSnakeCase, snakeToCamelCase, formatStringCase } from 'utils/index';
 import { NewTask, TaskResponse, TaskToUpdate } from './task.interfaces';
-import { ApiResponse } from '../../types/common';
+import { ApiResponse } from 'types/common';
 import AuthenticationService from '../auth/auth.service';
 import TaskTagService from '../task-tag/task-tag.service';
 
