@@ -3,7 +3,7 @@ import {
 } from 'winston';
 
 const logger = createLogger({
-  level: process.env.LOGS_LEVEL || 'debug',
+  level: process.env.LOGS_LEVEL ?? 'debug',
   levels: config.npm.levels,
   format: format.combine(
     format.timestamp({

@@ -1,6 +1,21 @@
 import * as path from 'path';
+export type EnvironmentType = 'development' | 'test' | 'production';
+interface EnvironementTypeConfig {
+  client: string;
+  connection: {
+    host: string;
+    user: string;
+    password: string;
+    database: string;
+  },
+  migrations?: {
+    directory: string;
+    extension: string;
+  }
+} 
 
-export = {
+type knexConfig = Record<EnvironmentType, EnvironementTypeConfig>
+const knexConfiguration: knexConfig = {
   development: {
     client: 'pg',
     connection: {
@@ -23,4 +38,15 @@ export = {
       extension: 'ts',
     },
   },
+  production: {
+    client: 'pg',
+    connection: {
+      host: process.env.DB_HOST as string,
+      user: process.env.DB_USERNAME as string,
+      password: process.env.DB_PASSWRORD as string,
+      database: process.env.DB_DEV_NAME as string,
+    },
+  },
 };
+
+export default knexConfiguration;

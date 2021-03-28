@@ -4,7 +4,7 @@ import { ErrorHandler } from './errorHandler';
 import { errorMessages } from 'constants/httpUtils';
 
 const checkToken = (req: Request, res: Response, next: NextFunction) => {
-  if (process.env.NODE_ENV === 'test') {
+  if (process.env.NODE_ENV?.trim() === 'test') {
     return next();
   }
   const token = req.headers['x-access-token'];

@@ -1,8 +1,8 @@
 import knex from 'knex';
-import knexConfig from 'config/knexfile';
+import knexConfiguration, {EnvironmentType} from 'config/knexfile';
 
-const environment = process.env.NODE_ENV || 'development';
-const connectionConfig = (knexConfig as any)[environment];
+const environment: EnvironmentType = (process.env.NODE_ENV?.trim() ?? 'development') as EnvironmentType;
+const connectionConfig = knexConfiguration[environment];
 const connection = knex(connectionConfig);
 
 export default connection;

@@ -13,7 +13,7 @@
     "start:build": "tsc -w",
     "start:run": "nodemon build/server.js",
     "start": "concurrently npm:start:*",
-    "test": "jest --runInBand --detectOpenHandles"
+    "test": "set NODE_ENV=test && jest --runInBand --detectOpenHandles"
   },
   "husky": {
     "hooks": {
