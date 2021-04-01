@@ -3,14 +3,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import {createStyles, makeStyles} from '@material-ui/core/styles';
-import DatePicker from '../../components/DatePicker';
-import TextField from '../../components/TextField';
-import {addTask} from './taskSlice';
-import {getTags} from '../tags/tagSlice';
-import {AppState} from '../../app/rootReducer';
-import SelectField from '../../components/SelectField';
-import {formatDate} from '../../app/utils';
 import {MaterialUiPickersDate} from '@material-ui/pickers/typings/date';
+import {AppState} from 'app/rootReducer';
+import {addTask} from './taskSlice';
+import {formatDate} from 'app/utils';
+import {getTags} from '../tag/tagSlice';
+import DatePicker from 'components/DatePicker';
+import TextField from 'components/TextField';
+import SelectField from 'components/SelectField';
+import {TaskForm, TouchedFields, ErrorFields} from 'types';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -27,27 +28,6 @@ const useStyles = makeStyles(() =>
   }),
 );
 
-interface TouchedState {
-  title: boolean;
-  description: boolean;
-  realisationDate: boolean;
-  tagId: boolean;
-}
-
-interface ErrorState {
-  title: string;
-  description: string;
-  realisationDate: string;
-  tagId: string;
-}
-
-interface FormState {
-  title: string;
-  description: string;
-  tagId: number;
-  realisationDate: Date;
-}
-
 const AddTaskForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -55,19 +35,19 @@ const AddTaskForm = (): JSX.Element => {
     userId: state.authentication.user.userId,
     tags: state.tag.tags,
   }));
-  const [state, setFormState] = useState<FormState>({
+  const [state, setFormState] = useState<TaskForm>({
     title: '',
     description: '',
     realisationDate: new Date(),
     tagId: 0,
   });
-  const [touched, setTouched] = useState<TouchedState>({
+  const [touched, setTouched] = useState<TouchedFields>({
     title: false,
     description: false,
     tagId: false,
     realisationDate: false,
   });
-  const [error, setError] = useState<ErrorState>({
+  const [error, setError] = useState<ErrorFields>({
     title: '',
     description: '',
     tagId: '',
@@ -81,7 +61,7 @@ const AddTaskForm = (): JSX.Element => {
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const value = e.target.value.trim();
-    setFormState((formState: FormState) => {
+    setFormState((formState: TaskForm) => {
       return {...formState, [name]: value};
     });
   };
@@ -89,28 +69,28 @@ const AddTaskForm = (): JSX.Element => {
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const {value} = e.target;
-    setTouched((formState: TouchedState) => {
+    setTouched((formState: TouchedFields) => {
       return {...formState, [name]: true};
     });
     if (!value.trim()) {
-      setError((formState: ErrorState) => {
+      setError((formState: ErrorFields) => {
         return {...formState, [name]: `${name} required`};
       });
     } else {
-      setError((formState: ErrorState) => {
+      setError((formState: ErrorFields) => {
         return {...formState, [name]: ''};
       });
     }
   };
 
   const handleDateChange = (date: MaterialUiPickersDate) => {
-    setFormState((formState: FormState) => {
+    setFormState((formState: TaskForm) => {
       return {...formState, birthday: date};
     });
   };
 
   const handleTagChange = (event: React.ChangeEvent<{value: unknown}>) => {
-    setFormState((formState: FormState) => ({
+    setFormState((formState: TaskForm) => ({
       ...formState,
       tagId: event.target.value as number,
     }));

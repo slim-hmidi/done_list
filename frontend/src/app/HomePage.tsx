@@ -3,10 +3,10 @@ import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
-import Dialog from '../components/Dialog';
-import AddTaskForm from '../features/tasks/AddTaskForm';
-import TaskList from '../features/tasks/TaskList';
-import SearchField from '../features/tasks/SearchTask';
+import Dialog from 'components/Dialog';
+import AddTaskForm from 'features/task/AddTaskForm';
+import TaskList from 'features/task/TaskList';
+import SearchField from 'features/task/SearchTask';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

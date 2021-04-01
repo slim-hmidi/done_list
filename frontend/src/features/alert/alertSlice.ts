@@ -1,22 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {SnackBarSeverity} from '../../components/SnackBar';
+import {AlertSliceState, AlertPayload} from 'types';
 
-interface InitialState {
-  open: boolean;
-  severity: SnackBarSeverity;
-  message: string;
-}
-
-interface AlertPayload {
-  severity: SnackBarSeverity;
-  message: string;
-}
-const initialState: InitialState = {
+export const initialState: AlertSliceState = {
   open: false,
   severity: undefined,
   message: '',
 };
-
 const alertSlice = createSlice({
   name: 'alert',
   initialState,

@@ -3,10 +3,10 @@ import {useSelector, useDispatch} from 'react-redux';
 import {makeStyles, createStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import {AppState} from 'app/rootReducer';
 import {getAllTasks} from './taskSlice';
-import {ReturnedTask} from '../../api/tasks/index';
-import {AppState} from '../../app/rootReducer';
-import {debounce} from '../../app/utils';
+import {debounce} from 'app/utils';
+import {TaskBody} from 'types';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -28,7 +28,7 @@ const SearchTask = (): JSX.Element => {
   }));
 
   const options = tasks.length
-    ? tasks.map((task: ReturnedTask) => ({title: task.title}))
+    ? tasks.map((task: TaskBody) => ({title: task.title}))
     : [];
 
   const handleOpen = () => setOpen(true);
@@ -57,7 +57,6 @@ const SearchTask = (): JSX.Element => {
       fullWidth
       renderInput={(params) => (
         <TextField
-          // {...params}
           label="Search Tasks"
           variant="outlined"
           InputProps={{...params.InputProps, type: 'search'}}

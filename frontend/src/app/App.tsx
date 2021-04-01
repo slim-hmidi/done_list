@@ -6,7 +6,7 @@ import {CircularProgress} from '@material-ui/core';
 import {AppState} from './rootReducer';
 import HomePage from './HomePage';
 import AppBar from '../components/AppBar';
-// import { isAuthenticated } from "./utils";
+import {LoadingStatus} from 'types/index';
 
 const App = (): JSX.Element => {
   const {username, loading} = useSelector((state: AppState) => ({
@@ -25,7 +25,7 @@ const App = (): JSX.Element => {
     );
   }
 
-  if (loading === 'pending') {
+  if (loading === LoadingStatus.pending) {
     return <CircularProgress />;
   }
 

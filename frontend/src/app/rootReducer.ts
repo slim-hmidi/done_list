@@ -1,8 +1,8 @@
 import {combineReducers} from '@reduxjs/toolkit';
-import authenticationReducer from '../features/authentication/authenticationSlice';
-import alertReducer from '../features/alert/alertSlice';
-import tagReducer from '../features/tags/tagSlice';
-import taskReducer from '../features/tasks/taskSlice';
+import authenticationReducer from 'features/authentication/authenticationSlice';
+import alertReducer from 'features/alert/alertSlice';
+import tagReducer from 'features/tag/tagSlice';
+import taskReducer from 'features/task/taskSlice';
 
 const rootReducer = combineReducers({
   authentication: authenticationReducer,

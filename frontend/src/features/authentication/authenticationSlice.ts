@@ -2,39 +2,19 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {
   signInApi,
   signUpApi,
+} from 'features/authentication/authentication.apis';
+import {
   AuthenticatedUser,
   AuthenticationResponse,
+  HandleUserResponse,
+  LoadingStatus,
   NewUser,
-} from '../../api/authentication/index';
-import {setToken} from '../../api/utils';
+  UserPayload,
+  UserSliceState,
+} from 'types/index';
+import {setToken} from 'utils/token';
 import {openAlert} from '../alert/alertSlice';
-import history from '../../history/index';
-
-// interfaces
-
-interface HandleUserResponse {
-  message: string;
-  username: string;
-  userId: number;
-}
-
-interface User {
-  username: string;
-  userId: number;
-}
-
-interface InitialState {
-  error: string;
-  successMessage: string;
-  user: User;
-  loading: string;
-}
-
-interface UserPayload {
-  username: string;
-  userId: number;
-  message: string;
-}
+import history from 'history/index';
 
 const handleUserResponse = ({
   data,
@@ -82,10 +62,10 @@ export const signUp = createAsyncThunk(
   },
 );
 
-const initialState: InitialState = {
+const initialState: UserSliceState = {
   error: '',
   successMessage: '',
-  loading: 'idle',
+  loading: LoadingStatus.idle,
   user: {
     username: '',
     userId: -1,
@@ -109,7 +89,8 @@ const authenticationSlice = createSlice({
   },
   extraReducers: {
     [`${signIn.pending}`]: (state) => {
-      state.loading = 'pending';
+      state.loading = LoadingStatus.pending;
+      state.error = '';
     },
     [`${signIn.fulfilled}`]: (state, action: PayloadAction<UserPayload>) => {
       const {message, username, userId} = action.payload;
@@ -118,7 +99,7 @@ const authenticationSlice = createSlice({
         userId,
       };
       state.successMessage = message;
-      state.loading = 'resolved';
+      state.loading = LoadingStatus.resolved;
     },
     [`${signIn.rejected}`]: (
       state,
@@ -129,10 +110,11 @@ const authenticationSlice = createSlice({
       } else {
         state.error = action.error;
       }
-      state.loading = 'failed';
+      state.loading = LoadingStatus.rejected;
     },
     [`${signUp.pending}`]: (state) => {
-      state.loading = 'pending';
+      state.loading = LoadingStatus.pending;
+      state.error = '';
     },
     [`${signUp.fulfilled}`]: (state, action: PayloadAction<UserPayload>) => {
       const {message, username, userId} = action.payload;
@@ -141,7 +123,7 @@ const authenticationSlice = createSlice({
         userId,
       };
       state.successMessage = message;
-      state.loading = 'resolved';
+      state.loading = LoadingStatus.resolved;
     },
     [`${signUp.rejected}`]: (
       state,
@@ -152,7 +134,7 @@ const authenticationSlice = createSlice({
       } else {
         state.error = action.error;
       }
-      state.loading = 'resolved';
+      state.loading = LoadingStatus.rejected;
     },
   },
 });

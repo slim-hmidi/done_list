@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
+import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
-import CardWrapper from '../../../components/CardWrapper';
-import TextField from '../../../components/TextField';
-import PasswordField from '../../../components/PasswordField';
+import CardWrapper from 'components/CardWrapper';
+import TextField from 'components/TextField';
+import PasswordField from 'components/PasswordField';
 import {signIn} from '../authenticationSlice';
+import {TouchedFields, SignInForm} from 'types';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -24,30 +25,18 @@ const useStyles = makeStyles(() =>
   }),
 );
 
-interface TouchedState {
-  username: boolean;
-  password: boolean;
-  [key: string]: boolean;
-}
-
-interface StateForm {
-  username: string;
-  password: string;
-  [x: string]: string;
-}
-
 const SignIn = (): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [state, setStateForm] = useState<StateForm>({
+  const [state, setStateForm] = useState<SignInForm>({
     username: '',
     password: '',
   });
-  const [touched, setTouched] = useState<TouchedState>({
+  const [touched, setTouched] = useState<TouchedFields>({
     username: false,
     password: false,
   });
-  const [error, setError] = useState<StateForm>({
+  const [error, setError] = useState<SignInForm>({
     username: '',
     password: '',
   });

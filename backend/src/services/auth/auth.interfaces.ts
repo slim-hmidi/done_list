@@ -8,10 +8,7 @@ export interface NewUser {
   }
 
 export interface AuthenticationResponse {
-    message: string;
-    data: {
       userId: number;
       username: string;
       token: string;
-    }
   }

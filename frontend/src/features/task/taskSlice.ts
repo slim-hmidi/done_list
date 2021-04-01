@@ -1,21 +1,15 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit';
 import {openAlert} from '../alert/alertSlice';
+import {addTaskApi, getAllTasksApi} from './task.apis';
 import {
   AddTask,
-  addTaskApi,
-  ReturnedTask,
-  PostTaskResponse,
-  GetTasksResponse,
-  getAllTasksApi,
-} from '../../api/tasks/index';
-import history from '../../history/index';
-
-interface InitialState {
-  error: string;
-  successMessage: string;
-  tasks: ReturnedTask[];
-  loading: string;
-}
+  LoadingStatus,
+  TaskBody,
+  TaskCreationResponse,
+  TaskFetchResponse,
+  TaskSliceState,
+} from 'types/index';
+import history from 'history/index';
 
 export const addTask = createAsyncThunk(
   'task/add',
@@ -52,11 +46,11 @@ export const getAllTasks = createAsyncThunk(
   },
 );
 
-const initialState: InitialState = {
+const initialState: TaskSliceState = {
   error: '',
   successMessage: '',
-  tasks: [] as ReturnedTask[],
-  loading: 'idle',
+  tasks: [] as TaskBody[],
+  loading: LoadingStatus.idle,
 };
 
 const taskSlice = createSlice({
@@ -66,11 +60,12 @@ const taskSlice = createSlice({
   extraReducers: {
     [`${addTask.fulfilled}`]: (
       state,
-      action: PayloadAction<PostTaskResponse>,
+      action: PayloadAction<TaskCreationResponse>,
     ) => {
       const {message, data} = action.payload;
       state.successMessage = message;
       state.tasks.push(data);
+      state.loading = LoadingStatus.resolved;
     },
     [`${addTask.rejected}`]: (
       state,
@@ -81,18 +76,20 @@ const taskSlice = createSlice({
       } else {
         state.error = action.error;
       }
+      state.loading = LoadingStatus.rejected;
     },
     [`${getAllTasks.pending}`]: (state) => {
-      state.loading = 'pending';
+      state.loading = LoadingStatus.pending;
+      state.error = '';
     },
     [`${getAllTasks.fulfilled}`]: (
       state,
-      action: PayloadAction<GetTasksResponse>,
+      action: PayloadAction<TaskFetchResponse>,
     ) => {
       const {message, data} = action.payload;
       state.successMessage = message;
       state.tasks = data;
-      state.loading = 'resolved';
+      state.loading = LoadingStatus.resolved;
     },
     [`${getAllTasks.rejected}`]: (
       state,
@@ -103,7 +100,7 @@ const taskSlice = createSlice({
       } else {
         state.error = action.error;
       }
-      state.loading = 'failed';
+      state.loading = LoadingStatus.rejected;
     },
   },
 });

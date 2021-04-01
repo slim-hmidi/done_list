@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
+import {createStyles, makeStyles} from '@material-ui/core/styles';
 import {useDispatch} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import {createStyles, makeStyles} from '@material-ui/core/styles';
-import CardWrapper from '../../../components/CardWrapper';
-import DatePicker from '../../../components/DatePicker';
-import TextField from '../../../components/TextField';
-import PasswordField from '../../../components/PasswordField';
-import {signUp} from '../authenticationSlice';
-import {formatDate} from '../../../app/utils';
 import {MaterialUiPickersDate} from '@material-ui/pickers/typings/date';
+import CardWrapper from 'components/CardWrapper';
+import DatePicker from 'components/DatePicker';
+import TextField from 'components/TextField';
+import PasswordField from 'components/PasswordField';
+import {signUp} from '../authenticationSlice';
+import {formatDate} from 'app/utils';
+import {SignUpForm, TouchedFields, ErrorFields} from 'types';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,37 +27,10 @@ const useStyles = makeStyles(() =>
   }),
 );
 
-interface TouchedState {
-  username: boolean;
-  email: boolean;
-  firstName: boolean;
-  lastName: boolean;
-  password: boolean;
-  birthday: boolean;
-}
-
-interface ErrorState {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-  birthday: string;
-}
-
-interface FormState {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  birthday: Date | null;
-}
-
 const SignUp = (): JSX.Element => {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [state, setFormState] = useState<FormState>({
+  const [state, setFormState] = useState<SignUpForm>({
     username: '',
     firstName: '',
     lastName: '',
@@ -64,7 +38,7 @@ const SignUp = (): JSX.Element => {
     password: '',
     birthday: new Date('2000-01-18'),
   });
-  const [touched, setTouched] = useState<TouchedState>({
+  const [touched, setTouched] = useState<TouchedFields>({
     username: false,
     email: false,
     password: false,
@@ -72,7 +46,7 @@ const SignUp = (): JSX.Element => {
     lastName: false,
     birthday: false,
   });
-  const [error, setError] = useState<ErrorState>({
+  const [error, setError] = useState<ErrorFields>({
     username: '',
     email: '',
     password: '',

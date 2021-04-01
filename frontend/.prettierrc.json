@@ -9,5 +9,6 @@
   "useTabs": false,
   "quoteProps": "as-needed",
   "proseWrap": "always",
-  "semi": true
+  "semi": true,
+  "endOfLine": "lf"
 }

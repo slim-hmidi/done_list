@@ -1,13 +1,9 @@
 import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
-import {getAllTagsApi, Tag} from '../../api/tags';
-
-interface InitialState {
-  tags: Tag[];
-  error: string;
-}
+import {getAllTagsApi} from './tag.apis';
+import {TagSliceState, Tag, LoadingStatus} from 'types/index';
 
 export const getTags = createAsyncThunk(
-  'tags/getAll',
+  'tag/getAll',
   async (params, {rejectWithValue}) => {
     try {
       const response = await getAllTagsApi();
@@ -22,9 +18,10 @@ export const getTags = createAsyncThunk(
   },
 );
 
-const initialState: InitialState = {
+const initialState: TagSliceState = {
   tags: [] as Tag[],
   error: '',
+  loading: LoadingStatus.idle,
 };
 
 const tagSlice = createSlice({
@@ -32,8 +29,13 @@ const tagSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    [`${getTags.pending}`]: (state) => {
+      state.error = '';
+      state.loading = LoadingStatus.pending;
+    },
     [`${getTags.fulfilled}`]: (state, action: PayloadAction<Tag[]>) => {
       state.tags = action.payload;
+      state.loading = LoadingStatus.resolved;
     },
     [`${getTags.rejected}`]: (
       state,
@@ -44,6 +46,7 @@ const tagSlice = createSlice({
       } else {
         state.error = action.error;
       }
+      state.loading = LoadingStatus.rejected;
     },
   },
 });

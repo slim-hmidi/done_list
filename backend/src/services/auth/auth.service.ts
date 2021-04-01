@@ -2,7 +2,7 @@ import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import User from './auth.models';
 import MainService from '../main/main.service';
 import { NewUser, AuthenticationResponse } from './auth.interfaces';
-import { TokenPayload } from 'types/common';
+import {ApiResponse, TokenPayload} from 'types/common';
 import { ErrorHandler } from 'api/middlewares/errorHandler';
 import { httpStatuscodes, errorMessages, successMessages } from 'constants/httpUtils';
 import { sign } from 'utils/index';
@@ -15,7 +15,7 @@ export default class AuthenticationService extends MainService {
       this.model = User;
     }
 
-    public async signUp(newUser: NewUser): Promise<AuthenticationResponse> {
+    public async signUp(newUser: NewUser): Promise<ApiResponse<AuthenticationResponse>> {
       try {
         const {uniqueViolationError} = httpStatuscodes;
         const saltRound = 10;
@@ -70,7 +70,7 @@ export default class AuthenticationService extends MainService {
       }
     }
 
-    public async signIn(username: string, password: string): Promise<AuthenticationResponse> {
+    public async signIn(username: string, password: string): Promise<ApiResponse<AuthenticationResponse>> {
       try {
         const {forbidden} = httpStatuscodes;
         const fetchedUser = await this.model.query().findOne({ username });

@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import SignInForm from './SignInForm';
-import SnackBar from '../../../components/SnackBar';
-import {AppState} from '../../../app/rootReducer';
+import SnackBar from 'components/SnackBar';
+import {AppState} from 'app/rootReducer';
 import {closeAlert, resetAlert} from '../../alert/alertSlice';
 
 const SignIn = (): JSX.Element => {

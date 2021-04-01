@@ -1,17 +1,12 @@
 import React from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, {AlertProps} from '@material-ui/lab/Alert';
+import {SnackBarSeverity} from 'types';
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export type SnackBarSeverity =
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'error'
-  | undefined;
 interface Props {
   open: boolean;
   anchorOrigin: {

@@ -5,10 +5,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import {Typography} from '@material-ui/core';
+import {AppState} from 'app/rootReducer';
+import {formatDate} from 'app/utils';
 import TaskItem from './TaskItem';
-import {AppState} from '../../app/rootReducer';
-import {ReturnedTask} from '../../api/tasks/index';
-import {formatDate} from '../../app/utils';
+import {TaskBody} from 'types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,7 +44,7 @@ const TaskList = (): JSX.Element => {
 
   return (
     <List className={classes.root}>
-      {tasks.map((task: ReturnedTask) => (
+      {tasks.map((task: TaskBody) => (
         <ListItem key={task.id} alignItems="flex-start">
           <TaskItem
             title={task.title}
