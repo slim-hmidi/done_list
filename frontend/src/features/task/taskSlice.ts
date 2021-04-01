@@ -9,7 +9,7 @@ import {
   TaskFetchResponse,
   TaskSliceState,
 } from 'types/index';
-import history from 'history/index';
+import history from 'browserHistory/index';
 
 export const addTask = createAsyncThunk(
   'task/add',

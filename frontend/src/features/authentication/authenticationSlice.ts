@@ -14,7 +14,7 @@ import {
 } from 'types/index';
 import {setToken} from 'utils/token';
 import {openAlert} from '../alert/alertSlice';
-import history from 'history/index';
+import history from 'browserHistory/index';
 
 const handleUserResponse = ({
   data,

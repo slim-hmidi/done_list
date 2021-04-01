@@ -3,8 +3,7 @@ import {Route, Router} from 'react-router-dom';
 import App from './App';
 import SignIn from 'features/authentication/signIn/SignInContainer';
 import SignUp from 'features/authentication/signUp/SignUpContainer';
-import history from 'history/index';
-
+import history from 'browserHistory/index';
 const Root = (): JSX.Element => (
   <Router history={history}>
     <Route exact path="/" component={App} />
