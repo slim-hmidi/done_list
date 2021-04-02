@@ -1,4 +1,4 @@
-import logger from 'loaders/logger';
+import logger from '@loaders/logger';
 
 export default class MainService {
     protected logger;

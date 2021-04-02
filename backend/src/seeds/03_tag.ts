@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import tableNames from 'constants/tableNames';
+import tableNames from '@constants/tableNames';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function seed(knex: Knex): Promise<void> {

@@ -1,7 +1,7 @@
 import MainService from '../main/main.service';
 import Tag from './tag.models';
-import { successMessages } from 'constants/httpUtils';
-import { ApiResponse } from 'types/common';
+import { successMessages } from '@constants/httpUtils';
+import { ApiResponse } from '@@types/index';
 import { TagResponse } from './tag.interfaces';
 
 export default class TagService extends MainService {

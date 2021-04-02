@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import app from './loaders/index';
 import logger from './loaders/logger';
 

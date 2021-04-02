@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { errorMessages } from 'constants/httpUtils';
+import { errorMessages } from '@constants/httpUtils';
 
 export const taskProps = ['title', 'description', 'realisationDate', 'userId'];
 export const taskSchema = {

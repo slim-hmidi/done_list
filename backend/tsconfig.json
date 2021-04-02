@@ -8,5 +8,15 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "baseUrl": "src",
+    "paths": {
+      "@services/*": ["services/*"],
+      "@loaders/*": ["loaders/*"],
+      "@@types/*": ["types/*"],
+      "@validations/*": ["validations/*"],
+      "@config/*": ["config/*"],
+      "@api/*": ["api/*"],
+      "@constants/*": ["constants/*"],
+      "@utils/*": ["utils/*"]
+    }
   }
 }
