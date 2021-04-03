@@ -14,7 +14,7 @@ const App = (): JSX.Element => {
     loading: state.authentication.loading,
   }));
 
-  if (loading === 'resolved' && username) {
+  if (loading === LoadingStatus.resolved && username) {
     return (
       <div>
         <AppBar />

@@ -8,7 +8,7 @@ const Root = (): JSX.Element => (
   <Router history={history}>
     <Route exact path="/" component={App} />
     <Route exact path="/signin" component={SignIn} />
-    <Route exact path="/signup" component={SignUp} />
+    <Route path="/signup" component={SignUp} />
   </Router>
 );
 
