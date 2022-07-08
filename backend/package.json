@@ -48,7 +48,7 @@
     "jsonwebtoken": "8.5.1",
     "knex": "^0.95.2",
     "module-alias": "^2.2.2",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "nodemon": "^2.0.7",
     "objection": "^2.2.15",
     "pg": "^8.5.1",
